@@ -5,6 +5,12 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 
+import { CardModule } from 'primeng/card';
+import {CalendarModule} from 'primeng/calendar';
+
+
+
+
 import { ItemsService } from './services/items.service';
 import { DateService } from './services/date.service';
 import { ThemeService } from './services/theme.service';
@@ -20,6 +26,7 @@ import { ActionsPlannerComponent } from './components/actions-planner/actions-pl
 import { ActionsItemComponent } from './components/actions-item/actions-item.component';
 import { DialogComponent } from './components/dialog/dialog.component';
 import { CardDayComponent } from './components/card-day/card-day.component';
+import { FormDialogComponent } from './components/form-dialog/form-dialog.component';
 
 @NgModule({
   declarations: [
@@ -33,6 +40,7 @@ import { CardDayComponent } from './components/card-day/card-day.component';
     ActionsPlannerComponent,
     ActionsItemComponent,
     CardDayComponent,
+    FormDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -42,6 +50,8 @@ import { CardDayComponent } from './components/card-day/card-day.component';
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
+    CardModule,
+    CalendarModule,
   ],
   providers: [ItemsService, DateService, ThemeService],
   bootstrap: [AppComponent],

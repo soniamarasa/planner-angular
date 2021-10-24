@@ -1,1 +1,215 @@
-/* You can add global styles to this file, and also import other style files */
+@import "../node_modules/primeng/resources/themes/saga-blue/theme.css";
+@import url("https://fonts.googleapis.com/css2?family=Handlee&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Itim&display=swap");
+
+body {
+  margin: 0;
+  height: 100%;
+  font-family: "Itim", cursive !important;
+}
+
+a {
+  text-decoration: none;
+  color: #000000;
+  &:visited {
+    color: #000000;
+  }
+  &:hover {
+    color: #292929;
+  }
+}
+
+.p-component {
+  font-family: "Itim", cursive !important;
+}
+
+li {
+  list-style-type: none;
+}
+
+ul {
+  padding-left: 20px;
+}
+
+h1,
+h2,
+h3,
+.p-datepicker-title {
+  font-family: "Handlee" !important;
+}
+
+h1 {
+  font-size: 3rem;
+}
+
+h2,
+h3 {
+  margin: 5px 0;
+  text-align: center;
+}
+
+h2 {
+  font-size: 2rem;
+}
+
+h3,
+#date {
+  font-size: 1.5rem;
+}
+
+footer {
+  text-align: center;
+  box-sizing: border-box;
+  width: 100%;
+  height: 30px;
+  padding: 10px auto;
+  margin-top: 30px;
+}
+
+.theme01 {
+  background-color: #f2ebe1;
+  .p-card {
+    background-color: #faf7f3 !important;
+    color: #979797 !important;
+  }
+  h2,
+  .p-datepicker-title {
+    color: #eec41e;
+  }
+  h1,
+  h3,
+  .p-datepicker table th,
+  .p-datepicker table td.p-datepicker-today span {
+    color: #c49877;
+  }
+
+  footer {
+    background-color: #c49877;
+  }
+}
+
+.theme02 {
+  background-color: #262626;
+
+  #date,
+  h3 {
+    color: #fbd1c1 !important;
+  }
+
+  .p-card {
+    background-color: #3b3b3b !important;
+    color: #e3dac1 !important;
+  }
+  h2,
+  .p-datepicker-title {
+    color: #c7e6f5;
+  }
+  h1,
+  h3,
+  .p-datepicker table th,
+  .p-datepicker table td.p-datepicker-today span {
+    color: rgb(214, 214, 250);
+  }
+
+  footer {
+    background-color: #fbd1c1;
+  }
+}
+
+.theme03 {
+  background-color: #1c1e26;
+  color: #db887a;
+  .p-card {
+    background-color: #22232e;
+    color: #bbbbbb;
+  }
+  h2,
+  .p-datepicker-title {
+    color: #d55170;
+  }
+  h1,
+  h3,
+  .p-datepicker table th,
+  .p-datepicker table td.p-datepicker-today span {
+    color: #5bc0b3;
+  }
+
+  footer {
+    background-color: #dea084;
+    color: #d55170;
+  }
+}
+
+.theme04 {
+  background-color: #eeeeee;
+  color: #000000;
+  .p-card {
+    background-color: #f8f8f8;
+    color: #91796d;
+  }
+  h2,
+  .p-datepicker-title {
+    color: #29d398;
+  }
+  h1,
+  h3,
+  .p-datepicker table th,
+  .p-datepicker table td.p-datepicker-today span {
+    color: #f5b59c;
+  }
+
+  footer {
+    background-color: #f5b59c;
+  }
+}
+
+.p-card {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  height: 100%;
+}
+
+.p-card-content,
+.p-card-body {
+  padding: 0 !important;
+}
+
+//Calendar Configs
+
+.p-calendar {
+  display: flex !important;
+}
+
+.p-datepicker table td span {
+  width: max-content;
+  height: max-content;
+}
+
+.p-datepicker table td {
+  padding: 0.2rem !important;
+}
+.p-datepicker table th {
+  padding: 0.3rem !important;
+}
+.p-datepicker {
+  padding: 0;
+  border: none;
+  background-color: transparent;
+  color: inherit;
+}
+
+.p-datepicker .p-datepicker-header {
+  padding: 0;
+  color: inherit;
+  background: transparent;
+  font-weight: 600;
+  margin: 0;
+  border-bottom: none;
+}
+
+.p-datepicker table td.p-datepicker-today span {
+  background: transparent;
+  font-weight: bold;
+  border-color: transparent;
+}

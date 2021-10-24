@@ -1,1 +1,29 @@
-<p>card works!</p>
+<p-card>
+  <ng-container *ngIf="title === 'Calendar'">
+    <ng-template pTemplate="header">
+      <h3>{{ title }}</h3>
+    </ng-template>
+    <p-calendar [(ngModel)]="value" [inline]="true"> </p-calendar>
+  </ng-container>
+
+  <ng-container *ngIf="title === 'To Do'">
+    <ng-template pTemplate="header">
+      <h3>{{ title }}</h3>
+    </ng-template>
+    <ul>
+      <li>Tarefa 1</li>
+      <li>Tarefa 2</li>
+    </ul>
+
+    <ng-template pTemplate="footer">
+      <p><span>Total de Itens Pendentes:</span></p>
+    </ng-template>
+  </ng-container>
+
+  <ng-container *ngIf="title === 'Notes'">
+    <ng-template pTemplate="header">
+      <h3>{{ title }}</h3>
+    </ng-template>
+    <p></p>
+  </ng-container>
+</p-card>
