@@ -52,20 +52,66 @@ h2 {
   font-size: 2rem;
 }
 
-h3,
-#date {
+h3 {
   font-size: 1.5rem;
 }
 
-footer {
-  text-align: center;
-  box-sizing: border-box;
-  width: 100%;
-  height: 30px;
-  padding: 10px auto;
-  margin-top: 30px;
+#date {
+  font-size: 1.2rem;
 }
 
+.p-card {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  height: 100%;
+}
+
+.p-card-content,
+.p-card-body {
+  padding: 0 !important;
+}
+
+//Calendar Configs
+
+.p-calendar {
+  display: flex !important;
+}
+
+.p-datepicker table td span {
+  width: max-content;
+  height: max-content;
+}
+
+.p-datepicker table td {
+  padding: 0.2rem !important;
+}
+.p-datepicker table th {
+  padding: 0.3rem !important;
+}
+.p-datepicker {
+  padding: 0;
+  border: none;
+  background-color: transparent;
+  color: inherit;
+}
+
+.p-datepicker .p-datepicker-header {
+  padding: 0;
+  color: inherit;
+  background: transparent;
+  font-weight: 600;
+  margin: 0;
+  border-bottom: none;
+}
+
+.p-datepicker table td.p-datepicker-today span {
+  background: transparent;
+  font-weight: bold;
+  border-color: transparent;
+}
+
+// TEMAS
 .theme01 {
   background-color: #f2ebe1;
   .p-card {
@@ -161,55 +207,4 @@ footer {
   footer {
     background-color: #f5b59c;
   }
-}
-
-.p-card {
-  display: flex;
-  flex-direction: column;
-  padding: 10px;
-  height: 100%;
-}
-
-.p-card-content,
-.p-card-body {
-  padding: 0 !important;
-}
-
-//Calendar Configs
-
-.p-calendar {
-  display: flex !important;
-}
-
-.p-datepicker table td span {
-  width: max-content;
-  height: max-content;
-}
-
-.p-datepicker table td {
-  padding: 0.2rem !important;
-}
-.p-datepicker table th {
-  padding: 0.3rem !important;
-}
-.p-datepicker {
-  padding: 0;
-  border: none;
-  background-color: transparent;
-  color: inherit;
-}
-
-.p-datepicker .p-datepicker-header {
-  padding: 0;
-  color: inherit;
-  background: transparent;
-  font-weight: 600;
-  margin: 0;
-  border-bottom: none;
-}
-
-.p-datepicker table td.p-datepicker-today span {
-  background: transparent;
-  font-weight: bold;
-  border-color: transparent;
 }
