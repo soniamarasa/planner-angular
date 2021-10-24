@@ -2,10 +2,12 @@
     <ng-template pTemplate="header">
         <h2>{{day}}</h2>
     </ng-template>
-    <ul>
-        <li>Tarefa 1</li>
-        <li> Tarefa 2</li>
-    </ul>
+    <ng-container>
+        <ul *ngIf="facade.items">
+            <li *ngFor="let item of facade.items ">{{item.description}}</li>
+        </ul>
+    </ng-container>
+
     <ng-template pTemplate="footer">
         <p><span>Itens Pendentes:</span></p>
     </ng-template>

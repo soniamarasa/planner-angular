@@ -6,14 +6,12 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 
 import { CardModule } from 'primeng/card';
-import {CalendarModule} from 'primeng/calendar';
-
-
-
+import { CalendarModule } from 'primeng/calendar';
 
 import { ItemsService } from './services/items.service';
 import { DateService } from './services/date.service';
 import { ThemeService } from './services/theme.service';
+import { ItemsFacade } from './facades/items.facade';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -53,7 +51,7 @@ import { FormDialogComponent } from './components/form-dialog/form-dialog.compon
     CardModule,
     CalendarModule,
   ],
-  providers: [ItemsService, DateService, ThemeService],
+  providers: [ItemsService, DateService, ThemeService, ItemsFacade],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

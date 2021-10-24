@@ -27,8 +27,12 @@ export class ItemsService {
 
   constructor(private http: HttpClient) {}
 
-  public  getAllItems(where: any): Observable<Item[]> {
+  public  getAll(where: any): Observable<Item[]> {
     return this.http.get<Item[]>(`${environment.url}/getItems/${where}`);
+  }
+
+  public  getAllItems(): Observable<Item[]> {
+    return this.http.get<Item[]>(`${environment.url}/getItems`);
   }
 
   // public async renderItems(where: any): Promise<any> {
