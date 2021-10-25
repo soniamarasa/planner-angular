@@ -5,8 +5,14 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 
+import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 import { CalendarModule } from 'primeng/calendar';
+import { SpeedDialModule } from 'primeng/speeddial';
+import { TooltipModule } from 'primeng/tooltip';
+import { DialogModule } from 'primeng/dialog';
+import { DialogService, DynamicDialogModule } from 'primeng/dynamicdialog';
+import { DropdownModule } from 'primeng/dropdown';
 
 import { ItemsService } from './services/items.service';
 import { DateService } from './services/date.service';
@@ -25,6 +31,8 @@ import { ActionsItemComponent } from './components/actions-item/actions-item.com
 import { DialogComponent } from './components/dialog/dialog.component';
 import { CardDayComponent } from './components/card-day/card-day.component';
 import { FormDialogComponent } from './components/form-dialog/form-dialog.component';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { ConfirmationService } from 'primeng/api';
 
 @NgModule({
   declarations: [
@@ -48,10 +56,24 @@ import { FormDialogComponent } from './components/form-dialog/form-dialog.compon
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
+    ButtonModule,
     CardModule,
     CalendarModule,
+    SpeedDialModule,
+    TooltipModule,
+    DialogModule,
+    DynamicDialogModule,
+    ConfirmDialogModule,
+    DropdownModule,
   ],
-  providers: [ItemsService, DateService, ThemeService, ItemsFacade],
+  providers: [
+    ItemsService,
+    DateService,
+    ThemeService,
+    ItemsFacade,
+    DialogService,
+    ConfirmationService,
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

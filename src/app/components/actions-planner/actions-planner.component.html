@@ -1,1 +1,35 @@
-<p>actions-planner works!</p>
+<p-speedDial
+  [model]="leftTooltipItems"
+  direction="down"
+  [transitionDelay]="80"
+  showIcon="pi pi-bars"
+  [mask]="true"
+  hideIcon="pi pi-times"
+  buttonClassName="p-button-secondary"
+></p-speedDial>
+
+<p-dialog
+  header="Escolha o Tema"
+  [(visible)]="theme"
+  [breakpoints]="{ '960px': '30vw', '640px': '100vw' }"
+  [style]="{ width: '20vw' }"
+>
+  <p-dropdown
+    [options]="themes"
+    [(ngModel)]="themeService.theme"
+    placeholder="Seleciona um tema"
+    optionLabel="name"
+    optionValue="code"
+    (ngModelChange)="changeTheme($event)"
+  ></p-dropdown>
+</p-dialog>
+
+<p-confirmDialog
+  header="Resetar a Semana?"
+  icon="pi pi-exclamation-triangle"
+  acceptButtonStyleClass="p-button-success"
+  acceptLabel="Sim"
+  rejectButtonStyleClass="p-button-danger"
+  rejectLabel="Não"
+>
+</p-confirmDialog>

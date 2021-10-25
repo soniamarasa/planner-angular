@@ -3,8 +3,11 @@
         <h2>{{day}}</h2>
     </ng-template>
     <ng-container>
-        <ul *ngIf="facade.items">
-            <li *ngFor="let item of facade.items ">{{item.description}}</li>
+        <ul *ngIf="facade.item">
+            <ng-container *ngFor="let item of facade.item">
+                <li *ngIf="item.where === box">{{item.description}}</li>
+            </ng-container>
+
         </ul>
     </ng-container>
 
