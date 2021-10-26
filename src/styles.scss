@@ -42,12 +42,6 @@ h1 {
   font-size: 3rem;
 }
 
-h2,
-h3 {
-  margin: 5px 0;
-  text-align: center;
-}
-
 h2 {
   font-size: 2rem;
 }
@@ -58,6 +52,12 @@ h3 {
 
 #date {
   font-size: 1.2rem;
+}
+
+h2,
+h3 {
+  margin: 5px 0;
+  text-align: center;
 }
 
 .p-card {
@@ -126,7 +126,18 @@ h3 {
 // TEMAS
 .theme01 {
   background-color: #f2ebe1;
-  .p-card {
+
+
+  #date,
+  .p-dialog-title {
+    color: #969594;
+  }
+
+
+  .p-card,
+  .p-dialog-header,
+  .p-dialog-content,
+  .p-dialog-footer {
     background-color: #faf7f3 !important;
     color: #979797 !important;
   }
@@ -208,8 +219,15 @@ h3 {
 
 .theme04 {
   background-color: #eeeeee;
-  color: #000000;
-  .p-card {
+
+  #date,
+  .p-dialog-title {
+    color: #000000;
+  }
+  .p-card,
+  .p-dialog-header,
+  .p-dialog-content,
+  .p-dialog-footer {
     background-color: #f8f8f8;
     color: #91796d;
   }
@@ -226,5 +244,23 @@ h3 {
 
   footer {
     background-color: #f5b59c;
+  }
+}
+
+@media (max-width: 700px) {
+  h1 {
+    font-size: 2.3rem;
+  }
+
+  h2 {
+    font-size: 1.8rem;
+  }
+
+  h3 {
+    font-size: 1.3rem;
+  }
+
+  #date {
+    font-size: 1rem;
   }
 }

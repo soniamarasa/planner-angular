@@ -2,13 +2,14 @@
     <ng-template pTemplate="header">
         <h2>{{day}}</h2>
     </ng-template>
-    <ng-container>
-        <ul *ngIf="facade.item">
+    <ng-container *ngIf="facade.item">
+        <ul >
             <ng-container *ngFor="let item of facade.item">
                 <li *ngIf="item.where === box">{{item.description}}</li>
             </ng-container>
 
         </ul>
+        
     </ng-container>
 
     <ng-template pTemplate="footer">
