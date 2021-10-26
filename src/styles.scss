@@ -2,6 +2,12 @@
 @import url("https://fonts.googleapis.com/css2?family=Handlee&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Itim&display=swap");
 
+:root {
+  --primary-color: orange;
+  --secundary-color: rgb(185, 149, 185);
+  --tertiary-color: rgb(245, 45, 85);
+}
+
 body {
   margin: 0;
   height: 100%;
@@ -23,13 +29,6 @@ a {
   font-family: "Itim", cursive !important;
 }
 
-li {
-  list-style-type: none;
-}
-
-ul {
-  padding-left: 20px;
-}
 
 h1,
 h2,
@@ -84,6 +83,10 @@ h3 {
   height: 3rem !important;
 }
 
+.p-speeddial {
+  z-index: 2 !important;
+}
+
 //Calendar Configs
 
 .p-calendar {
@@ -98,9 +101,11 @@ h3 {
 .p-datepicker table td {
   padding: 0.2rem !important;
 }
+
 .p-datepicker table th {
   padding: 0.3rem !important;
 }
+
 .p-datepicker {
   padding: 0;
   border: none;
@@ -123,26 +128,47 @@ h3 {
   border-color: transparent;
 }
 
+.p-datepicker table td:hover {
+  background: transparent;
+}
+
+.p-datepicker table td.p-datepicker-today > span.p-highlight,
+.p-datepicker table td > span.p-highlight {
+  background: transparent;
+  color: green;
+}
+
+.p-datepicker .p-datepicker-header .p-datepicker-prev:enabled:hover,
+.p-datepicker .p-datepicker-header .p-datepicker-next:enabled:hover,
+.p-datepicker:not(.p-disabled)
+  table
+  td
+  span:not(.p-highlight):not(.p-disabled):hover {
+  color: orange;
+  background: none;
+}
+
 // TEMAS
 .theme01 {
   background-color: #f2ebe1;
 
-
-  #date,
-  .p-dialog-title {
+  #date {
     color: #969594;
   }
-
 
   .p-card,
   .p-dialog-header,
   .p-dialog-content,
-  .p-dialog-footer {
-    background-color: #faf7f3 !important;
+  .p-dialog-footer,
+  footer {
+    background: #faf7f3 !important;
     color: #979797 !important;
   }
+
   h2,
-  .p-datepicker-title {
+  a,
+  .p-datepicker-title,
+  .p-dialog-title {
     color: #eec41e;
   }
   h1,
@@ -152,72 +178,19 @@ h3 {
     color: #c49877;
   }
 
-  footer {
-    background-color: #c49877;
+  .p-dropdown {
+    border-color: #e0dbd4;
+    background: #f5efe8;
+    &:hover {
+      border-color: #e0dbd4 !important;
+    }
+    &:not(.p-disabled).p-focus {
+      border-color: #e0dbd4;
+    }
   }
 }
 
 .theme02 {
-  background-color: #262626;
-
-  #date,
-  h3 {
-    color: #fbd1c1 !important;
-  }
-
-  .p-card {
-    background-color: #3b3b3b !important;
-    color: #e3dac1 !important;
-  }
-  h2,
-  .p-datepicker-title {
-    color: #c7e6f5;
-  }
-  h1,
-  h3,
-  .p-datepicker table th,
-  .p-datepicker table td.p-datepicker-today span {
-    color: rgb(214, 214, 250);
-  }
-
-  footer {
-    background-color: #fbd1c1;
-  }
-}
-
-.theme03 {
-  background-color: #1c1e26;
-
-  #date,
-  .p-dialog-title {
-    color: #db887a;
-  }
-
-  .p-card,
-  .p-dialog-header,
-  .p-dialog-content,
-  .p-dialog-footer {
-    background-color: #22232e;
-    color: #bbbbbb;
-  }
-  h2,
-  .p-datepicker-title {
-    color: #d55170;
-  }
-  h1,
-  h3,
-  .p-datepicker table th,
-  .p-datepicker table td.p-datepicker-today span {
-    color: #5bc0b3;
-  }
-
-  footer {
-    background-color: #dea084;
-    color: #d55170;
-  }
-}
-
-.theme04 {
   background-color: #eeeeee;
 
   #date,
@@ -247,6 +220,128 @@ h3 {
   }
 }
 
+.theme03 {
+  background-color: #7e7868;
+
+  #date,
+  h3,
+  .p-dialog-title,
+  .p-datepicker table th,
+  .p-datepicker table td.p-datepicker-today span {
+    color: #e38d7e !important;
+  }
+
+  .p-card,
+  .p-dialog-header,
+  .p-dialog-content,
+  .p-dialog-footer,
+  footer {
+    background-color: #dbc3a7 !important;
+    color: #7e7868 !important;
+  }
+  h2,
+  footer a,
+  .p-datepicker-title {
+    color: #7e8b79 !important;
+  }
+  h1,
+  a {
+    color: #dbc3a7;
+  }
+}
+
+.theme04 {
+  background-color: #212529;
+
+  #date,
+  h3,
+  a,
+  .p-dialog-title {
+    color: #f3834e !important;
+  }
+
+  .p-card,
+  .p-dialog-header,
+  .p-dialog-content,
+  .p-dialog-footer,
+  footer {
+    background-color: #312f2e !important;
+    color: #d4be8a !important;
+  }
+  h2,
+  .p-datepicker-title {
+    color: #5c997c;
+  }
+  h1,
+  h3,
+  .p-datepicker table th,
+  .p-datepicker table td.p-datepicker-today span {
+    color: #c2a7bd;
+  }
+}
+
+.theme05 {
+  background-color: #1c1e26;
+
+  #date,
+  .p-dialog-title,
+  a {
+    color: #db887a;
+  }
+
+  .p-card,
+  .p-dialog-header,
+  .p-dialog-content,
+  .p-dialog-footer,
+  footer {
+    background-color: #22232e;
+    color: #bbbbbb;
+  }
+
+  h2,
+  .p-datepicker-title {
+    color: #d55170;
+  }
+  h1,
+  h3,
+  .p-inputtext,
+  .p-datepicker table th,
+  .p-datepicker table td.p-datepicker-today span {
+    color: #5bc0b3;
+  }
+}
+
+.theme06 {
+  background-color: #221d0d;
+
+  #date,
+  .p-dialog-title {
+    color: #cf6a3f;
+  }
+
+  .p-card,
+  .p-dialog-header,
+  .p-dialog-content,
+  .p-dialog-footer,
+  footer {
+    background-color: #3b341c;
+    color: #cd996a;
+  }
+
+  h2,
+  .p-datepicker-title {
+    color: #f1de9f;
+  }
+
+  h1,
+  h3,
+  a,
+  .p-datepicker table th,
+  .p-datepicker table td.p-datepicker-today span {
+    color: #b8866f;
+  }
+}
+
 @media (max-width: 700px) {
   h1 {
     font-size: 2.3rem;
@@ -263,4 +358,34 @@ h3 {
   #date {
     font-size: 1rem;
   }
+
+  .modal {
+    height: 500px;
+  }
 }
+
+.p-dropdown,
+.p-dropdown-label {
+  background: transparent;
+}
+
+.p-dropdown:not(.p-disabled).p-focus {
+  box-shadow: none;
+}
+
+.p-dialog-header {
+  gap: 20px;
+}
+
+.p-speeddial-mask {
+  z-index: 1 !important;
+}
+
+.p-dropdown {
+  width: 100%;
+}
+
+.modal .p-dialog-content {
+  border-radius: 0 0 3px 3px;
+}
+

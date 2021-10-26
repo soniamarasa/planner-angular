@@ -17,14 +17,12 @@ import {
 } from '@angular/forms';
 
 @Component({
-  selector: 'app-form-dialog',
-  templateUrl: './form-dialog.component.html',
-  styleUrls: ['./form-dialog.component.scss'],
+  selector: 'app-edit-form',
+  templateUrl: './edit-form.component.html',
+  styleUrls: ['./edit-form.component.scss'],
 })
-export class FormDialogComponent implements OnInit {
+export class EditFormComponent implements OnInit {
   form!: FormGroup;
-  getWhere: any;
-  @ViewChildren('checkbox') checkboxes!: QueryList<ElementRef>;
   type: Dropdown[];
   box: Dropdown[];
 
@@ -48,8 +46,8 @@ export class FormDialogComponent implements OnInit {
       { name: 'Wed', code: 'wed' },
       { name: 'Thu', code: 'thu' },
       { name: 'Fri', code: 'fri' },
-      { name: 'Sat', code: 'fri' },
-      { name: 'Sun', code: 'fri' },
+      { name: 'Sat', code: 'sat' },
+      { name: 'Sun', code: 'sun' },
       { name: 'To Do', code: 'todo' },
       { name: 'Notes', code: 'notes' },
     ];
@@ -62,37 +60,8 @@ export class FormDialogComponent implements OnInit {
       type: ['', Validators.required],
       description: ['', Validators.required],
       obs: ['', Validators.required],
-      where: this.formBuilder.array([], Validators.required),
+      where: ['', Validators.required],
     });
-  }
-
-  cleanValues(): any {
-    this.form.controls['type'].setValue('task');
-    this.form.controls['description'].setValue('');
-    (this.form.get('where') as FormArray).clear();
-    this.checkboxes.forEach((element) => {
-      element.nativeElement.checked = false;
-    });
-  }
-
-  onCheckChange(event: any): any {
-    console.log(event);
-    const formArray: FormArray = this.form.get('where') as FormArray;
-    if (event.checked) {
-      formArray.push(new FormControl(event.checked[0]));
-    } else {
-      let i = 0;
-      formArray.controls.forEach((item) => {
-        console.log(item.value);
-        console.log(event.checked[0]);
-        if (item.value === event.checked[0]) {
-          formArray.removeAt(i);
-          return;
-        }
-        i++;
-      });
-    }
-    this.getWhere = formArray.value;
   }
 
   newItem() {

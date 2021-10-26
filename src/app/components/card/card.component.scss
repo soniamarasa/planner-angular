@@ -1,0 +1,42 @@
+li {
+  list-style-type: none;
+}
+
+ul {
+  padding-left: 5px;
+}
+
+.item .pi {
+  font-size: small;
+  margin: 0 5px;
+}
+
+.task i,
+.event i,
+.appointment i,
+.note i,
+.tv i {
+  color: var(--yellow-600);
+}
+
+.finished {
+  font-style: italic;
+  opacity: 40%;
+}
+
+.canceled span,
+.canceled i {
+  text-decoration-color: var(--tertiary-color);
+  text-decoration: line-through;
+  opacity: 30%;
+}
+
+.started span,
+.started i {
+  color: var(--green-500);
+}
+
+.important span,
+.important i {
+  color: var(--pink-600);
+}

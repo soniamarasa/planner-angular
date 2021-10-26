@@ -5,11 +5,10 @@ import { ThemeService } from 'src/app/services/theme.service';
 import { ItemsService } from 'src/app/services/items.service';
 import { FormDialogComponent } from '../form-dialog/form-dialog.component';
 import { ChartComponent } from '../chart/chart.component';
+import { Dropdown } from 'src/app/models/dropdown';
+import { Button } from 'primeng/button';
 
-interface Theme {
-  name: string;
-  code: string;
-}
+
 
 @Component({
   selector: 'app-actions-planner',
@@ -17,9 +16,10 @@ interface Theme {
   styleUrls: ['./actions-planner.component.scss'],
 })
 export class ActionsPlannerComponent implements OnInit {
-  themes: Theme[];
+  themes: Dropdown[];
   leftTooltipItems: any;
   theme: boolean = false;
+
 
   constructor(
     public dialogService: DialogService,
@@ -46,7 +46,9 @@ export class ActionsPlannerComponent implements OnInit {
     }
     const ref = this.dialogService.open(dialog.component, {
       header: dialog.title,
-      width: '70%',
+
+      width: 'max-content',
+      styleClass:  this.themeService.theme + " modal"
     });
   }
 

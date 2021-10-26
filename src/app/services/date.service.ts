@@ -6,18 +6,18 @@ import { ptBR } from 'date-fns/locale';
   providedIn: 'root',
 })
 export class DateService {
-  weekDay = format(new Date(), 'EEEE', { locale: ptBR });
+  weekDay = format(new Date(), 'EEEE', { });
   wD: any;
 
   today() {
-    const day = format(new Date(), 'dd', { locale: ptBR });
-    const month = format(new Date(), 'LLLL', { locale: ptBR });
-    const year = format(new Date(), 'yyyy', { locale: ptBR });
+    const day = format(new Date(), 'dd');
+    const month = format(new Date(), 'LLLL', { });
+    const year = format(new Date(), 'yyyy');
 
     this.wD = this.weekDay.split('-')[0];
     this.weekDay = this.weekDay.charAt(0).toUpperCase() + this.weekDay.slice(1);
 
-    return this.weekDay + ', ' + day + ' de ' + month + ' de ' + year;
+    return this.weekDay + ' ' + day + ', ' + month + ', ' + year;
   }
   constructor() {}
 }

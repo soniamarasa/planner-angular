@@ -1,1 +1,65 @@
-<p>form-dialog works!</p>
+<form [formGroup]="form" (ngSubmit)="newItem()">
+  <div class="row01">
+    <p-dropdown [options]="type" placeholder="Type" optionLabel="name" optionValue="code" formControlName="type">
+    </p-dropdown>
+    <input type="text" pInputText class="p-inputtext p-inputtext-md" formControlName="description"
+      placeholder="Description">
+
+  </div>
+
+  <input type="text" formControlName="obs" pInputText class="p-inputtext p-inputtext-md" placeholder="Observation">
+
+  <div class="where-check">
+    <div class="p-field-checkbox">
+      <p-checkbox #checkbox type="checkbox" (onChange)="onCheckChange($event)" name="where" value="mon" inputId="mon">
+      </p-checkbox>
+      <label for="mon">M</label>
+    </div>
+    <div class="p-field-checkbox">
+      <p-checkbox #checkbox type="checkbox" (onChange)="onCheckChange($event)" name="where" value="tue" inputId="tue">
+      </p-checkbox>
+      <label for="tue">T</label>
+    </div>
+    <div class="p-field-checkbox">
+      <p-checkbox #checkbox type="checkbox" (onChange)="onCheckChange($event)" name="where" value="wed" inputId="wed">
+      </p-checkbox>
+      <label for="wed">W</label>
+    </div>
+    <div class="p-field-checkbox">
+      <p-checkbox #checkbox type="checkbox" (onChange)="onCheckChange($event)" name="where" value="thu" inputId="thu">
+      </p-checkbox>
+      <label for="thu">T</label>
+    </div>
+    <div class="p-field-checkbox">
+      <p-checkbox #checkbox type="checkbox" (onChange)="onCheckChange($event)" name="where" value="fri" inputId="fri">
+      </p-checkbox>
+      <label for="fri">F</label>
+    </div>
+    <div class="p-field-checkbox">
+      <p-checkbox #checkbox type="checkbox" (onChange)="onCheckChange($event)" name="where" value="sat" inputId="sat">
+      </p-checkbox>
+      <label for="sat">S</label>
+    </div>
+    <div class="p-field-checkbox">
+      <p-checkbox #checkbox type="checkbox" (onChange)="onCheckChange($event)" name="where" value="sun" inputId="sun">
+      </p-checkbox>
+      <label for="sun">S</label>
+    </div>
+    <div class="p-field-checkbox">
+      <p-checkbox #checkbox type="checkbox" (onChange)="onCheckChange($event)" name="where" value="notes"
+        inputId="notes"></p-checkbox>
+      <label for="notes">Notes</label>
+    </div>
+    <div class="p-field-checkbox">
+      <p-checkbox #checkbox type="checkbox" (onChange)="onCheckChange($event)" name="where" value="todo" inputId="todo">
+      </p-checkbox>
+      <label for="todo">To Do</label>
+    </div>
+  </div>
+
+  <div id="button-div">
+    <button pButton pRipple type="submit" label="Save" icon="pi pi-plus"
+      class="p-button-raised p-button-success"></button>
+  </div>
+
+</form>

@@ -1,29 +1,50 @@
 <p-card>
-  <ng-container *ngIf="title === 'Calendar'">
-    <ng-template pTemplate="header">
-      <h3>{{ title }}</h3>
-    </ng-template>
-    <p-calendar [(ngModel)]="value" [inline]="true"> </p-calendar>
-  </ng-container>
+  <ng-template pTemplate="header">
+    <h2 *ngIf="day">{{ day }}</h2>
+    <h3 *ngIf="title">{{ title }}</h3>
+  </ng-template>
 
-  <ng-container *ngIf="title === 'To Do'">
-    <ng-template pTemplate="header">
-      <h3>{{ title }}</h3>
-    </ng-template>
-    <ul>
-      <li>Tarefa 1</li>
-      <li>Tarefa 2</li>
+  <ng-container *ngIf="day || title === 'To Do'">
+    <ul class="item" *ngIf="facade.item">
+      <ng-container *ngFor="let item of facade.item">
+        <ng-container *ngIf="item.where === box">
+          <li [ngClass]="{
+              task: item.type === 'task',
+              event: item.type === 'event',
+              appointment: item.type === 'appointment',
+              note: item.type === 'note',
+              tv: item.type === 'tv',
+              finished: item.finished,
+              started: item.started,
+              important: item.important,
+              canceled: item.canceled
+            }">
+            <i *ngIf="item.type === 'task' && !item.finished" class="pi pi-circle-off"></i>
+            <i *ngIf="item.type === 'task' && item.finished" class="pi pi-check-circle"></i>
+            <i *ngIf="item.type === 'event'" class="pi pi-circle-on"></i>
+            <i *ngIf="item.type === 'appointment'" class="pi pi-calendar"></i>
+            <i *ngIf="item.type === 'note'" class="pi pi-pencil"></i>
+            <i *ngIf="item.type === 'tv'" class="pi pi-youtube"></i>
+
+            <span>{{ item.description }} 
+            <i *ngIf="item.important" class="pi pi-exclamation-triangle"></i>
+            <i *ngIf="item.canceled" class="pi pi-times"></i>
+          </span>
+          </li>
+        </ng-container>
+      </ng-container>
     </ul>
 
     <ng-template pTemplate="footer">
-      <p><span>Total de Itens Pendentes:</span></p>
+      <p><span>Itens Pendentes:</span></p>
     </ng-template>
   </ng-container>
 
+  <ng-container *ngIf="title === 'Calendar'">
+    <p-calendar [(ngModel)]="value" [inline]="true"> </p-calendar>
+  </ng-container>
+
   <ng-container *ngIf="title === 'Notes'">
-    <ng-template pTemplate="header">
-      <h3>{{ title }}</h3>
-    </ng-template>
     <p></p>
   </ng-container>
 </p-card>

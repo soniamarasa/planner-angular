@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CardDayComponent } from './card-day.component';
+import { EditFormComponent } from './edit-form.component';
 
-describe('CardDayComponent', () => {
-  let component: CardDayComponent;
-  let fixture: ComponentFixture<CardDayComponent>;
+describe('EditFormComponent', () => {
+  let component: EditFormComponent;
+  let fixture: ComponentFixture<EditFormComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ CardDayComponent ]
+      declarations: [ EditFormComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(CardDayComponent);
+    fixture = TestBed.createComponent(EditFormComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

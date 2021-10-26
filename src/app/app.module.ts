@@ -13,6 +13,11 @@ import { TooltipModule } from 'primeng/tooltip';
 import { DialogModule } from 'primeng/dialog';
 import { DialogService, DynamicDialogModule } from 'primeng/dynamicdialog';
 import { DropdownModule } from 'primeng/dropdown';
+import { InputTextModule } from 'primeng/inputtext';
+import { MultiSelectModule } from 'primeng/multiselect';
+import { CheckboxModule } from 'primeng/checkbox';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { ConfirmationService } from 'primeng/api';
 
 import { ItemsService } from './services/items.service';
 import { DateService } from './services/date.service';
@@ -29,10 +34,8 @@ import { ChartComponent } from './components/chart/chart.component';
 import { ActionsPlannerComponent } from './components/actions-planner/actions-planner.component';
 import { ActionsItemComponent } from './components/actions-item/actions-item.component';
 import { DialogComponent } from './components/dialog/dialog.component';
-import { CardDayComponent } from './components/card-day/card-day.component';
 import { FormDialogComponent } from './components/form-dialog/form-dialog.component';
-import { ConfirmDialogModule } from 'primeng/confirmdialog';
-import { ConfirmationService } from 'primeng/api';
+import { EditFormComponent } from './components/edit-form/edit-form.component';
 
 @NgModule({
   declarations: [
@@ -45,8 +48,8 @@ import { ConfirmationService } from 'primeng/api';
     DialogComponent,
     ActionsPlannerComponent,
     ActionsItemComponent,
-    CardDayComponent,
     FormDialogComponent,
+    EditFormComponent,
   ],
   imports: [
     BrowserModule,
@@ -65,6 +68,9 @@ import { ConfirmationService } from 'primeng/api';
     DynamicDialogModule,
     ConfirmDialogModule,
     DropdownModule,
+    InputTextModule,
+    MultiSelectModule,
+    CheckboxModule,
   ],
   providers: [
     ItemsService,
