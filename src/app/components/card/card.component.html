@@ -1,10 +1,10 @@
 <p-card>
   <ng-template pTemplate="header">
     <h2 *ngIf="day">{{ day }}</h2>
-    <h3 *ngIf="title">{{ title }}</h3>
+    <h3 *ngIf="titleBox">{{ titleBox }}</h3>
   </ng-template>
 
-  <ng-container *ngIf="day || title === 'To Do'">
+  <ng-container *ngIf="day || titleBox != 'Calendar'">
     <ul class="item" *ngIf="facade.item">
       <ng-container *ngFor="let item of facade.item">
         <ng-container *ngIf="item.where === box">
@@ -18,33 +18,36 @@
               started: item.started,
               important: item.important,
               canceled: item.canceled
-            }">
+            }" (click)="facade.actionsControl(item._id, null, null, null)">
             <i *ngIf="item.type === 'task' && !item.finished" class="pi pi-circle-off"></i>
             <i *ngIf="item.type === 'task' && item.finished" class="pi pi-check-circle"></i>
             <i *ngIf="item.type === 'event'" class="pi pi-circle-on"></i>
             <i *ngIf="item.type === 'appointment'" class="pi pi-calendar"></i>
-            <i *ngIf="item.type === 'note'" class="pi pi-pencil"></i>
+            <i *ngIf="item.type === 'note'" class="pi pi-file"></i>
             <i *ngIf="item.type === 'tv'" class="pi pi-youtube"></i>
 
-            <span>{{ item.description }} 
-            <i *ngIf="item.important" class="pi pi-exclamation-triangle"></i>
-            <i *ngIf="item.canceled" class="pi pi-times"></i>
-          </span>
+            <span>{{ item.description }}
+              <i *ngIf="item.important" class="pi pi-exclamation-triangle"></i>
+              <i *ngIf="item.canceled" class="pi pi-times"></i>
+            </span>
+
+            <p class="obs" *ngIf="item.obs !== ''"> <i class="pi pi-reply"></i>{{item.obs}}</p>
+
+            <app-actions-item *ngIf="item._id === facade.currentId" [id]="item._id" [type]="item.type"
+              [description]="item.description" [obs]="item.obs" [where]="item.where" [finished]="item.finished"
+              [started]="item.started" [important]="item.important" [canceled]="item.canceled">
+            </app-actions-item>
           </li>
         </ng-container>
       </ng-container>
     </ul>
 
     <ng-template pTemplate="footer">
-      <p><span>Itens Pendentes:</span></p>
+      <p><span *ngIf="titleBox != 'Notes'">Itens Pendentes:</span></p>
     </ng-template>
   </ng-container>
 
-  <ng-container *ngIf="title === 'Calendar'">
+  <ng-container *ngIf="titleBox === 'Calendar'">
     <p-calendar [(ngModel)]="value" [inline]="true"> </p-calendar>
-  </ng-container>
-
-  <ng-container *ngIf="title === 'Notes'">
-    <p></p>
   </ng-container>
 </p-card>

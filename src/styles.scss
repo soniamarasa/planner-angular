@@ -29,7 +29,6 @@ a {
   font-family: "Itim", cursive !important;
 }
 
-
 h1,
 h2,
 h3,
@@ -151,11 +150,9 @@ h3 {
 // TEMAS
 .theme01 {
   background-color: #f2ebe1;
-
   #date {
     color: #969594;
   }
-
   .p-card,
   .p-dialog-header,
   .p-dialog-content,
@@ -176,17 +173,6 @@ h3 {
   .p-datepicker table th,
   .p-datepicker table td.p-datepicker-today span {
     color: #c49877;
-  }
-
-  .p-dropdown {
-    border-color: #e0dbd4;
-    background: #f5efe8;
-    &:hover {
-      border-color: #e0dbd4 !important;
-    }
-    &:not(.p-disabled).p-focus {
-      border-color: #e0dbd4;
-    }
   }
 }
 
@@ -304,7 +290,6 @@ h3 {
   }
   h1,
   h3,
-  .p-inputtext,
   .p-datepicker table th,
   .p-datepicker table td.p-datepicker-today span {
     color: #5bc0b3;
@@ -389,3 +374,71 @@ h3 {
   border-radius: 0 0 3px 3px;
 }
 
+.theme01 .acoes,
+.theme02 .acoes,
+.theme03 .acoes {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.theme04 .acoes,
+.theme05 .acoes,
+.theme06 .acoes {
+  background-color: rgba(0, 0, 0, 0.3);
+}
+
+.theme01,
+.theme02,
+.theme03 {
+  .p-inputtext::placeholder,
+  .p-dropdown-label.p-placeholder {
+    color: black;
+  }
+  .p-inputtext {
+    font-family: inherit;
+    color: black;
+    border-color: transparent;
+    background: rgba(0, 0, 0, 0.1);
+  }
+  .p-dropdown {
+    border-color: transparent;
+    background: rgba(0, 0, 0, 0.1);
+    &:hover {
+      border-color: #e0dbd4 !important;
+    }
+    &:not(.p-disabled).p-focus {
+      border-color: #e0dbd4;
+    }
+  }
+  .p-dropdown .p-inputtext {
+    background-color: transparent;
+  }
+}
+
+.theme04,
+.theme05,
+.theme06 {
+  .p-inputtext::placeholder,
+  .p-dropdown-label.p-placeholder {
+    color: white;
+  }
+  .p-inputtext {
+    font-family: inherit;
+    color: white;
+    border-color: transparent;
+    background: rgba(255, 255, 255, 0.2);
+  }
+  .p-dropdown {
+    border-color: transparent;
+    background: rgba(255, 255, 255, 0.2);
+    &:hover {
+      border-color: #e0dbd4 !important;
+    }
+    &:not(.p-disabled).p-focus {
+      border-color: #e0dbd4;
+    }
+  }
+
+  .p-dropdown .p-inputtext {
+    background-color: transparent;
+  }
+}

@@ -8,8 +8,6 @@ import { ChartComponent } from '../chart/chart.component';
 import { Dropdown } from 'src/app/models/dropdown';
 import { Button } from 'primeng/button';
 
-
-
 @Component({
   selector: 'app-actions-planner',
   templateUrl: './actions-planner.component.html',
@@ -19,7 +17,6 @@ export class ActionsPlannerComponent implements OnInit {
   themes: Dropdown[];
   leftTooltipItems: any;
   theme: boolean = false;
-
 
   constructor(
     public dialogService: DialogService,
@@ -48,7 +45,7 @@ export class ActionsPlannerComponent implements OnInit {
       header: dialog.title,
 
       width: 'max-content',
-      styleClass:  this.themeService.theme + " modal"
+      styleClass: this.themeService.theme + ' modal',
     });
   }
 
@@ -56,14 +53,18 @@ export class ActionsPlannerComponent implements OnInit {
     this.confirmationService.confirm({
       message:
         'Você term certeza que deseja resetar a Semana? Todos os dados serão apagados!',
-      accept: () => {
-        console.log('YES');
-      },
+      accept: () => this.reset(),
     });
   }
 
   themeModal() {
     this.theme = true;
+  }
+
+  reset() {
+    localStorage.clear();
+    this.themeService.theme = 'theme01';
+    this.itemService.resetData();
   }
 
   ngOnInit(): void {

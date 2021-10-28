@@ -36,6 +36,7 @@ import { ActionsItemComponent } from './components/actions-item/actions-item.com
 import { DialogComponent } from './components/dialog/dialog.component';
 import { FormDialogComponent } from './components/form-dialog/form-dialog.component';
 import { EditFormComponent } from './components/edit-form/edit-form.component';
+import { ItemsStore } from './stores/items.store';
 
 @NgModule({
   declarations: [
@@ -73,6 +74,7 @@ import { EditFormComponent } from './components/edit-form/edit-form.component';
     CheckboxModule,
   ],
   providers: [
+    ItemsStore,
     ItemsService,
     DateService,
     ThemeService,

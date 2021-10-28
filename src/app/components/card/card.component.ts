@@ -8,7 +8,7 @@ import { ItemsFacade } from 'src/app/facades/items.facade';
 })
 export class CardComponent implements OnInit {
 
-  @Input() title: string | undefined;
+  @Input() titleBox: string | undefined;
   @Input() day: string | undefined;
   @Input() box: string | undefined;
   value: Date | undefined;
@@ -16,7 +16,7 @@ export class CardComponent implements OnInit {
   constructor(public facade: ItemsFacade) { }
 
   ngOnInit(): void {
-    this.facade.getAll(this.box);
+    // this.facade.getAll(this.box);
   }
 
 }

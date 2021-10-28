@@ -1,0 +1,35 @@
+.acoes {
+  text-align: center;
+  border-radius: 0.3em;
+  cursor: pointer;
+  padding: 0.4em;
+  display: flex;
+  justify-content: space-around;
+  text-decoration: none !important;
+}
+
+
+#complete {
+  color: var(--green-600);
+}
+
+#started {
+  color: var(--primary-color);
+}
+
+#edit {
+  color: var(--secundary-color);
+}
+
+#important {
+  color: var(--tertiary-color);
+}
+
+#canceled {
+  color: red;
+}
+
+#delete {
+  color: var(--blue-400);
+  margin-right: 0px;
+}

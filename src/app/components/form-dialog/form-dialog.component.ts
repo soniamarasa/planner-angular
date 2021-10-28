@@ -26,7 +26,6 @@ export class FormDialogComponent implements OnInit {
   getWhere: any;
   @ViewChildren('checkbox') checkboxes!: QueryList<ElementRef>;
   type: Dropdown[];
-  box: Dropdown[];
 
   constructor(
     public formBuilder: FormBuilder,
@@ -41,17 +40,6 @@ export class FormDialogComponent implements OnInit {
       { name: 'Appointment', code: 'appointment' },
       { name: 'Note', code: 'note' },
       { name: 'Entertainment', code: 'tv' },
-    ];
-    this.box = [
-      { name: 'Mon', code: 'mon' },
-      { name: 'Tue', code: 'tue' },
-      { name: 'Wed', code: 'wed' },
-      { name: 'Thu', code: 'thu' },
-      { name: 'Fri', code: 'fri' },
-      { name: 'Sat', code: 'fri' },
-      { name: 'Sun', code: 'fri' },
-      { name: 'To Do', code: 'todo' },
-      { name: 'Notes', code: 'notes' },
     ];
   }
 
@@ -78,14 +66,55 @@ export class FormDialogComponent implements OnInit {
   onCheckChange(event: any): any {
     console.log(event);
     const formArray: FormArray = this.form.get('where') as FormArray;
-    if (event.checked) {
+    if (event.checked[0] != "") {
       formArray.push(new FormControl(event.checked[0]));
-    } else {
+    } 
+    else {
       let i = 0;
       formArray.controls.forEach((item) => {
         console.log(item.value);
         console.log(event.checked[0]);
-        if (item.value === event.checked[0]) {
+        if (item.value === null) {
+          formArray.removeAt(i);
+          return;
+        }
+        i++;
+      });
+    }
+    this.getWhere = formArray.value;
+  }
+
+  onCheckChanges(id:any, event: any): any {
+    console.log(id, event);
+    const formArray: FormArray = this.form.get('where') as FormArray;
+    if (event.checked.length != 0) {
+      formArray.push(new FormControl(event.checked[0]));
+    } 
+    else {
+      let i = 0;
+      formArray.controls.forEach((item) => {
+        console.log(item.value);
+        console.log(event.checked[0]);
+        if (item.value === id) {
+          formArray.removeAt(i);
+          return;
+        }
+        i++;
+      });
+    }
+    this.getWhere = formArray.value;
+  }
+
+
+  onCheckChanget(event: any): any {
+    console.log(event)
+    const formArray: FormArray = this.form.get('where') as FormArray;
+    if (event.target.checked) {
+      formArray.push(new FormControl(event.target.value));
+    } else {
+      let i = 0;
+      formArray.controls.forEach((item) => {
+        if (item.value === event.target.value) {
           formArray.removeAt(i);
           return;
         }
