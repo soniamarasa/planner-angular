@@ -127,6 +127,28 @@ export class ItemsFacade {
     }
   }
 
+  create(item: Item) {
+    const createObservable = this.service.newItem(item);
+    const sucessObservable = createObservable.pipe(
+      tap(() => this.loading.setLoading(false)),
+      map((newItem) => (newItem._id ? true : false))
+    );
+
+    this.loading.setLoading(true);
+
+    createObservable.subscribe((newItem) => {
+      this.messageService.add({
+        key: 'create',
+        severity: 'success',
+        detail: 'Item criado com sucesso!',
+      });
+      this.itemsStore.unshiftItem(newItem)
+    });
+    return sucessObservable;
+  }
+
+
+
   updateStatus(id: string, item: Item) {
     const updateStatus = this.service.updateStatus(id, item);
 

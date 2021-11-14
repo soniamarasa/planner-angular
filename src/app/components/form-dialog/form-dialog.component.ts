@@ -15,6 +15,7 @@ import {
   FormControl,
   Validators,
 } from '@angular/forms';
+import { ItemsFacade } from 'src/app/facades/items.facade';
 
 @Component({
   selector: 'app-form-dialog',
@@ -30,7 +31,8 @@ export class FormDialogComponent implements OnInit {
   constructor(
     public formBuilder: FormBuilder,
     public ref: DynamicDialogRef,
-    public config: DynamicDialogConfig
+    public config: DynamicDialogConfig,
+    private facade: ItemsFacade
   ) {
     this.createForm();
 
@@ -63,34 +65,11 @@ export class FormDialogComponent implements OnInit {
     });
   }
 
-  onCheckChange(event: any): any {
-    console.log(event);
-    const formArray: FormArray = this.form.get('where') as FormArray;
-    if (event.checked[0] != "") {
-      formArray.push(new FormControl(event.checked[0]));
-    } 
-    else {
-      let i = 0;
-      formArray.controls.forEach((item) => {
-        console.log(item.value);
-        console.log(event.checked[0]);
-        if (item.value === null) {
-          formArray.removeAt(i);
-          return;
-        }
-        i++;
-      });
-    }
-    this.getWhere = formArray.value;
-  }
-
-  onCheckChanges(id:any, event: any): any {
-    console.log(id, event);
+  onCheckChanges(id: any, event: any): any {
     const formArray: FormArray = this.form.get('where') as FormArray;
     if (event.checked.length != 0) {
       formArray.push(new FormControl(event.checked[0]));
-    } 
-    else {
+    } else {
       let i = 0;
       formArray.controls.forEach((item) => {
         console.log(item.value);
@@ -105,26 +84,27 @@ export class FormDialogComponent implements OnInit {
     this.getWhere = formArray.value;
   }
 
-
-  onCheckChanget(event: any): any {
-    console.log(event)
-    const formArray: FormArray = this.form.get('where') as FormArray;
-    if (event.target.checked) {
-      formArray.push(new FormControl(event.target.value));
+  validation() {
+    if (
+      this.form.value.description === '' ||
+      this.form.value.where.length === 0
+    ) {
+      // this.toastr.error(
+      //   'É obrigatório preencher/marcar uma opção',
+      //   'Campos vazios'
+      // );
+      console.log('form vazio');
+      return false;
     } else {
-      let i = 0;
-      formArray.controls.forEach((item) => {
-        if (item.value === event.target.value) {
-          formArray.removeAt(i);
-          return;
-        }
-        i++;
-      });
+      return true;
     }
-    this.getWhere = formArray.value;
   }
 
   newItem() {
-    console.log(this.form.value);
+    const checkValidation = this.validation();
+    if (checkValidation) {
+      this.facade.create(this.form.value);
+      this.ref.close();
+    }
   }
 }
