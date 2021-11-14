@@ -1,12 +1,22 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, combineLatest } from 'rxjs';
-import { shareReplay, startWith, switchMap } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import {
+  debounceTime,
+  distinctUntilChanged,
+  map,
+  switchMap,
+  tap,
+} from 'rxjs/operators';
 import { Item } from '../models/item';
 import { ItemsService } from '../services/items.service';
+import { ItemSearchState, ItemSearchStore } from '../stores/item-search.store';
+import { ItemsStore } from '../stores/items.store';
+import { LoadingFacade } from './loading.facade';
+import { MessageService } from 'primeng/api';
+import { ThemeService } from '../services/theme.service';
 
 @Injectable()
 export class ItemsFacade {
-
   item: any;
   items: any;
 
@@ -14,42 +24,49 @@ export class ItemsFacade {
   // keys = [] as any;
   currentId = null;
 
-  started = 0;
-  finished = 0;
-  important = 0;
-  canceled = 0;
-  notInitiated = 0;
-  total = 0;
+  // started = 0;
+  // finished = 0;
+  // important = 0;
+  // canceled = 0;
+  // notInitiated = 0;
+  // total = 0;
 
-  types: any;
-  valuesType: any;
+  // types: any;
+  // valuesType: any;
 
-  totalTasks = 0;
+  // totalTasks = 0;
 
-  constructor(private service: ItemsService) {
-    this.service.getAllItems().subscribe((data: any) => {
-          this.item = data;
-    });
+  public readonly itemsState$ = this.itemsStore.itemsState$;
+  public readonly itemSearchState$ = this.itemSearchStore.itemSearchState$;
+
+  constructor(
+    private itemsStore: ItemsStore,
+    private itemSearchStore: ItemSearchStore,
+    private service: ItemsService,
+    private loading: LoadingFacade,
+    private messageService: MessageService,
+    private themeService: ThemeService
+  ) {
+    this.init();
   }
 
-  // getAll(where: any) {
-  //   return this.service.getAll(where).subscribe((data: any) => {
-  //     this.items = data;
-  //   });
-  // }
+  init() {
+    this.itemSearchState$
+      .pipe(
+        debounceTime(500),
+        distinctUntilChanged(),
+        tap(() => this.loading.setLoading(true)),
+        switchMap(() => this.getAllItems()),
+        tap(() => this.loading.setLoading(false))
+      )
+      .subscribe((items) => this.itemsStore.setItems(items));
+  }
 
-   getAllItems() {
-  //   return this.service.getAllItems().subscribe((data: any) => {
-  //     this.item = data;
-  //   });
-   }
+  getAllItems(): Observable<Item[]> {
+    return this.service.getAllItems();
+  }
 
-  actionsControl(
-    id: any,
-    typeAction: any,
-    where: any,
-    value: any
-  ): any {
+  actionsControl(id: any, typeAction: any, where: any, value: any): any {
     if (typeAction === null) {
       if (this.currentId !== null) {
         this.currentId = null;
@@ -65,8 +82,7 @@ export class ItemsFacade {
             important: false,
             canceled: false,
           };
-          // await this.updateStatus(id, item);
-          // await this.updateItems(where);
+          this.updateStatus(id, item);
           break;
 
         case 'started':
@@ -76,8 +92,7 @@ export class ItemsFacade {
             important: false,
             canceled: false,
           };
-          // await this.updateStatus(id, itemSt);
-          // await this.updateItems(where);
+          this.updateStatus(id, itemSt);
           break;
 
         case 'canceled':
@@ -87,8 +102,7 @@ export class ItemsFacade {
             important: false,
             canceled: value ? false : true,
           };
-          // await this.updateStatus(id, itemCanc);
-          // await this.updateItems(where);
+          this.updateStatus(id, itemCanc);
           break;
 
         case 'important':
@@ -98,19 +112,13 @@ export class ItemsFacade {
             important: value ? false : true,
             canceled: false,
           };
-          // await this.updateStatus(id, itemImp);
-          // await this.updateItems(where);
+          this.updateStatus(id, itemImp);
           break;
 
-        case 'delete': { 
-           return  this.service.deleteItem(id).subscribe((data)=>{
-            console.log("success");
-          });
-        }
-    
-      
-          // await this.updateItems(where);
-          // this.toastr.success('Item deletado com sucesso!');
+        case 'delete':
+          {
+            this.delete(id);
+          }
 
           break;
       }
@@ -119,50 +127,55 @@ export class ItemsFacade {
     }
   }
 
-   // async updateItems(where: string): Promise<any> {
-  //   let updateItems = await this.renderItems(where);
-  //   updateItems = this.idOrder(updateItems);
+  updateStatus(id: string, item: Item) {
+    const updateStatus = this.service.updateStatus(id, item);
 
-  //   if (this.items.length === 0) {
-  //     this.items.push({ day: where, itemsDay: updateItems });
-  //     this.keys.push(where);
-  //   } else {
-  //     this.items.forEach((dayWithItens: any) => {
-  //       if (this.keys.includes(where)) {
-  //         if (dayWithItens.day === where) {
-  //           dayWithItens.itemsDay = updateItems;
-  //         }
-  //       } else {
-  //         this.items.push({ day: where, itemsDay: updateItems });
-  //         this.keys.push(where);
-  //       }
-  //     });
-  //   }
+    const successObservable = updateStatus.pipe(
+      map((itemStatusUpdate: any) => (itemStatusUpdate._id ? true : false)),
+      tap(() => this.loading.setLoading(false))
+    );
 
-  //   this.items.forEach((day: any) => {
-  //     if (day.day === where) {
-  //       day.itemsDay.sort((a: any, b: any) => {
-  //         return a.id - b.id;
-  //       });
-  //     }
-  //   });
-  // }
+    this.loading.setLoading(true);
+    updateStatus.subscribe((itemStatusUpdate) => {
+      console.log(itemStatusUpdate);
+      this.itemsStore.replacetItem(itemStatusUpdate);
+    });
+    return successObservable;
+  }
 
-  // idOrder(array: any): any {
-  //   array.forEach((item: any) => {
-  //     if (item.type === 'task') {
-  //       item.id = 1;
-  //     } else if (item.type === 'event') {
-  //       item.id = 2;
-  //     } else if (item.type === 'appointment') {
-  //       item.id = 3;
-  //     } else if (item.type === 'note') {
-  //       item.id = 4;
-  //     } else if (item.type === 'tv') {
-  //       item.id = 5;
-  //     }
-  //   });
+  delete(id: string) {
+    const deleteObservable = this.service.deleteItem(id);
+    const sucessDelete = deleteObservable;
 
-  //   return array;
-  // }
+    this.loading.setLoading(true);
+
+    deleteObservable
+      .pipe(tap(() => this.loading.setLoading(false)))
+      .subscribe((data) => {
+        console.log(data);
+        this.itemsStore.deleteItem(id);
+        this.messageService.add({
+          key: 'delete',
+          severity: 'success',
+          detail: data.message,
+        });
+      });
+    return sucessDelete;
+  }
+
+  resetData() {
+    const deleteObservable = this.service.resetData();
+    const sucessDelete = deleteObservable;
+
+    this.loading.setLoading(true);
+
+    deleteObservable
+      .pipe(tap(() => this.loading.setLoading(false)))
+      .subscribe((data) => {
+        this.itemsStore.reset();
+      });
+    localStorage.clear();
+    this.themeService.theme = 'theme01';
+    return sucessDelete;
+  }
 }

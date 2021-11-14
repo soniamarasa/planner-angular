@@ -3,7 +3,7 @@ import { HttpClient, HttpResponse, HttpHeaders } from '@angular/common/http';
 import { environment } from './../../environments/environment';
 import { Item } from '../models/item';
 import { Observable } from 'rxjs';
-import { shareReplay, take, tap } from 'rxjs/operators';
+import { share, shareReplay, take, tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -16,7 +16,7 @@ export class ItemsService {
   }
 
   getAllItems(): Observable<Item[]> {
-    return this.http.get<Item[]>(`${environment.url}/getItems`);
+    return this.http.get<Item[]>(`${environment.url}/getItems`).pipe(share());
   }
 
   newItem(item: Item): Observable<Item> {
@@ -38,18 +38,10 @@ export class ItemsService {
   }
 
   deleteItem(id: string): Observable<any> {
-    console.log(id)
-    return this.http
-      .delete<any>(`${environment.url}/deleteItem/${id}`);
+    return this.http.delete<any>(`${environment.url}/deleteItem/${id}`);
   }
 
-  // public async deleteItem(id: string): Promise<any> {
-  //   return await this.httpCl
-  //     .delete(`${environment.url}/deleteItem/${id}`, { responseType: 'text' })
-  //     .toPromise();
-  // }
-
   resetData(): Observable<any> {
-    return this.http.delete<any>(`${environment.url}/reset`).pipe(tap(x => console.log(x)));
+    return this.http.delete<any>(`${environment.url}/reset`);
   }
 }

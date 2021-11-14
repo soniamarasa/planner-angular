@@ -1,8 +1,13 @@
 <div class="acoes">
-    <i class="pi pi-check-square" id="complete" title="Completa"></i>
-    <i class="pi pi-play" id="started" title="Iniciada"></i>
+    <i class="pi pi-check-square" id="complete" title="Completa"
+        (click)="facade.actionsControl(id,'finished', where, finished); $event.stopPropagation()"></i>
+    <i class="pi pi-play" id="started" title="Iniciada"
+        (click)="facade.actionsControl(id,'started', where, started); $event.stopPropagation()"></i>
     <i class="pi pi-pencil" id="edit" title="Editar"></i>
-    <i class="pi pi-exclamation-triangle" id="important" title="Importante"></i>
-    <i class="pi pi-times" title="Cancelada" id="canceled"></i>
-    <i class="pi pi-trash" id="delete" title="Deletar"  (click)="facade.actionsControl(id, 'delete', where, null); $event.stopPropagation()"></i>
+    <i class="pi pi-exclamation-triangle" id="important" title="Importante"
+        (click)="facade.actionsControl(id,'important', where, important); $event.stopPropagation()"></i>
+    <i class="pi pi-times" title="Cancelada" id="canceled"
+        (click)="facade.actionsControl(id,'canceled', where, canceled); $event.stopPropagation()"></i>
+    <i class="pi pi-trash" id="delete" title="Deletar"
+        (click)="facade.actionsControl(id, 'delete', where, null); $event.stopPropagation()"></i>
 </div>

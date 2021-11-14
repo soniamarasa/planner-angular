@@ -13,12 +13,12 @@ export class ActionsItemComponent implements OnInit {
   @Input() obs!: any;
   @Input() where: any;
   @Input() id: any;
-  @Input() finished!: string;
-  @Input() started!: string;
-  @Input() canceled!: string;
-  @Input() important!: string;
+  @Input() finished!: boolean;
+  @Input() started!: boolean;
+  @Input() canceled!: boolean;
+  @Input() important!: boolean;
 
-  constructor(public itemService: ItemsService, public facade: ItemsFacade) { }
+  constructor(public service: ItemsService, public facade: ItemsFacade) { }
 
   ngOnInit(): void {
   }

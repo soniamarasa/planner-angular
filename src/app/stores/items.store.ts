@@ -59,4 +59,12 @@ export class ItemsStore {
       items: state.items.filter((a) => a._id !== id),
     });
   }
+
+  reset() {
+    const state = this._itemsState.value;
+
+    this._itemsState.next({
+      items: (state.items = []),
+    });
+  }
 }

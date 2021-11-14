@@ -7,6 +7,7 @@ import { FormDialogComponent } from '../form-dialog/form-dialog.component';
 import { ChartComponent } from '../chart/chart.component';
 import { Dropdown } from 'src/app/models/dropdown';
 import { Button } from 'primeng/button';
+import { ItemsFacade } from 'src/app/facades/items.facade';
 
 @Component({
   selector: 'app-actions-planner',
@@ -20,6 +21,7 @@ export class ActionsPlannerComponent implements OnInit {
 
   constructor(
     public dialogService: DialogService,
+    private facade: ItemsFacade,
     private confirmationService: ConfirmationService,
     private itemService: ItemsService,
     public themeService: ThemeService
@@ -62,9 +64,7 @@ export class ActionsPlannerComponent implements OnInit {
   }
 
   reset() {
-    localStorage.clear();
-    this.themeService.theme = 'theme01';
-    this.itemService.resetData();
+    this.facade.resetData();
   }
 
   ngOnInit(): void {

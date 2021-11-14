@@ -17,7 +17,8 @@ import { InputTextModule } from 'primeng/inputtext';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { CheckboxModule } from 'primeng/checkbox';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
-import { ConfirmationService } from 'primeng/api';
+import { ConfirmationService, MessageService } from 'primeng/api';
+import { ToastModule } from 'primeng/toast';
 
 import { ItemsService } from './services/items.service';
 import { DateService } from './services/date.service';
@@ -37,6 +38,8 @@ import { DialogComponent } from './components/dialog/dialog.component';
 import { FormDialogComponent } from './components/form-dialog/form-dialog.component';
 import { EditFormComponent } from './components/edit-form/edit-form.component';
 import { ItemsStore } from './stores/items.store';
+import { LoadingFacade } from './facades/loading.facade';
+import { ItemSearchStore } from './stores/item-search.store';
 
 @NgModule({
   declarations: [
@@ -72,15 +75,19 @@ import { ItemsStore } from './stores/items.store';
     InputTextModule,
     MultiSelectModule,
     CheckboxModule,
+    ToastModule,
   ],
   providers: [
     ItemsStore,
+    ItemSearchStore,
     ItemsService,
     DateService,
     ThemeService,
     ItemsFacade,
     DialogService,
     ConfirmationService,
+    MessageService,
+    LoadingFacade,
   ],
   bootstrap: [AppComponent],
 })
