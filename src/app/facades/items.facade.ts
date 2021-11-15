@@ -128,26 +128,48 @@ export class ItemsFacade {
   }
 
   create(item: Item) {
-    const createObservable = this.service.newItem(item);
-    const sucessObservable = createObservable.pipe(
-      tap(() => this.loading.setLoading(false)),
-      map((newItem) => (newItem._id ? true : false))
+    this.loading.setLoading(true);
+    this.service
+      .newItem(item)
+      .pipe(tap(() => this.loading.setLoading(false)))
+      .subscribe((newItem) =>
+        newItem ? this.itemsStore.unshiftItem(newItem) : false
+      );
+
+    // const createObservable = this.service.newItem(item);
+    // const sucessObservable = createObservable.pipe(
+    //   tap(() => this.loading.setLoading(false)),
+    //   map((newItem) => (newItem._id ? true : false))
+    // );
+
+    // this.loading.setLoading(true);
+
+    // createObservable.subscribe((newItem) => {
+    //   this.messageService.add({
+    //     key: 'create',
+    //     severity: 'success',
+    //     detail: 'Item criado com sucesso!',
+    //   });
+    //   this.itemsStore.pushItem(newItem)
+    // });
+    // return sucessObservable;
+  }
+
+  update(id: string, item: Item) {
+    const updateItem = this.service.editItem(id, item);
+
+    const successObservable = updateItem.pipe(
+      map((itemStatusUpdate: any) => (itemStatusUpdate._id ? true : false)),
+      tap(() => this.loading.setLoading(false))
     );
 
     this.loading.setLoading(true);
-
-    createObservable.subscribe((newItem) => {
-      this.messageService.add({
-        key: 'create',
-        severity: 'success',
-        detail: 'Item criado com sucesso!',
-      });
-      this.itemsStore.unshiftItem(newItem)
+    updateItem.subscribe((itemUpdate) => {
+      console.log(itemUpdate);
+      this.itemsStore.replacetItem(itemUpdate);
     });
-    return sucessObservable;
+    return successObservable;
   }
-
-
 
   updateStatus(id: string, item: Item) {
     const updateStatus = this.service.updateStatus(id, item);
@@ -174,12 +196,11 @@ export class ItemsFacade {
     deleteObservable
       .pipe(tap(() => this.loading.setLoading(false)))
       .subscribe((data) => {
-        console.log(data);
         this.itemsStore.deleteItem(id);
         this.messageService.add({
           key: 'delete',
           severity: 'success',
-          detail: data.message,
+          detail: 'Item deleted successfully!',
         });
       });
     return sucessDelete;

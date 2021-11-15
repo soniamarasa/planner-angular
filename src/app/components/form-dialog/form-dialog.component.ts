@@ -16,11 +16,13 @@ import {
   Validators,
 } from '@angular/forms';
 import { ItemsFacade } from 'src/app/facades/items.facade';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-form-dialog',
   templateUrl: './form-dialog.component.html',
   styleUrls: ['./form-dialog.component.scss'],
+  providers: [MessageService],
 })
 export class FormDialogComponent implements OnInit {
   form!: FormGroup;
@@ -32,7 +34,8 @@ export class FormDialogComponent implements OnInit {
     public formBuilder: FormBuilder,
     public ref: DynamicDialogRef,
     public config: DynamicDialogConfig,
-    private facade: ItemsFacade
+    private facade: ItemsFacade,
+    private messageService: MessageService
   ) {
     this.createForm();
 
@@ -72,8 +75,6 @@ export class FormDialogComponent implements OnInit {
     } else {
       let i = 0;
       formArray.controls.forEach((item) => {
-        console.log(item.value);
-        console.log(event.checked[0]);
         if (item.value === id) {
           formArray.removeAt(i);
           return;
@@ -87,12 +88,14 @@ export class FormDialogComponent implements OnInit {
   validation() {
     if (
       this.form.value.description === '' ||
-      this.form.value.where.length === 0
+      this.form.value.where.length === 0 ||
+      this.form.value.type === ''
     ) {
-      // this.toastr.error(
-      //   'É obrigatório preencher/marcar uma opção',
-      //   'Campos vazios'
-      // );
+      this.messageService.add({
+        severity: 'warn',
+        summary: 'Empty fields!',
+        detail: 'Type, description and checkbox are required!',
+      });
       console.log('form vazio');
       return false;
     } else {
@@ -104,7 +107,6 @@ export class FormDialogComponent implements OnInit {
     const checkValidation = this.validation();
     if (checkValidation) {
       this.facade.create(this.form.value);
-      this.ref.close();
     }
   }
 }

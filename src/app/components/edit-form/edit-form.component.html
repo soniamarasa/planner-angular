@@ -1,4 +1,4 @@
-<form [formGroup]="form" (ngSubmit)="newItem()">
+<form [formGroup]="form">
     <div class="row01">
         <p-dropdown [options]="type" placeholder="Type" optionLabel="name" optionValue="code" formControlName="type">
         </p-dropdown>
@@ -18,7 +18,10 @@
 
     <div id="button-div">
         <button pButton pRipple type="submit" label="Save" icon="pi pi-plus"
-            class="p-button-raised p-button-success"></button>
+           (click)="editItem()" class="p-button-raised p-button-success"></button>
     </div>
 
 </form>
+
+
+<p-toast position="bottom-center"></p-toast>

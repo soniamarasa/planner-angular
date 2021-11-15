@@ -391,7 +391,7 @@ h3 {
 .theme03 {
   .p-inputtext::placeholder,
   .p-dropdown-label.p-placeholder {
-    color: black;
+    color: rgba(0, 0, 0, 0.5);
   }
   .p-inputtext {
     font-family: inherit;
@@ -419,7 +419,7 @@ h3 {
 .theme06 {
   .p-inputtext::placeholder,
   .p-dropdown-label.p-placeholder {
-    color: white;
+    color: rgba(255, 255, 255, 0.575);
   }
   .p-inputtext {
     font-family: inherit;

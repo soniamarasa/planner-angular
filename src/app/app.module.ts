@@ -19,6 +19,8 @@ import { CheckboxModule } from 'primeng/checkbox';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
+import { MessagesModule } from 'primeng/messages';
+import { MessageModule } from 'primeng/message';
 
 import { ItemsService } from './services/items.service';
 import { DateService } from './services/date.service';
@@ -76,6 +78,8 @@ import { ItemSearchStore } from './stores/item-search.store';
     MultiSelectModule,
     CheckboxModule,
     ToastModule,
+    MessageModule,
+    MessagesModule,
   ],
   providers: [
     ItemsStore,

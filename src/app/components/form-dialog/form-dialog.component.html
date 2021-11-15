@@ -1,4 +1,4 @@
-<form [formGroup]="form" (ngSubmit)="newItem()">
+<form [formGroup]="form" >
   <div class="row01">
     <p-dropdown [options]="type"  placeholder="Type" optionLabel="name" optionValue="code" formControlName="type">
     </p-dropdown>
@@ -59,62 +59,9 @@
 
   <div id="button-div">
     <button pButton pRipple type="submit" label="Save" icon="pi pi-plus"
-      class="p-button-raised p-button-success"></button>
+      class="p-button-raised p-button-success" (click)="newItem()"></button>
   </div>
 
 </form>
 
-<!-- <form [formGroup]="form" (ngSubmit)="newItem()">
-  <div class="row01">
-      <p-dropdown [options]="type" placeholder="Type" optionLabel="name" optionValue="code" formControlName="type"></p-dropdown>
-      <input type="text" pInputText class="p-inputtext p-inputtext-md" formControlName="description" placeholder="Description">
-    
-  </div>
-
-  <input type="text" formControlName="obs" pInputText class="p-inputtext p-inputtext-md" placeholder="Observation">
-
-  <div class="where-check">
-      <div class="p-field-checkbox">
-          <input #checkbox type="checkbox" (change)="onCheckChanget($event)" name="where" value="mon" inputId="mon"/>
-          <label for="mon">M</label>
-      </div>
-      <div class="p-field-checkbox">
-          <input #checkbox type="checkbox" (change)="onCheckChanget($event)" name="where" value="tue" inputId="tue"/>
-          <label for="tue">T</label>
-      </div>
-      <div class="p-field-checkbox">
-          <input #checkbox type="checkbox" (change)="onCheckChanget($event)" name="where" value="wed" inputId="wed"/>
-          <label for="wed">W</label>
-      </div>
-      <div class="p-field-checkbox">
-          <input #checkbox type="checkbox" (change)="onCheckChanget($event)" name="where" value="thu" inputId="thu"/>
-          <label for="thu">T</label>
-      </div>
-      <div class="p-field-checkbox">
-          <input #checkbox type="checkbox" (change)="onCheckChanget($event)" name="where" value="fri" inputId="fri"/>
-          <label for="fri">F</label>
-      </div>
-      <div class="p-field-checkbox">
-          <input #checkbox type="checkbox" (change)="onCheckChanget($event)" name="where" value="sat" inputId="sat"/>
-          <label for="sat">S</label>
-      </div>
-      <div class="p-field-checkbox">
-          <input #checkbox type="checkbox" (change)="onCheckChanget($event)" name="where" value="sun" inputId="sun"/>
-          <label for="sun">S</label>
-      </div>
-      <div class="p-field-checkbox">
-          <input #checkbox type="checkbox" (change)="onCheckChanget($event)" name="where" value="notes" inputId="notes"/>
-          <label for="notes">Notes</label>
-      </div>
-      <div class="p-field-checkbox">
-          <input #checkbox type="checkbox" (change)="onCheckChanget($event)" name="where" value="todo" inputId="todo"/>
-          <label for="todo">To Do</label>
-      </div>
-  </div>
-
-  <div id="button-div">
-      <button pButton pRipple type="submit" label="Save" icon="pi pi-plus"
-          class="p-button-raised p-button-success"></button>
-  </div>
-
-</form> -->
+<p-toast position="bottom-center"></p-toast>

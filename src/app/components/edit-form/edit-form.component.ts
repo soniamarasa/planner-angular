@@ -7,6 +7,7 @@ import {
 } from '@angular/core';
 import { DynamicDialogRef } from 'primeng/dynamicdialog';
 import { DynamicDialogConfig } from 'primeng/dynamicdialog';
+import { MessageService } from 'primeng/api';
 import { Dropdown } from 'src/app/models/dropdown';
 import {
   FormGroup,
@@ -15,6 +16,7 @@ import {
   FormControl,
   Validators,
 } from '@angular/forms';
+import { ItemsFacade } from 'src/app/facades/items.facade';
 
 @Component({
   selector: 'app-edit-form',
@@ -29,9 +31,11 @@ export class EditFormComponent implements OnInit {
   constructor(
     public formBuilder: FormBuilder,
     public ref: DynamicDialogRef,
-    public config: DynamicDialogConfig
+    public config: DynamicDialogConfig,
+    private facade: ItemsFacade,
+    private messageService: MessageService
   ) {
-    this.createForm();
+    this.createForm(this.config.data);
 
     this.type = [
       { name: 'Task', code: 'task' },
@@ -55,16 +59,32 @@ export class EditFormComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  createForm(): any {
+  createForm(data: any): any {
     this.form = this.formBuilder.group({
-      type: ['', Validators.required],
-      description: ['', Validators.required],
-      obs: ['', Validators.required],
-      where: ['', Validators.required],
+      type: [data.type, Validators.required],
+      description: [data.description, Validators.required],
+      obs: [data.obs, Validators.required],
+      where: [data.where, Validators.required],
     });
   }
 
-  newItem() {
-    console.log(this.form.value);
+  validation() {
+    if (this.form.value.description === '') {
+      this.messageService.add({
+        severity: 'warn',
+        summary: 'The description field is required!',
+      });
+      console.log('form vazio');
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+  editItem() {
+    const checkValidation = this.validation();
+    if (checkValidation) {
+      this.facade.update(this.config.data._id, this.form.value);
+    }
   }
 }
