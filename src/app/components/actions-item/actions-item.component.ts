@@ -1,14 +1,10 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { ItemsFacade } from 'src/app/facades/items.facade';
-import { ItemsService } from 'src/app/services/items.service';
-import { EditFormComponent } from '../edit-form/edit-form.component';
-
 import { ConfirmationService } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
-
-import { Dropdown } from 'src/app/models/dropdown';
-import { Button } from 'primeng/button';
 import { ThemeService } from 'src/app/services/theme.service';
+import { ItemsService } from 'src/app/services/items.service';
+import { ItemsFacade } from 'src/app/facades/items.facade';
+import { EditFormComponent } from '../edit-form/edit-form.component';
 
 @Component({
   selector: 'app-actions-item',
@@ -45,7 +41,7 @@ export class ActionsItemComponent implements OnInit {
       where: this.where,
     };
 
-    let dialog = { component: EditFormComponent, title: 'Editar Item' };
+    let dialog = { component: EditFormComponent, title: 'Edit Item' };
 
     const ref = this.dialogService.open(dialog.component, {
       header: dialog.title,

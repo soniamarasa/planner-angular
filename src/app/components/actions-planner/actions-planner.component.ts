@@ -39,9 +39,9 @@ export class ActionsPlannerComponent implements OnInit {
   showDialog(type: any) {
     let dialog: { component: any; title: string };
     if (type === 'New') {
-      dialog = { component: FormDialogComponent, title: 'Novo Item' };
+      dialog = { component: FormDialogComponent, title: 'New Item' };
     } else {
-      dialog = { component: ChartComponent, title: 'Estatísticas' };
+      dialog = { component: ChartComponent, title: 'Statistics' };
     }
     const ref = this.dialogService.open(dialog.component, {
       header: dialog.title,
@@ -71,7 +71,7 @@ export class ActionsPlannerComponent implements OnInit {
     this.leftTooltipItems = [
       {
         tooltipOptions: {
-          tooltipLabel: 'Novo Item',
+          tooltipLabel: 'New Item',
           tooltipPosition: 'left',
         },
         icon: 'pi pi-plus',
@@ -81,7 +81,7 @@ export class ActionsPlannerComponent implements OnInit {
       },
       {
         tooltipOptions: {
-          tooltipLabel: 'Estatísticas',
+          tooltipLabel: 'Statistics',
           tooltipPosition: 'left',
         },
         icon: 'pi pi-chart-bar',
@@ -91,7 +91,7 @@ export class ActionsPlannerComponent implements OnInit {
       },
       {
         tooltipOptions: {
-          tooltipLabel: 'Alterar Tema',
+          tooltipLabel: 'Theme',
           tooltipPosition: 'left',
         },
         icon: 'pi pi-palette',
@@ -101,7 +101,7 @@ export class ActionsPlannerComponent implements OnInit {
       },
       {
         tooltipOptions: {
-          tooltipLabel: 'Resetar a Semana?',
+          tooltipLabel: 'Reset the Week?',
           tooltipPosition: 'left',
         },
         icon: 'pi pi-refresh',

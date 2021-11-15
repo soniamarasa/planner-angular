@@ -7,13 +7,15 @@ import {
   switchMap,
   tap,
 } from 'rxjs/operators';
-import { Item } from '../models/item';
-import { ItemsService } from '../services/items.service';
-import { ItemSearchState, ItemSearchStore } from '../stores/item-search.store';
-import { ItemsStore } from '../stores/items.store';
-import { LoadingFacade } from './loading.facade';
+
 import { MessageService } from 'primeng/api';
+import { ItemsService } from '../services/items.service';
 import { ThemeService } from '../services/theme.service';
+import { ItemsStore } from '../stores/items.store';
+import { ItemSearchState, ItemSearchStore } from '../stores/item-search.store';
+import { LoadingFacade } from './loading.facade';
+
+import { Item } from '../models/item';
 
 @Injectable()
 export class ItemsFacade {
@@ -128,31 +130,26 @@ export class ItemsFacade {
   }
 
   create(item: Item) {
+    const createObservable = this.service.newItem(item);
+    const sucessObservable = createObservable.pipe(
+      tap(() => this.loading.setLoading(false)),
+      map((newItem) => (newItem._id ? true : false))
+    );
+
     this.loading.setLoading(true);
-    this.service
-      .newItem(item)
-      .pipe(tap(() => this.loading.setLoading(false)))
-      .subscribe((newItem) =>
-        newItem ? this.itemsStore.unshiftItem(newItem) : false
-      );
 
-    // const createObservable = this.service.newItem(item);
-    // const sucessObservable = createObservable.pipe(
-    //   tap(() => this.loading.setLoading(false)),
-    //   map((newItem) => (newItem._id ? true : false))
-    // );
+    createObservable.subscribe((newItem: any) => {
+      newItem.forEach((item: any) => this.itemsStore.pushItem(item));
 
-    // this.loading.setLoading(true);
+      this.messageService.add({
+        key: 'create',
+        severity: 'success',
+        detail: 'Successfully created item',
+      });
 
-    // createObservable.subscribe((newItem) => {
-    //   this.messageService.add({
-    //     key: 'create',
-    //     severity: 'success',
-    //     detail: 'Item criado com sucesso!',
-    //   });
-    //   this.itemsStore.pushItem(newItem)
-    // });
-    // return sucessObservable;
+      this.service.reload();
+    });
+    return sucessObservable;
   }
 
   update(id: string, item: Item) {
@@ -200,7 +197,7 @@ export class ItemsFacade {
         this.messageService.add({
           key: 'delete',
           severity: 'success',
-          detail: 'Item deleted successfully!',
+          detail: 'Successfully deleted item!',
         });
       });
     return sucessDelete;

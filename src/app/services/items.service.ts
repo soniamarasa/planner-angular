@@ -2,13 +2,16 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpResponse, HttpHeaders } from '@angular/common/http';
 import { environment } from './../../environments/environment';
 import { Item } from '../models/item';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { share, shareReplay, take, tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ItemsService {
+
+  private _reloadMecanism = new BehaviorSubject<number>(0);
+  
   constructor(private http: HttpClient) {}
 
   getAll(where: any): Observable<Item[]> {
@@ -43,5 +46,9 @@ export class ItemsService {
 
   resetData(): Observable<any> {
     return this.http.delete<any>(`${environment.url}/reset`);
+  }
+
+  reload() {
+    this._reloadMecanism.next(this._reloadMecanism.value + 1);
   }
 }

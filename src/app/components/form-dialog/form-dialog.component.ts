@@ -107,6 +107,7 @@ export class FormDialogComponent implements OnInit {
     const checkValidation = this.validation();
     if (checkValidation) {
       this.facade.create(this.form.value);
+      this.ref.destroy();
     }
   }
 }

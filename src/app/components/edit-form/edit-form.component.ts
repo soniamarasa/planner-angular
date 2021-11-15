@@ -1,10 +1,4 @@
-import {
-  Component,
-  ElementRef,
-  OnInit,
-  QueryList,
-  ViewChildren,
-} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { DynamicDialogRef } from 'primeng/dynamicdialog';
 import { DynamicDialogConfig } from 'primeng/dynamicdialog';
 import { MessageService } from 'primeng/api';
@@ -74,7 +68,6 @@ export class EditFormComponent implements OnInit {
         severity: 'warn',
         summary: 'The description field is required!',
       });
-      console.log('form vazio');
       return false;
     } else {
       return true;
@@ -85,6 +78,7 @@ export class EditFormComponent implements OnInit {
     const checkValidation = this.validation();
     if (checkValidation) {
       this.facade.update(this.config.data._id, this.form.value);
+      this.ref.destroy();
     }
   }
 }

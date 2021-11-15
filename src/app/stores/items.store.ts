@@ -16,18 +16,18 @@ export class ItemsStore {
 
   pushItem(item: Item) {
     const state = this._itemsState.value;
-    
+
     this._itemsState.next({
       ...state,
       items: [...state.items, item],
-    }); 
+    });
   }
 
   unshiftItem(item: Item) {
     const state = this._itemsState.value;
     this._itemsState.next({
       ...state,
-      items: [item,...state.items],
+      items: [item, ...state.items],
     });
   }
 
