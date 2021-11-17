@@ -29,7 +29,6 @@
 
               <span>{{ item.description }}
                 <i *ngIf="item.important" class="pi pi-exclamation-triangle"></i>
-                <i *ngIf="item.canceled" class="pi pi-times"></i>
               </span>
 
               <p class="obs" *ngIf="item.obs !== ''"> <i class="pi pi-reply"></i>{{item.obs}}</p>
@@ -44,7 +43,6 @@
       </ul>
 
       <ng-template pTemplate="footer">
-        <p><span *ngIf="titleBox != 'Notes'">Itens Pendentes:</span></p>
       </ng-template>
     </ng-container>
   </ng-container>

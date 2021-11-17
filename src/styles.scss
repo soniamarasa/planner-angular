@@ -3,9 +3,9 @@
 @import url("https://fonts.googleapis.com/css2?family=Itim&display=swap");
 
 :root {
-  --primary-color: orange;
-  --secundary-color: rgb(185, 149, 185);
-  --tertiary-color: rgb(245, 45, 85);
+  --primary-color: #ffa500;
+  --secundary-color: #b995b9;
+  --tertiary-color: #f52d55;
 }
 
 body {
@@ -165,7 +165,8 @@ h3 {
   h2,
   a,
   .p-datepicker-title,
-  .p-dialog-title {
+  .p-dialog-title,
+  .total {
     color: #eec41e;
   }
   h1,

@@ -21,6 +21,7 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
 import { MessagesModule } from 'primeng/messages';
 import { MessageModule } from 'primeng/message';
+import {ChartModule} from 'primeng/chart';
 
 import { ItemsService } from './services/items.service';
 import { DateService } from './services/date.service';
@@ -42,6 +43,8 @@ import { EditFormComponent } from './components/edit-form/edit-form.component';
 import { ItemsStore } from './stores/items.store';
 import { LoadingFacade } from './facades/loading.facade';
 import { ItemSearchStore } from './stores/item-search.store';
+
+
 
 @NgModule({
   declarations: [
@@ -80,6 +83,8 @@ import { ItemSearchStore } from './stores/item-search.store';
     ToastModule,
     MessageModule,
     MessagesModule,
+    ChartModule
+  
   ],
   providers: [
     ItemsStore,

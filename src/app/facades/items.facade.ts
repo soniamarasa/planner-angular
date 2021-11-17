@@ -19,24 +19,8 @@ import { Item } from '../models/item';
 
 @Injectable()
 export class ItemsFacade {
-  item: any;
-  items: any;
 
-  // items = [] as any;
-  // keys = [] as any;
   currentId = null;
-
-  // started = 0;
-  // finished = 0;
-  // important = 0;
-  // canceled = 0;
-  // notInitiated = 0;
-  // total = 0;
-
-  // types: any;
-  // valuesType: any;
-
-  // totalTasks = 0;
 
   public readonly itemsState$ = this.itemsStore.itemsState$;
   public readonly itemSearchState$ = this.itemSearchStore.itemSearchState$;
@@ -178,7 +162,6 @@ export class ItemsFacade {
 
     this.loading.setLoading(true);
     updateStatus.subscribe((itemStatusUpdate) => {
-      console.log(itemStatusUpdate);
       this.itemsStore.replacetItem(itemStatusUpdate);
     });
     return successObservable;

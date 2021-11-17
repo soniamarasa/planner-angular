@@ -41,11 +41,10 @@ export class ActionsPlannerComponent implements OnInit {
     if (type === 'New') {
       dialog = { component: FormDialogComponent, title: 'New Item' };
     } else {
-      dialog = { component: ChartComponent, title: 'Statistics' };
+      dialog = { component: ChartComponent, title: 'Statistics - Tasks' };
     }
     const ref = this.dialogService.open(dialog.component, {
       header: dialog.title,
-
       width: 'max-content',
       styleClass: this.themeService.theme + ' modal',
     });
@@ -54,7 +53,7 @@ export class ActionsPlannerComponent implements OnInit {
   confirm() {
     this.confirmationService.confirm({
       message:
-        'Você term certeza que deseja resetar a Semana? Todos os dados serão apagados!',
+        'Are you sure you want to reset the Week? All data will be erased!',
       accept: () => this.reset(),
     });
   }

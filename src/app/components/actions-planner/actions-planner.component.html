@@ -10,7 +10,7 @@
 ></p-speedDial>
 
 <p-dialog
-  header="Escolha o Tema"
+  header="Choose the theme"
   [(visible)]="theme"
   [style]="{ width: 'max-content' }"
   [modal]="true"
@@ -18,7 +18,7 @@
   <p-dropdown
     [options]="themes"
     [(ngModel)]="themeService.theme"
-    placeholder="Seleciona um tema"
+    placeholder="choose the theme"
     optionLabel="name"
     optionValue="code"
     (ngModelChange)="changeTheme($event)"
@@ -26,11 +26,9 @@
 </p-dialog>
 
 <p-confirmDialog
-  header="Resetar a Semana?"
+  header="Do you want to reset the week?"
   icon="pi pi-exclamation-triangle"
   acceptButtonStyleClass="p-button-success"
-  acceptLabel="Sim"
   rejectButtonStyleClass="p-button-danger"
-  rejectLabel="Não"
 >
 </p-confirmDialog>

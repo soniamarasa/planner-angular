@@ -1,1 +1,12 @@
-<p>chart works!</p>
+<div>
+  <p-chart
+    class="chart-container"
+    [options]="pieChartOptions"
+    type="pie"
+    [data]="data"
+    width="400px"
+    [responsive]="true"
+  ></p-chart>
+</div>
+
+<div class='total'>Total Tasks: {{this.total}} </div>

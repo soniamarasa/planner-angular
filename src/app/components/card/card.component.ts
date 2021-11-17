@@ -18,6 +18,5 @@ export class CardComponent implements OnInit {
   constructor(public facade: ItemsFacade) {}
 
   ngOnInit(): void {
-    // this.facade.getAll(this.box);
   }
 }
