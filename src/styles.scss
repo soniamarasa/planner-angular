@@ -443,3 +443,14 @@ h3 {
     background-color: transparent;
   }
 }
+
+.today-is .p-card {
+  border: 4px solid rgba(0, 0, 0, 0.1) !important;
+  box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.483);
+  border-radius: 7px;
+  transform: scale(1.03);
+}
+
+.p-dialog {
+  height: min-content !important;
+}

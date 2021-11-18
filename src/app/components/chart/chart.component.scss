@@ -3,3 +3,13 @@
   text-align: center;
   margin-top: 20px;
 }
+
+.chart-content {
+  width: 500px;
+}
+
+@media (max-width: 600px) {
+  .chart-content {
+    width: 70vw;
+  }
+}

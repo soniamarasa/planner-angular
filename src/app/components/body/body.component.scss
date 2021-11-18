@@ -7,3 +7,19 @@
 .cards-days {
   margin-bottom: 8px;
 }
+
+@media (max-width: 768px) {
+  .col-calend {
+    display: flex;
+    flex-direction: column-reverse;
+    margin-top: -24px;
+  }
+}
+
+@media (min-width: 768px) {
+  .col-calend {
+    display: flex;
+    flex-direction: column;
+    margin-top: -8px;
+  }
+}

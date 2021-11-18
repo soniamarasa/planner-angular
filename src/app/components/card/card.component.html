@@ -1,9 +1,11 @@
 <p-card>
-  <ng-template pTemplate="header">
+
+  <div>
+    <img src="../../../assets/pin.png" *ngIf="day == weekDay" alt="pin">
     <h2 *ngIf="day">{{ day }}</h2>
     <h3 *ngIf="titleBox">{{ titleBox }}</h3>
-  </ng-template>
-
+  </div>
+  
   <ng-container *ngIf="day || titleBox != 'Calendar'">
     <ng-container *ngIf="items$ | async as items">
       <ul class="item" *ngIf="items.length > 0">
@@ -47,8 +49,8 @@
     </ng-container>
   </ng-container>
 
-
   <ng-container *ngIf="titleBox === 'Calendar'">
     <p-calendar [(ngModel)]="value" [inline]="true"> </p-calendar>
   </ng-container>
+
 </p-card>
