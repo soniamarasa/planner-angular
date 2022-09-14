@@ -1,0 +1,44 @@
+:host {
+  & ::ng-deep {
+    .container-not-found {
+      min-height: calc(100vh - 59.2px);
+      max-height: calc(100vh - 59.2px);
+      background-color: white !important;
+
+      .container-div {
+        margin: 3rem auto;
+        width: 800px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 1rem;
+
+        & svg {
+          width: 60%;
+          height: auto;
+        }
+      }
+    }
+
+    .p-button {
+      background-color: #eec41e;
+      border-color: #eec41e;
+
+      &:hover {
+        background-color: #ddb517;
+        border-color: #ddb517;
+      }
+    }
+
+    i {
+      margin-right: 0.5rem;
+    }
+
+    h2 {
+      margin:2rem 0 0;
+
+      text-align: center;
+    }
+  }
+}

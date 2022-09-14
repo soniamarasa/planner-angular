@@ -6,11 +6,11 @@ import { DateService } from 'src/app/services/date.service';
 import { ItemsService } from 'src/app/services/items.service';
 
 @Component({
-  selector: 'app-body',
-  templateUrl: './body.component.html',
-  styleUrls: ['./body.component.scss'],
+  selector: 'app-account',
+  templateUrl: './account.component.html',
+  styleUrls: ['./account.component.scss'],
 })
-export class BodyComponent implements OnInit {
+export class AccountComponent implements OnInit {
   weekDay: any
 
   public items$: Observable<Item[]> | undefined;
@@ -23,8 +23,4 @@ export class BodyComponent implements OnInit {
     // this.facade.getAllItems();
   }
   
-
-  teste() {
- 
-  }
 }

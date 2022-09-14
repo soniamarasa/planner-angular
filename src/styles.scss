@@ -454,3 +454,12 @@ h3 {
 .p-dialog {
   height: min-content !important;
 }
+
+
+.p-password {
+  width: 100%;
+
+  & input {
+    width: 100% !important;
+  }
+}
