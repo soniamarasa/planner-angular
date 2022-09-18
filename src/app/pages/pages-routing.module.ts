@@ -5,6 +5,7 @@ import { AuthComponent } from './auth/auth.component';
 import { HomeComponent } from './home/home.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { PagesComponent } from './pages.component';
+import { PasswordRecoverComponent } from './password-recover/password-recover.component';
 import { RegistrationComponent } from './registration/registration.component';
 
 const routes: Routes = [
@@ -30,6 +31,10 @@ const routes: Routes = [
   {
     path: 'register',
     component: RegistrationComponent,
+  },
+  {
+    path: 'password',
+    component: PasswordRecoverComponent,
   },
   {
     path: '**',

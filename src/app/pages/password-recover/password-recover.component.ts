@@ -12,27 +12,19 @@ import { ItemsFacade } from 'src/app/facades/items.facade';
 import { CustomvalidationService } from 'src/app/services/customvalidation.service';
 
 @Component({
-  selector: 'app-account',
-  templateUrl: './account.component.html',
-  styleUrls: ['./account.component.scss'],
+  selector: 'app-password-recover',
+  templateUrl: './password-recover.component.html',
+  styleUrls: ['./password-recover.component.scss'],
 })
-export class AccountComponent implements OnInit {
+export class PasswordRecoverComponent implements OnInit {
   form!: FormGroup;
-  gender: Dropdown[];
 
   constructor(
     public _formBuilder: UntypedFormBuilder,
     private _messageService: MessageService,
-    private customValidator: CustomvalidationService,
-
-    private facade: ItemsFacade
+    private customValidator: CustomvalidationService
   ) {
     this.createForm();
-
-    this.gender = [
-      { name: 'Female', code: 'female' },
-      { name: 'Male', code: 'male' },
-    ];
   }
 
   ngOnInit(): void {}
@@ -44,11 +36,6 @@ export class AccountComponent implements OnInit {
   createForm(): any {
     this.form = this._formBuilder.group(
       {
-        name: ['', Validators.required],
-        gender: ['', Validators.required],
-        birthdate: ['', Validators.required],
-        email: ['', [Validators.required, Validators.email]],
-        oldPassword: ['', [Validators.required]],
         password: ['', Validators.required],
         confirmPassword: ['', Validators.required],
       },

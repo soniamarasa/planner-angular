@@ -1,0 +1,41 @@
+<h3>Forgot your password?</h3>
+
+<div class="dialog-body">
+  <p>
+    That's okay, it happens! Confirm your email and we'll send the Instructions
+  </p>
+
+  <form [formGroup]="form">
+    <div class="field">
+      <input
+        type="email"
+        pInputText
+        required
+        class="p-inputtext p-inputtext-md"
+        formControlName="email"
+        placeholder="Type your e-mail"
+      />
+      <small
+        class="p-error"
+        *ngIf="formControl.email.touched && formControl.email.errors?.required"
+      >
+        E-mail is required
+      </small>
+
+      <small
+        class="p-error"
+        *ngIf="formControl.email.touched && formControl.email.errors?.email"
+      >
+        Enter a valid email address
+      </small>
+    </div>
+  </form>
+</div>
+
+<div class="footer">
+  <p-button
+    [disabled]="form.invalid"
+    (onClick)="submit()"
+    label="Save"
+  ></p-button>
+</div>

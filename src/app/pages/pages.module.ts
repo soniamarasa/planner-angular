@@ -5,7 +5,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 import { CalendarModule } from 'primeng/calendar';
-import { DividerModule } from 'primeng/divider'
+import { DividerModule } from 'primeng/divider';
 import { SpeedDialModule } from 'primeng/speeddial';
 import { TooltipModule } from 'primeng/tooltip';
 import { DialogModule } from 'primeng/dialog';
@@ -32,6 +32,7 @@ import { PagesRoutingModule } from './pages-routing.module';
 
 import { AuthComponent } from './auth/auth.component';
 import { RegistrationComponent } from './registration/registration.component';
+import { PasswordRecoverComponent } from './password-recover/password-recover.component';
 import { HomeComponent } from './home/home.component';
 import { AccountComponent } from './account/account.component';
 import { NotFoundComponent } from './not-found/not-found.component';
@@ -49,12 +50,15 @@ import { EditFormComponent } from '../components/edit-form/edit-form.component';
 import { ItemsStore } from '../stores/items.store';
 import { LoadingFacade } from '../facades/loading.facade';
 import { ItemSearchStore } from '../stores/item-search.store';
+import { RecoverDialogComponent } from './auth/recover-dialog/recover-dialog.component';
 
 @NgModule({
   declarations: [
     PagesComponent,
     AuthComponent,
+    RecoverDialogComponent,
     RegistrationComponent,
+    PasswordRecoverComponent,
     AccountComponent,
     HomeComponent,
     NotFoundComponent,

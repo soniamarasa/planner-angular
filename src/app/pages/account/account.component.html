@@ -1,3 +1,247 @@
-<div>
-  <p>My Account</p>
+<div class="container-register">
+  <h1>My Account</h1>
+
+  <div class="grid">
+    <div class="col-12 sm:col-12 md:col-3 lg:col-3 user">
+      <div>
+        <i
+          *ngIf="formControl.gender.value === 'female'"
+          class="fa-solid fa-person-dress"
+        ></i>
+        <i
+          *ngIf="formControl.gender.value === 'male'"
+          class="fa-solid fa-person"
+        ></i>
+        <i *ngIf="formControl.gender.value === ''" class="fa-solid fa-user"></i>
+      </div>
+    </div>
+
+    <p-card class="col-12 sm:col-12 md:col-9 lg:col-9">
+      <div class="card-body">
+        <form [formGroup]="form">
+          <div class="field field-name">
+            <input
+              type="text"
+              pInputText
+              required
+              class="p-inputtext p-inputtext-md"
+              formControlName="name"
+              placeholder="Type your full name"
+            />
+
+            <small
+              class="p-error"
+              *ngIf="
+                formControl.name.touched && formControl.name.errors?.required
+              "
+            >
+              Name is required
+            </small>
+          </div>
+
+          <div class="field">
+            <input
+              type="email"
+              pInputText
+              required
+              class="p-inputtext p-inputtext-md"
+              formControlName="email"
+              placeholder="Type your e-mail"
+            />
+            <small
+              class="p-error"
+              *ngIf="
+                formControl.email.touched && formControl.email.errors?.required
+              "
+            >
+              E-mail is required
+            </small>
+
+            <small
+              class="p-error"
+              *ngIf="
+                formControl.email.touched && formControl.email.errors?.email
+              "
+            >
+              Enter a valid email address
+            </small>
+          </div>
+
+          <div class="grid p-fluid">
+            <div class="col-12 md:col-4">
+              <div class="field">
+                <label for="gender" class="block">Gender</label>
+                <p-dropdown
+                  [options]="gender"
+                  placeholder="Select a gender"
+                  optionLabel="name"
+                  optionValue="code"
+                  formControlName="gender"
+                ></p-dropdown>
+                <small
+                  class="p-error"
+                  *ngIf="
+                    formControl.gender.touched &&
+                    formControl.gender.errors?.required
+                  "
+                >
+                  Gender is required
+                </small>
+              </div>
+            </div>
+
+            <div class="col-12 md:col-4">
+              <div class="field">
+                <label for="birthdate" class="block">Bithdate</label>
+                <p-calendar
+                  formControlName="birthdate"
+                  dateFormat="dd.mm.yy"
+                  [showIcon]="true"
+                  inputId="icon"
+                  placeholder="Select your birthdate"
+                ></p-calendar>
+                <small
+                  class="p-error"
+                  *ngIf="
+                    formControl.birthdate.touched &&
+                    formControl.birthdate.errors?.required
+                  "
+                >
+                  Birthdate is required
+                </small>
+              </div>
+            </div>
+
+            <div class="col-12 md:col-4 button">
+              <div class="field">
+                <p-button
+                  [disabled]="form.invalid"
+                  (onClick)="submit()"
+                  label="Save changes"
+          
+                ></p-button>
+              </div>
+            </div>
+          </div>
+
+          <div class="grid p-fluid">
+            <div class="col-12 md:col-6">
+              <div class="field">
+                <label for="oldPassword" class="block">Old Password</label>
+                <p-password
+                  required
+                  formControlName="oldPassword"
+                  placeholder="Type your password"
+                  [feedback]="false"
+                  [toggleMask]="true"
+                  styleClass="p-password p-component p-inputwrapper p-input-icon-right"
+                ></p-password>
+                <small
+                  class="p-error"
+                  *ngIf="
+                    formControl.oldPassword.touched &&
+                    formControl.oldPassword.errors?.required
+                  "
+                >
+                  Password is required
+                </small>
+              </div>
+            </div>
+
+            <div class="col-12 md:col-6">
+              <div class="field">
+                <label for="password" class="block">New Password</label>
+                <p-password
+                  [toggleMask]="true"
+                  formControlName="password"
+                  placeholder="Type your password"
+                  styleClass="p-password p-component p-inputwrapper p-input-icon-right"
+                >
+                  <ng-template pTemplate="header">
+                    <h6>Pick a password</h6>
+                  </ng-template>
+                  <ng-template pTemplate="footer">
+                    <p-divider></p-divider>
+                    <p class="mt-2">Suggestions</p>
+                    <ul class="pl-2 ml-2 mt-0" style="line-height: 1.5">
+                      <li>At least one lowercase</li>
+                      <li>At least one uppercase</li>
+                      <li>At least one numeric</li>
+                      <li>Minimum 8 characters</li>
+                    </ul>
+                  </ng-template>
+                </p-password>
+                <small
+                  class="p-error"
+                  *ngIf="
+                    formControl.password.touched &&
+                    formControl.password.errors?.required
+                  "
+                >
+                  Password is required
+                </small>
+              </div>
+            </div>
+          </div>
+
+          <div class="grid p-fluid">
+            <div class="col-12 md:col-6">
+              <div class="field">
+                <label for="confirmPassword" class="block"
+                  >Confirm Password</label
+                >
+
+                <p-password
+                  required
+                  formControlName="confirmPassword"
+                  placeholder="Confirm your password"
+                  [feedback]="false"
+                  [toggleMask]="true"
+                  styleClass="p-password p-component p-inputwrapper p-input-icon-right"
+                ></p-password>
+
+                <small
+                  class="p-error"
+                  *ngIf="
+                    formControl.confirmPassword.touched &&
+                    formControl.confirmPassword.errors?.required
+                  "
+                >
+                  Password is required
+                </small>
+
+                <small
+                  class="p-error"
+                  *ngIf="
+                    formControl.confirmPassword.touched &&
+                    formControl.confirmPassword.errors?.passwordMismatch
+                  "
+                >
+                  Passwords don't match
+                </small>
+              </div>
+            </div>
+
+            <div class="col-12 md:col-6 button">
+              <div class="field">
+                <p-button
+                  [disabled]="form.invalid"
+                  (onClick)="submit()"
+                  label="Change password"
+                  styleClass="button-login"
+                ></p-button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <div class="footer">
+        <p-button
+          label="Reset"
+          styleClass="reset"
+        ></p-button>
+      </div>
+    </p-card>
+  </div>
 </div>

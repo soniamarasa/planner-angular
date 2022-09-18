@@ -4,6 +4,8 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 import { MessageService } from 'primeng/api';
 import { ItemsFacade } from 'src/app/facades/items.facade';
+import { DialogService } from 'primeng/dynamicdialog';
+import { RecoverDialogComponent } from './recover-dialog/recover-dialog.component';
 
 @Component({
   selector: 'app-auth',
@@ -16,7 +18,8 @@ export class AuthComponent implements OnInit {
   constructor(
     public _formBuilder: FormBuilder,
     private _messageService: MessageService,
-    private facade: ItemsFacade
+    private facade: ItemsFacade,
+    public dialogService: DialogService
   ) {
     this.createForm();
   }
@@ -47,6 +50,12 @@ export class AuthComponent implements OnInit {
     } else {
       return true;
     }
+  }
+
+  openDialogRecover() {
+    const ref = this.dialogService.open(RecoverDialogComponent, {
+      width: '500px',
+    });
   }
 
   login() {

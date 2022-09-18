@@ -63,6 +63,7 @@ h3 {
   flex-direction: column;
   padding: 10px;
   height: 100%;
+  border-radius: 8px;
 }
 
 .p-card-content,
@@ -392,17 +393,17 @@ h3 {
 .theme03 {
   .p-inputtext::placeholder,
   .p-dropdown-label.p-placeholder {
-    color: rgba(0, 0, 0, 0.5);
+    color: rgba(0, 0, 0, 0.3);
   }
   .p-inputtext {
     font-family: inherit;
     color: black;
     border-color: transparent;
-    background: rgba(0, 0, 0, 0.1);
+    background: rgba(0, 0, 0, 0.05);
   }
   .p-dropdown {
     border-color: transparent;
-    background: rgba(0, 0, 0, 0.1);
+    background: rgba(0, 0, 0, 0.05);
     &:hover {
       border-color: #e0dbd4 !important;
     }

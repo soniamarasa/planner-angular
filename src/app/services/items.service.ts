@@ -19,7 +19,7 @@ export class ItemsService {
   }
 
   getAllItems(): Observable<Item[]> {
-    return this.http.get<Item[]>(`${environment.url}/getItems`).pipe(share());
+    return this.http.get<Item[]>(`${environment.url}/getItems`).pipe(shareReplay());
   }
 
   newItem(item: Item): Observable<Item> {
