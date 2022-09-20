@@ -51,6 +51,7 @@ import { ItemsStore } from '../stores/items.store';
 import { LoadingFacade } from '../facades/loading.facade';
 import { ItemSearchStore } from '../stores/item-search.store';
 import { RecoverDialogComponent } from './auth/recover-dialog/recover-dialog.component';
+import { UserFacade } from '../facades/user.facades';
 
 @NgModule({
   declarations: [
@@ -106,10 +107,12 @@ import { RecoverDialogComponent } from './auth/recover-dialog/recover-dialog.com
     ItemsService,
     DateService,
     ThemeService,
-    ItemsFacade,
+    
     DialogService,
     ConfirmationService,
     MessageService,
+    ItemsFacade,
+    UserFacade,
     LoadingFacade,
   ],
   bootstrap: [PagesComponent],

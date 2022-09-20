@@ -10,6 +10,7 @@ import {
 import { MessageService } from 'primeng/api';
 import { ItemsFacade } from 'src/app/facades/items.facade';
 import { CustomvalidationService } from 'src/app/services/customvalidation.service';
+import { UserFacade } from 'src/app/facades/user.facades';
 
 @Component({
   selector: 'app-account',
@@ -19,13 +20,13 @@ import { CustomvalidationService } from 'src/app/services/customvalidation.servi
 export class AccountComponent implements OnInit {
   form!: FormGroup;
   gender: Dropdown[];
-
+  
   constructor(
     public _formBuilder: UntypedFormBuilder,
     private _messageService: MessageService,
     private customValidator: CustomvalidationService,
 
-    private facade: ItemsFacade
+    private facade: UserFacade
   ) {
     this.createForm();
 
@@ -35,7 +36,15 @@ export class AccountComponent implements OnInit {
     ];
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+
+  
+
+
+    this.facade
+      .getUser()
+      .subscribe((x) => console.log(x));
+  }
 
   get formControl() {
     return this.form.controls;

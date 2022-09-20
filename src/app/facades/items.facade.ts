@@ -21,6 +21,8 @@ import { Item } from '../models/item';
 export class ItemsFacade {
 
   currentId = null;
+  idUser =  JSON.parse(localStorage.getItem('idUser') as string);
+
 
   public readonly itemsState$ = this.itemsStore.itemsState$;
   public readonly itemSearchState$ = this.itemSearchStore.itemSearchState$;
@@ -49,7 +51,7 @@ export class ItemsFacade {
   }
 
   getAllItems(): Observable<Item[]> {
-    return this.service.getAllItems();
+    return this.service.getAllItems(this.idUser);
   }
 
   actionsControl(id: any, typeAction: any, where: any, value: any): any {
@@ -114,7 +116,7 @@ export class ItemsFacade {
   }
 
   create(item: Item) {
-    const createObservable = this.service.newItem(item);
+    const createObservable = this.service.newItem(this.idUser, item);
     const sucessObservable = createObservable.pipe(
       tap(() => this.loading.setLoading(false)),
       map((newItem) => (newItem._id ? true : false))
@@ -137,7 +139,7 @@ export class ItemsFacade {
   }
 
   update(id: string, item: Item) {
-    const updateItem = this.service.editItem(id, item);
+    const updateItem = this.service.editItem(this.idUser, id, item);
 
     const successObservable = updateItem.pipe(
       map((itemStatusUpdate: any) => (itemStatusUpdate._id ? true : false)),
@@ -153,7 +155,7 @@ export class ItemsFacade {
   }
 
   updateStatus(id: string, item: Item) {
-    const updateStatus = this.service.updateStatus(id, item);
+    const updateStatus = this.service.updateStatus(this.idUser,id, item);
 
     const successObservable = updateStatus.pipe(
       map((itemStatusUpdate: any) => (itemStatusUpdate._id ? true : false)),
@@ -168,7 +170,7 @@ export class ItemsFacade {
   }
 
   delete(id: string) {
-    const deleteObservable = this.service.deleteItem(id);
+    const deleteObservable = this.service.deleteItem(this.idUser, id);
     const sucessDelete = deleteObservable;
 
     this.loading.setLoading(true);
@@ -187,7 +189,7 @@ export class ItemsFacade {
   }
 
   resetData() {
-    const deleteObservable = this.service.resetData();
+    const deleteObservable = this.service.resetData(this.idUser);
     const sucessDelete = deleteObservable;
 
     this.loading.setLoading(true);

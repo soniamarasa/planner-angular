@@ -17,25 +17,25 @@ export interface IRefreshTokenBody {
 @Injectable({
   providedIn: 'root',
 })
-export class AuthService {
+export class UserService {
   constructor(private readonly _http: HttpClient) {}
 
   // --- POST endpoints ---
   login(body: ILoginBody) {
     return this._http
-      .post<User>(`${environment.url}/login`, { body })
+      .post<User>(`${environment.url}/login`, { ...body })
       .pipe(shareReplay());
   }
 
   retrievePassword(email: User['email']) {
     return this._http
-      .post<any>(`${environment.url}/retrievePassword`, {
-        email,
-      })
+      .post<any>(`${environment.url}/retrievePassword`, 
+        email
+      )
       .pipe(shareReplay());
   }
 
-  resetPassword(password: User['email'], userId: User['_id']) {
+  resetPassword(password: User['password'], userId: User['id']) {
     return this._http
       .post<any>(`${environment.url}/resetPassword`, {
         password,
@@ -44,9 +44,9 @@ export class AuthService {
       .pipe(shareReplay());
   }
 
-  logout(id: User['_id']) {
+  logout(id: User['id']) {
     return this._http
-      .post(`${environment.url}/logout/${id}`, null)
+      .post(`${environment.url}/logout`, { id })
       .pipe(shareReplay());
   }
 
@@ -56,9 +56,27 @@ export class AuthService {
       .pipe(shareReplay());
   }
 
+  getUser(id: User['id']) {
+    return this._http
+      .get<any>(`${environment.url}/user/${id}`)
+      .pipe(shareReplay());
+  }
+
   updateUser(user: User) {
     return this._http
       .put<User>(`${environment.url}/updateUser`, { user })
       .pipe(shareReplay());
+  }
+
+  set(key: string, value: any) {
+    localStorage.setItem(key, JSON.stringify(value));
+  }
+
+  get(key: string) {
+    return JSON.parse(localStorage.getItem(key) as string);
+  }
+
+  remove(key: string) {
+    localStorage.removeItem(key);
   }
 }

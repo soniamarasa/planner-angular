@@ -1,11 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { Dropdown } from 'src/app/models/dropdown';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { SubSink } from 'subsink';
 
 import { MessageService } from 'primeng/api';
 import { ItemsFacade } from 'src/app/facades/items.facade';
 import { DialogService } from 'primeng/dynamicdialog';
 import { RecoverDialogComponent } from './recover-dialog/recover-dialog.component';
+import { Router } from '@angular/router';
+import { UserFacade } from 'src/app/facades/user.facades';
+import { finalize } from 'rxjs';
 
 @Component({
   selector: 'app-auth',
@@ -14,12 +18,16 @@ import { RecoverDialogComponent } from './recover-dialog/recover-dialog.componen
 })
 export class AuthComponent implements OnInit {
   form!: FormGroup;
+  private subs = new SubSink();
+
+  isSubmitting = false;
 
   constructor(
     public _formBuilder: FormBuilder,
+    public _dialogService: DialogService,
+    private _router: Router,
     private _messageService: MessageService,
-    private facade: ItemsFacade,
-    public dialogService: DialogService
+    private facade: UserFacade
   ) {
     this.createForm();
   }
@@ -33,35 +41,33 @@ export class AuthComponent implements OnInit {
     });
   }
 
-  cleanValues(): any {
-    this.form.controls['email'].setValue('task');
-    this.form.controls['password'].setValue('');
-  }
-
-  validation() {
-    if (this.form.value.email === '' || this.form.value.password === '') {
-      this._messageService.add({
-        severity: 'warn',
-        summary: 'Empty fields!',
-        detail: 'Type, description and checkbox are required!',
-      });
-      console.log('form vazio');
-      return false;
-    } else {
-      return true;
-    }
-  }
-
   openDialogRecover() {
-    const ref = this.dialogService.open(RecoverDialogComponent, {
+    const ref = this._dialogService.open(RecoverDialogComponent, {
       width: '500px',
     });
   }
 
   login() {
-    const checkValidation = this.validation();
-    if (checkValidation) {
-      this.facade.create(this.form.value);
-    }
+    this.isSubmitting = true;
+
+    this.subs.add(
+      this.facade
+        .login(this.form.value)
+        .pipe(finalize(() => (this.isSubmitting = false)))
+        .subscribe({
+          next: (user) => {
+            setTimeout(() => this._router.navigate(['/']), 1500);
+          },
+          error: () =>
+            this._messageService.add({
+              key: 'notification',
+              severity: 'error',
+              summary: 'Houve um problema!',
+              detail:
+                'Não foi possível entrar na sua conta. Tente novamente mais tarde.',
+              icon: 'fa-solid fa-check',
+            }),
+        })
+    );
   }
 }

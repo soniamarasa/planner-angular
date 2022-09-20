@@ -24,6 +24,6 @@ export class CardComponent implements OnInit {
     this.day = this.day?.toLowerCase();
 
     this.weekDay = this.date.wD.toLowerCase();
-    console.log(this.day, this.weekDay);
+    // console.log(this.day, this.weekDay);
   }
 }
