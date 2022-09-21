@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { shareReplay } from 'rxjs';
 import { environment } from './../../environments/environment';
 import { User } from '../models/user';
@@ -23,24 +23,29 @@ export class UserService {
   // --- POST endpoints ---
   login(body: ILoginBody) {
     return this._http
-      .post<User>(`${environment.url}/login`, { ...body })
+      .post<User>(`${environment.url}/login`, body)
       .pipe(shareReplay());
   }
 
-  retrievePassword(email: User['email']) {
+  retrievePassword(email: User['email'], host: string) {
     return this._http
-      .post<any>(`${environment.url}/retrievePassword`, 
-        email
+      .post<any>(`${environment.url}/retrievePassword`, { email, host })
+      .pipe(shareReplay());
+  }
+
+  resetPassword(password: User['password'], token: User['token']) {
+    const headers = new HttpHeaders({
+      Authorization: `${token}`,
+    });
+
+    return this._http
+      .post<any>(
+        `${environment.url}/resetPassword`,
+        {
+          password,
+        },
+        { headers }
       )
-      .pipe(shareReplay());
-  }
-
-  resetPassword(password: User['password'], userId: User['id']) {
-    return this._http
-      .post<any>(`${environment.url}/resetPassword`, {
-        password,
-        userId,
-      })
       .pipe(shareReplay());
   }
 
@@ -52,7 +57,7 @@ export class UserService {
 
   createAccount(user: User) {
     return this._http
-      .post<any>(`${environment.url}/createAccount`, { user })
+      .post<any>(`${environment.url}/createAccount`, user)
       .pipe(shareReplay());
   }
 
@@ -62,9 +67,9 @@ export class UserService {
       .pipe(shareReplay());
   }
 
-  updateUser(user: User) {
+  updateUser(user: User, id: User['id']) {
     return this._http
-      .put<User>(`${environment.url}/updateUser`, { user })
+      .put<User>(`${environment.url}/updateUser/${id}`, user)
       .pipe(shareReplay());
   }
 

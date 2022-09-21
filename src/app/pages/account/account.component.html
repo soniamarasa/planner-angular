@@ -1,4 +1,6 @@
-<div class="container-register">
+<p-toast key="notification" position="top-right" styleClass="default"></p-toast>
+
+<div *ngIf="user" class="container-register">
   <h1>My Account</h1>
 
   <div class="grid">
@@ -18,53 +20,57 @@
 
     <p-card class="col-12 sm:col-12 md:col-9 lg:col-9">
       <div class="card-body">
-        <form [formGroup]="form">
-          <div class="field field-name">
-            <input
-              type="text"
-              pInputText
-              required
-              class="p-inputtext p-inputtext-md"
-              formControlName="name"
-              placeholder="Type your full name"
-            />
+        <form #form1 [formGroup]="form">
+          <div class="col-12">
+            <div class="field field-name">
+              <input
+                type="text"
+                pInputText
+                required
+                class="p-inputtext p-inputtext-md"
+                formControlName="name"
+                placeholder="Type your full name"
+              />
 
-            <small
-              class="p-error"
-              *ngIf="
-                formControl.name.touched && formControl.name.errors?.required
-              "
-            >
-              Name is required
-            </small>
+              <small
+                class="p-error"
+                *ngIf="
+                  formControl.name.touched && formControl.name.errors?.required
+                "
+              >
+                Name is required
+              </small>
+            </div>
           </div>
+          <div class="col-12">
+            <div class="field">
+              <input
+                type="email"
+                pInputText
+                required
+                class="p-inputtext p-inputtext-md"
+                formControlName="email"
+                placeholder="Type your e-mail"
+              />
+              <small
+                class="p-error"
+                *ngIf="
+                  formControl.email.touched &&
+                  formControl.email.errors?.required
+                "
+              >
+                E-mail is required
+              </small>
 
-          <div class="field">
-            <input
-              type="email"
-              pInputText
-              required
-              class="p-inputtext p-inputtext-md"
-              formControlName="email"
-              placeholder="Type your e-mail"
-            />
-            <small
-              class="p-error"
-              *ngIf="
-                formControl.email.touched && formControl.email.errors?.required
-              "
-            >
-              E-mail is required
-            </small>
-
-            <small
-              class="p-error"
-              *ngIf="
-                formControl.email.touched && formControl.email.errors?.email
-              "
-            >
-              Enter a valid email address
-            </small>
+              <small
+                class="p-error"
+                *ngIf="
+                  formControl.email.touched && formControl.email.errors?.email
+                "
+              >
+                Enter a valid email address
+              </small>
+            </div>
           </div>
 
           <div class="grid p-fluid">
@@ -90,7 +96,7 @@
               </div>
             </div>
 
-            <div class="col-12 md:col-4">
+            <div class="col-12 md:col-5">
               <div class="field">
                 <label for="birthdate" class="block">Bithdate</label>
                 <p-calendar
@@ -112,18 +118,21 @@
               </div>
             </div>
 
-            <div class="col-12 md:col-4 button">
+            <div class="col-12 md:col-3 button">
               <div class="field">
                 <p-button
+                  *ngIf="showBtnForm"
                   [disabled]="form.invalid"
-                  (onClick)="submit()"
+                  (onClick)="submit(1)"
                   label="Save changes"
-          
                 ></p-button>
               </div>
             </div>
           </div>
+        </form>
 
+        <h3>Change Password</h3>
+        <form #form2 [formGroup]="formPassword" action="">
           <div class="grid p-fluid">
             <div class="col-12 md:col-6">
               <div class="field">
@@ -139,8 +148,8 @@
                 <small
                   class="p-error"
                   *ngIf="
-                    formControl.oldPassword.touched &&
-                    formControl.oldPassword.errors?.required
+                    formPasswordControl.oldPassword.touched &&
+                    formPasswordControl.oldPassword.errors?.required
                   "
                 >
                   Password is required
@@ -174,8 +183,8 @@
                 <small
                   class="p-error"
                   *ngIf="
-                    formControl.password.touched &&
-                    formControl.password.errors?.required
+                    formPasswordControl.password.touched &&
+                    formPasswordControl.password.errors?.required
                   "
                 >
                   Password is required
@@ -203,8 +212,8 @@
                 <small
                   class="p-error"
                   *ngIf="
-                    formControl.confirmPassword.touched &&
-                    formControl.confirmPassword.errors?.required
+                    formPasswordControl.confirmPassword.touched &&
+                    formPasswordControl.confirmPassword.errors?.required
                   "
                 >
                   Password is required
@@ -213,8 +222,8 @@
                 <small
                   class="p-error"
                   *ngIf="
-                    formControl.confirmPassword.touched &&
-                    formControl.confirmPassword.errors?.passwordMismatch
+                    formPasswordControl.confirmPassword.touched &&
+                    formPasswordControl.confirmPassword.errors?.passwordMismatch
                   "
                 >
                   Passwords don't match
@@ -225,8 +234,9 @@
             <div class="col-12 md:col-6 button">
               <div class="field">
                 <p-button
-                  [disabled]="form.invalid"
-                  (onClick)="submit()"
+                  *ngIf="showBtnFormPass"
+                  [disabled]="formPassword.invalid"
+                  (onClick)="submit(2)"
                   label="Change password"
                   styleClass="button-login"
                 ></p-button>
@@ -237,10 +247,7 @@
       </div>
 
       <div class="footer">
-        <p-button
-          label="Reset"
-          styleClass="reset"
-        ></p-button>
+        <p-button *ngIf=" showBtnForm || showBtnFormPass" (onClick)="setForms(user)" label="Reset" styleClass="reset"></p-button>
       </div>
     </p-card>
   </div>

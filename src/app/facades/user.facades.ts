@@ -27,8 +27,8 @@ export class UserFacade {
       .pipe(tap((user) => this.authStore.login({ user })));
   }
 
-  retrievePassword(email: User['email']) {
-    return this.userService.retrievePassword(email);
+  retrievePassword(email: User['email'], host: string) {
+    return this.userService.retrievePassword(email, host);
   }
 
   resetPassword(password: User['password'], token: User['token']) {
@@ -51,6 +51,6 @@ export class UserFacade {
   }
 
   updateUser(user: User) {
-    return this.userService.updateUser(user).pipe(shareReplay());
+    return this.userService.updateUser(user, this.idUser).pipe(shareReplay());
   }
 }

@@ -54,7 +54,7 @@ export class CustomvalidationService {
   }
 
   // patternValidator(): ValidatorFn {
-  //   return (control: AbstractControl): { [key: string]: any } => {
+  //   return (control: AbstractControl): { [key: string]: string } => {
   //     if (!control.value) {
   //       return null;
   //     }

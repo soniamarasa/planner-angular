@@ -27,13 +27,19 @@ const routes: Routes = [
       },
     ],
   },
+
   {
     path: 'auth',
     // canActivate: [UserGuard],
     component: AuthComponent,
   },
   {
-    path: 'register',
+    path: 'password-reset/:token',
+    // canActivate: [UserGuard],
+    component: PasswordRecoverComponent,
+  },
+  {
+    path: 'signup',
      // canActivate: [UserGuard],
     component: RegistrationComponent,
   },

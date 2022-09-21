@@ -5,9 +5,14 @@
     <p-card class="col-12">
       <div class="card-body">
         <div class="user">
-  
-          <i *ngIf="formControl.gender.value === 'female'" class="fa-solid fa-person-dress"></i>
-          <i *ngIf="formControl.gender.value === 'male'" class="fa-solid fa-person"></i>
+          <i
+            *ngIf="formControl.gender.value === 'female'"
+            class="fa-solid fa-person-dress"
+          ></i>
+          <i
+            *ngIf="formControl.gender.value === 'male'"
+            class="fa-solid fa-person"
+          ></i>
           <i
             *ngIf="formControl.gender.value === ''"
             class="fa-solid fa-user"
@@ -164,7 +169,7 @@
                   </ng-template>
                   <ng-template pTemplate="footer">
                     <p-divider></p-divider>
-                    <p class="mt-2">Suggestions</p>
+                    <p class="mt-2">Password must be:</p>
                     <ul class="pl-2 ml-2 mt-0" style="line-height: 1.5">
                       <li>At least one lowercase</li>
                       <li>At least one uppercase</li>
@@ -173,6 +178,7 @@
                     </ul>
                   </ng-template>
                 </p-password>
+
                 <small
                   class="p-error"
                   *ngIf="
@@ -227,7 +233,7 @@
 
       <div class="footer">
         <p-button
-        [disabled]="form.invalid"
+          [disabled]="form.invalid"
           (onClick)="submit()"
           label="Sign up"
         ></p-button>

@@ -1,15 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { Dropdown } from 'src/app/models/dropdown';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { SubSink } from 'subsink';
-
-import { MessageService } from 'primeng/api';
-import { ItemsFacade } from 'src/app/facades/items.facade';
-import { DialogService } from 'primeng/dynamicdialog';
-import { RecoverDialogComponent } from './recover-dialog/recover-dialog.component';
 import { Router } from '@angular/router';
-import { UserFacade } from 'src/app/facades/user.facades';
+import { SubSink } from 'subsink';
+import { MessageService } from 'primeng/api';
+import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { finalize } from 'rxjs';
+
+import { UserFacade } from 'src/app/facades/user.facades';
+import { User } from 'src/app/models/user';
+import { RecoverDialogComponent } from './recover-dialog/recover-dialog.component';
 
 @Component({
   selector: 'app-auth',
@@ -45,6 +44,40 @@ export class AuthComponent implements OnInit {
     const ref = this._dialogService.open(RecoverDialogComponent, {
       width: '500px',
     });
+
+    this.subs.add(
+      (ref as DynamicDialogRef).onClose.subscribe((email) => {
+        if (email) {
+          this.retrievePassword(email);
+        }
+      })
+    );
+  }
+
+  retrievePassword(email: User['email']) {
+    this.subs.add(
+      this.facade.retrievePassword(email, window.location.origin).subscribe({
+        next: (res) => {
+          this._messageService.add({
+            key: 'notification',
+            severity: 'success',
+            summary: 'Success!',
+            detail: res.message,
+            icon: 'fa-solid fa-check',
+          });
+        },
+
+        error: (error) => {
+          this._messageService.add({
+            key: 'notification',
+            severity: 'error',
+            summary: 'An error has occurred!',
+            detail: error.error.error,
+            icon: 'fa-solid fa-check',
+          });
+        },
+      })
+    );
   }
 
   login() {
@@ -56,15 +89,14 @@ export class AuthComponent implements OnInit {
         .pipe(finalize(() => (this.isSubmitting = false)))
         .subscribe({
           next: (user) => {
-            setTimeout(() => this._router.navigate(['/']), 1500);
+            setTimeout(() => this._router.navigate(['/']), 1000);
           },
-          error: () =>
+          error: (error) =>
             this._messageService.add({
               key: 'notification',
               severity: 'error',
-              summary: 'Houve um problema!',
-              detail:
-                'Não foi possível entrar na sua conta. Tente novamente mais tarde.',
+              summary: 'An error has occurred!',
+              detail: error.error.error,
               icon: 'fa-solid fa-check',
             }),
         })
