@@ -1,8 +1,13 @@
 <div>
+  <ng-container *ngIf="isHome">
     <h1>Weekly Planner</h1>
-    <p id="date">{{todayIs}}</p>
-    <div id="actions">
-        <app-actions-planner></app-actions-planner>
-    </div>
+    <h4>Hello, {{ userName[0] }}</h4>
+    <p id="date">{{ todayIs }}</p>
+  </ng-container>
 
+  <i id="home" [routerLink]="['/']" *ngIf="!isHome" class="pi pi-home"></i>
+
+  <div id="actions">
+    <app-actions-planner></app-actions-planner>
+  </div>
 </div>

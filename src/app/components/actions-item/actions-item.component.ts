@@ -26,7 +26,6 @@ export class ActionsItemComponent implements OnInit {
     public service: ItemsService,
     public facade: ItemsFacade,
     public dialogService: DialogService,
-    private confirmationService: ConfirmationService,
     public themeService: ThemeService
   ) {}
 

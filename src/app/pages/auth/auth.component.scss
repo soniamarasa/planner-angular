@@ -4,7 +4,6 @@
       max-width: 1280px;
       margin: 0 auto;
       min-height: calc(100vh - 59.2px);
-      max-height: calc(100vh - 59.2px);
     }
 
     h1 {
@@ -118,10 +117,51 @@
       }
     }
 
-    @media (max-width: 768px) {
+    @media (max-width: 767px) {
+      .img {
+        display: none;
+      }
+
+      .grid {
+        margin: 0;
+      }
+
+      .container-img p {
+        margin: 0;
+      }
+
+      .container-auth {
+        padding: 0 1rem;
+      }
     }
 
-    @media (min-width: 768px) {
+    @media (min-width: 768px) and (max-width: 992px) {
+      .img {
+        max-height: 400px;
+        min-height: 400px;
+        h2 {
+          width: 300px;
+        }
+
+        & img {
+          max-height: inherit;
+          width:  calc(450px - 100px);
+          opacity: 0.7;
+        }
+      }
+    }
+
+  //   [_nghost-uri-c89]     .img img {
+  //     max-height: inherit;
+  //     width: calc(500px - 0.4vw);
+  //     opacity: 0.7;
+  // }
+
+
+    @media only screen and (max-width: 600px) {
+      // div.example {
+      //   font-size: 30px;
+      // }
     }
   }
 }

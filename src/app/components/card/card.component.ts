@@ -22,8 +22,6 @@ export class CardComponent implements OnInit {
 
   ngOnInit(): void {
     this.day = this.day?.toLowerCase();
-
     this.weekDay = this.date.wD.toLowerCase();
-    // console.log(this.day, this.weekDay);
   }
 }

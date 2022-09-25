@@ -39,6 +39,15 @@ export class AccountComponent implements OnInit {
     private customValidator: CustomvalidationService,
     private facade: UserFacade
   ) {
+ 
+
+    this.gender = [
+      { name: 'Female', code: 'female' },
+      { name: 'Male', code: 'male' },
+    ];
+  }
+
+  ngOnInit(): void {
     this.facade.getUser().subscribe((user) => {
       this.user = user;
       this.setForms(this.user);
@@ -48,14 +57,7 @@ export class AccountComponent implements OnInit {
         () => (this.showBtnFormPass = true)
       );
     });
-
-    this.gender = [
-      { name: 'Female', code: 'female' },
-      { name: 'Male', code: 'male' },
-    ];
   }
-
-  ngOnInit(): void {}
 
   get formControl() {
     return this.form.controls;

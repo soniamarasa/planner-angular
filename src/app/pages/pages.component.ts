@@ -10,10 +10,14 @@ export class PagesComponent {
   title = 'planner-angular';
 
   constructor(public themeService: ThemeService) {
+    window.location.pathname === '/auth';
+
     if (!this.themeService.getTheme()) {
       this.themeService.theme = 'theme01';
     } else {
-      this.themeService.theme = this.themeService.getTheme();
+      window.location.pathname === '/auth'
+        ? (this.themeService.theme = 'theme01')
+        : (this.themeService.theme = this.themeService.getTheme());
     }
   }
 }

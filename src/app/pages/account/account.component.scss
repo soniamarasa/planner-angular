@@ -3,12 +3,12 @@
     .container-register {
       width: 100%;
       min-height: calc(100vh - 59.2px);
-      max-height: calc(100vh - 59.2px);
     }
 
-    .grid {
+    .container-grid {
       max-width: 900px;
       margin: 0 auto;
+      padding: 0 1rem;
     }
 
     h1 {
@@ -25,6 +25,8 @@
     }
 
     .user {
+      display: flex !important;
+      justify-content: center;
       div {
         width: 10rem;
         height: 10rem;
@@ -121,9 +123,25 @@
     }
 
     @media (max-width: 768px) {
+      .user {
+        display: none !important;
+      }
+
+      .p-card .card-body form .field-name .p-inputtext {
+        font-size: 30px;
+      }
+
+      .sm\:col-12 {
+        flex: 0 0 auto;
+        padding: 0 2rem;
+        width: 100%;
+      }
     }
 
-    @media (min-width: 768px) {
+    @media (width: 767px) {
+      .user {
+        display: flex !important;
+      }
     }
   }
 }

@@ -1,10 +1,11 @@
 :host {
   & ::ng-deep {
+   
+
     .container-register {
       max-width: 800px;
       margin: 0 auto;
       min-height: calc(100vh - 59.2px);
-      max-height: calc(100vh - 59.2px);
     }
 
     h1 {
@@ -32,7 +33,7 @@
 
     .p-card {
       padding: 3rem 1.5rem 1.5rem;
-      margin-top: 3rem;
+      margin: 3rem;
       & .card-body {
         display: flex;
         flex-direction: column;

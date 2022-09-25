@@ -19,10 +19,8 @@ import { Item } from '../models/item';
 
 @Injectable()
 export class ItemsFacade {
-
   currentId = null;
-  idUser =  JSON.parse(localStorage.getItem('idUser') as string);
-
+  idUser = JSON.parse(localStorage.getItem('idUser') as string);
 
   public readonly itemsState$ = this.itemsStore.itemsState$;
   public readonly itemSearchState$ = this.itemSearchStore.itemSearchState$;
@@ -128,7 +126,7 @@ export class ItemsFacade {
       newItem.forEach((item: any) => this.itemsStore.pushItem(item));
 
       this.messageService.add({
-        key: 'create',
+        key: 'notification',
         severity: 'success',
         detail: 'Successfully created item',
       });
@@ -148,14 +146,19 @@ export class ItemsFacade {
 
     this.loading.setLoading(true);
     updateItem.subscribe((itemUpdate) => {
-      console.log(itemUpdate);
+      this.currentId = null;
+      this.messageService.add({
+        key: 'notification',
+        severity: 'success',
+        detail: 'Successfully created item',
+      });
       this.itemsStore.replacetItem(itemUpdate);
     });
     return successObservable;
   }
 
   updateStatus(id: string, item: Item) {
-    const updateStatus = this.service.updateStatus(this.idUser,id, item);
+    const updateStatus = this.service.updateStatus(this.idUser, id, item);
 
     const successObservable = updateStatus.pipe(
       map((itemStatusUpdate: any) => (itemStatusUpdate._id ? true : false)),
@@ -180,7 +183,7 @@ export class ItemsFacade {
       .subscribe((data) => {
         this.itemsStore.deleteItem(id);
         this.messageService.add({
-          key: 'delete',
+          key: 'notification',
           severity: 'success',
           detail: 'Successfully deleted item!',
         });

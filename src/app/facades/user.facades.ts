@@ -18,6 +18,7 @@ export class UserFacade {
   readonly authState$ = this.authStore.authState$;
 
   idUser = this.userService.get('idUser');
+  user = this.userService.get('auth')?.user
 
   constructor(private userService: UserService, private authStore: AuthStore) {}
 

@@ -1,10 +1,8 @@
-<p-toast key="notification" position="top-right" styleClass="default"></p-toast>
-
 <div *ngIf="user" class="container-register">
   <h1>My Account</h1>
 
-  <div class="grid">
-    <div class="col-12 sm:col-12 md:col-3 lg:col-3 user">
+  <div class="grid container-grid">
+    <div class="sm:col-2 md:col-3 lg:col-3 user">
       <div>
         <i
           *ngIf="formControl.gender.value === 'female'"
@@ -18,7 +16,7 @@
       </div>
     </div>
 
-    <p-card class="col-12 sm:col-12 md:col-9 lg:col-9">
+    <p-card class="sm:col-12 md:col-9 lg:col-9">
       <div class="card-body">
         <form #form1 [formGroup]="form">
           <div class="col-12">
@@ -43,7 +41,7 @@
             </div>
           </div>
           <div class="col-12">
-            <div class="field">
+            <div class="field grid">
               <input
                 type="email"
                 pInputText

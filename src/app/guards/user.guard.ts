@@ -23,9 +23,11 @@ export class UserGuard implements CanActivate, CanActivateChild {
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
     return (this.isAuthenticated$ as Observable<boolean>).pipe(
-      tap(
-        (isAuthenticated) =>
-          isAuthenticated && this._router.navigate([''])
+      tap((isAuthenticated) =>
+{      console.log(isAuthenticated)
+        isAuthenticated
+          ? this._router.navigate(['/'])
+          : this._router.navigate(['/auth'])}
       )
     );
   }

@@ -30,26 +30,21 @@ const routes: Routes = [
 
   {
     path: 'auth',
-    // canActivate: [UserGuard],
     component: AuthComponent,
   },
   {
     path: 'password-reset/:token',
-    // canActivate: [UserGuard],
+
     component: PasswordRecoverComponent,
   },
   {
     path: 'signup',
-     // canActivate: [UserGuard],
+
     component: RegistrationComponent,
   },
   {
-    path: 'password',
-    component: PasswordRecoverComponent,
-  },
-  {
     path: '**',
-    component: NotFoundComponent
+    component: NotFoundComponent,
   },
 ];
 

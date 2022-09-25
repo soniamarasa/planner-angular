@@ -36,9 +36,15 @@
     }
 
     h2 {
-      margin:2rem 0 0;
-
+      margin: 2rem 0 0;
       text-align: center;
+      color: #eec41e !important;
+    }
+
+    h3 {
+      padding-top: 2rem;
+      cursor: pointer;
+      color: #c49877 !important;
     }
   }
 }

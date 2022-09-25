@@ -44,7 +44,7 @@ import { CardComponent } from '../components/card/card.component';
 import { ChartComponent } from '../components/chart/chart.component';
 import { ActionsPlannerComponent } from '../components/actions-planner/actions-planner.component';
 import { ActionsItemComponent } from '../components/actions-item/actions-item.component';
-import { DialogComponent } from '../components/dialog/dialog.component';
+
 import { FormDialogComponent } from '../components/form-dialog/form-dialog.component';
 import { EditFormComponent } from '../components/edit-form/edit-form.component';
 import { ItemsStore } from '../stores/items.store';
@@ -69,7 +69,6 @@ import { UserFacade } from '../facades/user.facades';
 
     CardComponent,
     ChartComponent,
-    DialogComponent,
     ActionsPlannerComponent,
     ActionsItemComponent,
     FormDialogComponent,
@@ -106,7 +105,7 @@ import { UserFacade } from '../facades/user.facades';
     ItemSearchStore,
     ItemsService,
     DateService,
-    ThemeService,
+    // ThemeService,
     
     DialogService,
     ConfirmationService,

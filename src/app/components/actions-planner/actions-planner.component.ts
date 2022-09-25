@@ -162,7 +162,6 @@ export class ActionsPlannerComponent implements OnInit {
   }
 
   changeTheme(e: any): any {
-    console.log(e);
     this.themeService.theme = e;
     this.themeService.setTheme(this.themeService.theme);
   }

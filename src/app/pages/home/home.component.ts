@@ -11,16 +11,13 @@ import { ItemsService } from 'src/app/services/items.service';
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit {
-  weekDay: any
+  weekDay: any;
 
   public items$: Observable<Item[]> | undefined;
 
-  constructor(public facade: ItemsFacade, public date: DateService) {
-  }
+  constructor(public facade: ItemsFacade, public date: DateService) {}
 
   ngOnInit(): any {
     this.weekDay = this.date.weekDay.toLowerCase();
-    // this.facade.getAllItems();
   }
-  
 }

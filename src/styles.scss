@@ -11,6 +11,7 @@
 body {
   margin: 0;
   height: 100%;
+  min-width: 500px !important;
   font-family: "Itim", cursive !important;
 }
 
@@ -25,7 +26,9 @@ a {
   }
 }
 
-.p-component {
+.p-component,
+.p-datepicker .p-datepicker-header .p-datepicker-title .p-datepicker-month,
+.p-datepicker .p-datepicker-header .p-datepicker-title .p-datepicker-year {
   font-family: "Itim", cursive !important;
 }
 
@@ -165,6 +168,7 @@ h3 {
 
   h2,
   a,
+  #home,
   .p-datepicker .p-datepicker-header .p-datepicker-title .p-datepicker-month,
   .p-datepicker .p-datepicker-header .p-datepicker-title .p-datepicker-year,
   .p-dialog-title,
@@ -465,3 +469,22 @@ h3 {
     width: 100% !important;
   }
 }
+
+.p-button.p-button-raised {
+  box-shadow: 0 0 transparent;
+}
+
+.p-inputtext:enabled:focus {
+   box-shadow: 0 0 0 0 transparent; 
+   border-color: transparent; 
+}
+
+.p-inputtext:enabled:hover, .p-checkbox:not(.p-checkbox-disabled) .p-checkbox-box:hover {
+  border-color: rgba(0, 0, 0, 0.08);
+}
+
+.p-dialog .p-dialog-content {
+	padding: 0 1.5rem 1.5rem;
+  overflow-y: inherit;
+}
+

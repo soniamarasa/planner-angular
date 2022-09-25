@@ -1,13 +1,13 @@
 <div class="acoes">
-    <i class="pi pi-check-square" id="complete" title="Completa"
+    <i class="pi pi-check-square" id="complete" pTooltip="Finished"
         (click)="facade.actionsControl(id,'finished', where, finished); $event.stopPropagation()"></i>
-    <i class="pi pi-play" id="started" title="Iniciada"
+    <i class="pi pi-play" id="started" pTooltip="Started"
         (click)="facade.actionsControl(id,'started', where, started); $event.stopPropagation()"></i>
-    <i class="pi pi-pencil" id="edit" title="Editar" (click)="editDialog(); $event.stopPropagation()" ></i>
-    <i class="pi pi-exclamation-triangle" id="important" title="Importante"
+    <i class="pi pi-pencil" id="edit" pTooltip="Edit" (click)="editDialog(); $event.stopPropagation()" ></i>
+    <i class="pi pi-exclamation-triangle" id="important" pTooltip="Important"
         (click)="facade.actionsControl(id,'important', where, important); $event.stopPropagation()"></i>
-    <i class="pi pi-times" title="Cancelada" id="canceled"
+    <i class="pi pi-times" pTooltip="Canceled" id="canceled"
         (click)="facade.actionsControl(id,'canceled', where, canceled); $event.stopPropagation()"></i>
-    <i class="pi pi-trash" id="delete" title="Deletar"
+    <i class="pi pi-trash" id="delete" pTooltip="Delete"
         (click)="facade.actionsControl(id, 'delete', where, null); $event.stopPropagation()"></i>
 </div>
