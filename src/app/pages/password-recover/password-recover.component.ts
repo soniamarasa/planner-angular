@@ -30,8 +30,13 @@ export class PasswordRecoverComponent implements OnInit {
     private customValidator: CustomvalidationService,
     private facade: UserFacade
   ) {
-    this.createForm();
+    this.subs.add(
+      this.facade.authState$.subscribe(
+        ({ isAuthenticated }) => isAuthenticated && this._router.navigate(['/'])
+      )
+    );
 
+    this.createForm();
     this.token = this._route.snapshot.params['token'];
   }
 

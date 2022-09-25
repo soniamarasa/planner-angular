@@ -98,7 +98,6 @@ export class FormDialogComponent implements OnInit {
         summary: 'Empty fields!',
         detail: 'Type, description and checkbox are required!',
       });
-      console.log('form vazio');
       return false;
     } else {
       return true;

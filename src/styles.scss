@@ -44,7 +44,7 @@ h1 {
 }
 
 h2 {
-  font-size: 2rem;
+  font-size: 1.8rem;
 }
 
 h3 {
@@ -138,7 +138,7 @@ h3 {
 .p-datepicker table td.p-datepicker-today > span.p-highlight,
 .p-datepicker table td > span.p-highlight {
   background: transparent;
-  color: green;
+  color: var(--primary-color);
 }
 
 .p-datepicker .p-datepicker-header .p-datepicker-prev:enabled:hover,
@@ -151,9 +151,50 @@ h3 {
   background: none;
 }
 
+.p-datepicker table td > span:focus {
+  box-shadow: 0 0 0 0 transparent;
+}
+
+.p-datepicker
+  .p-datepicker-header
+  .p-datepicker-title
+  .p-datepicker-year:enabled:hover,
+.p-datepicker
+  .p-datepicker-header
+  .p-datepicker-title
+  .p-datepicker-month:enabled:hover {
+  color: inherit;
+  opacity: 0.8;
+}
+
+.p-link:focus {
+  box-shadow: 0 0 0 0 transparent;
+}
+
+.p-datepicker .p-datepicker-header .p-datepicker-prev:focus,
+.p-datepicker .p-datepicker-header .p-datepicker-next:focus {
+  box-shadow: 0 0 0 0 transparent;
+}
+
+.p-datepicker:not(.p-disabled) {
+  .p-monthpicker .p-monthpicker-month:not(.p-disabled):focus,
+  .p-yearpicker .p-yearpicker-year:not(.p-disabled):focus {
+    box-shadow: 0 0 0 0 transparent;
+  }
+}
+
+.p-datepicker {
+  .p-monthpicker,
+  .p-yearpicker {
+    margin: 0.8rem;
+  }
+}
+
 // TEMAS
 .theme01 {
   background-color: #f2ebe1;
+  color: #979797 !important;
+
   #date {
     color: #969594;
   }
@@ -161,6 +202,7 @@ h3 {
   .p-dialog-header,
   .p-dialog-content,
   .p-dialog-footer,
+  .p-calendar .p-datepicker, .p-datepicker:not(.p-datepicker-inline) .p-datepicker-header,
   footer {
     background: #faf7f3 !important;
     color: #979797 !important;
@@ -185,20 +227,24 @@ h3 {
 
 .theme02 {
   background-color: #eeeeee;
+  color: #91796d;
 
   #date,
   .p-dialog-title {
-    color: #000000;
+    color: #91796d;
   }
   .p-card,
   .p-dialog-header,
   .p-dialog-content,
+  .p-calendar .p-datepicker, .p-datepicker:not(.p-datepicker-inline) .p-datepicker-header,
   .p-dialog-footer {
     background-color: #f8f8f8;
     color: #91796d;
   }
   h2,
-  .p-datepicker-title {
+  .p-datepicker-title,
+  .p-datepicker .p-datepicker-header .p-datepicker-title .p-datepicker-month,
+  .p-datepicker .p-datepicker-header .p-datepicker-title .p-datepicker-year {
     color: #29d398;
   }
   h1,
@@ -215,6 +261,7 @@ h3 {
 
 .theme03 {
   background-color: #7e7868;
+  color: #dbc3a7;
 
   #date,
   h3,
@@ -228,12 +275,15 @@ h3 {
   .p-dialog-header,
   .p-dialog-content,
   .p-dialog-footer,
+  .p-calendar .p-datepicker, .p-datepicker:not(.p-datepicker-inline) .p-datepicker-header,
   footer {
     background-color: #dbc3a7 !important;
     color: #7e7868 !important;
   }
   h2,
   footer a,
+  .p-datepicker .p-datepicker-header .p-datepicker-title .p-datepicker-month,
+  .p-datepicker .p-datepicker-header .p-datepicker-title .p-datepicker-year,
   .p-datepicker-title {
     color: #7e8b79 !important;
   }
@@ -245,6 +295,7 @@ h3 {
 
 .theme04 {
   background-color: #212529;
+  color: #d4be8a !important;
 
   #date,
   h3,
@@ -257,11 +308,14 @@ h3 {
   .p-dialog-header,
   .p-dialog-content,
   .p-dialog-footer,
+  .p-calendar .p-datepicker, .p-datepicker:not(.p-datepicker-inline) .p-datepicker-header,
   footer {
     background-color: #312f2e !important;
     color: #d4be8a !important;
   }
   h2,
+  .p-datepicker .p-datepicker-header .p-datepicker-title .p-datepicker-month,
+  .p-datepicker .p-datepicker-header .p-datepicker-title .p-datepicker-year,
   .p-datepicker-title {
     color: #5c997c;
   }
@@ -275,6 +329,7 @@ h3 {
 
 .theme05 {
   background-color: #1c1e26;
+  color: #bbbbbb;
 
   #date,
   .p-dialog-title,
@@ -286,12 +341,15 @@ h3 {
   .p-dialog-header,
   .p-dialog-content,
   .p-dialog-footer,
+  .p-calendar .p-datepicker, .p-datepicker:not(.p-datepicker-inline) .p-datepicker-header,
   footer {
     background-color: #22232e;
     color: #bbbbbb;
   }
 
   h2,
+  .p-datepicker .p-datepicker-header .p-datepicker-title .p-datepicker-month,
+  .p-datepicker .p-datepicker-header .p-datepicker-title .p-datepicker-year,
   .p-datepicker-title {
     color: #d55170;
   }
@@ -305,6 +363,7 @@ h3 {
 
 .theme06 {
   background-color: #221d0d;
+  color: #cd996a;
 
   #date,
   .p-dialog-title {
@@ -315,12 +374,15 @@ h3 {
   .p-dialog-header,
   .p-dialog-content,
   .p-dialog-footer,
-  footer {
-    background-color: #3b341c;
+  footer,
+  .p-calendar .p-datepicker, .p-datepicker:not(.p-datepicker-inline) .p-datepicker-header {
+    background-color: #45351d;
     color: #cd996a;
   }
 
   h2,
+  .p-datepicker .p-datepicker-header .p-datepicker-title .p-datepicker-month,
+  .p-datepicker .p-datepicker-header .p-datepicker-title .p-datepicker-year,
   .p-datepicker-title {
     color: #f1de9f;
   }
@@ -461,7 +523,6 @@ h3 {
   height: min-content !important;
 }
 
-
 .p-password {
   width: 100%;
 
@@ -475,16 +536,16 @@ h3 {
 }
 
 .p-inputtext:enabled:focus {
-   box-shadow: 0 0 0 0 transparent; 
-   border-color: transparent; 
+  box-shadow: 0 0 0 0 transparent;
+  border-color: transparent;
 }
 
-.p-inputtext:enabled:hover, .p-checkbox:not(.p-checkbox-disabled) .p-checkbox-box:hover {
+.p-inputtext:enabled:hover,
+.p-checkbox:not(.p-checkbox-disabled) .p-checkbox-box:hover {
   border-color: rgba(0, 0, 0, 0.08);
 }
 
 .p-dialog .p-dialog-content {
-	padding: 0 1.5rem 1.5rem;
+  padding: 0 1.5rem 1.5rem;
   overflow-y: inherit;
 }
-

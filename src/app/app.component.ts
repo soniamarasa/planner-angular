@@ -13,7 +13,7 @@ export class AppComponent {
     if (!this.themeService.getTheme()) {
       this.themeService.theme = 'theme01';
     } else {
-      window.location.pathname !== '/' || window.location.pathname !== "'/account'"
+      window.location.pathname === '' || window.location.pathname === '/account'
         ? (this.themeService.theme = this.themeService.getTheme())
         : (this.themeService.theme = 'theme01');
     }

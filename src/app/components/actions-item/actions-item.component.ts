@@ -5,6 +5,7 @@ import { ThemeService } from 'src/app/services/theme.service';
 import { ItemsService } from 'src/app/services/items.service';
 import { ItemsFacade } from 'src/app/facades/items.facade';
 import { EditFormComponent } from '../edit-form/edit-form.component';
+import { Item } from 'src/app/models/item';
 
 @Component({
   selector: 'app-actions-item',
@@ -12,15 +13,7 @@ import { EditFormComponent } from '../edit-form/edit-form.component';
   styleUrls: ['./actions-item.component.scss'],
 })
 export class ActionsItemComponent implements OnInit {
-  @Input() type!: any;
-  @Input() description!: any;
-  @Input() obs!: any;
-  @Input() where: any;
-  @Input() id: any;
-  @Input() finished!: boolean;
-  @Input() started!: boolean;
-  @Input() canceled!: boolean;
-  @Input() important!: boolean;
+  @Input() item!: Item;
 
   constructor(
     public service: ItemsService,
@@ -32,13 +25,7 @@ export class ActionsItemComponent implements OnInit {
   ngOnInit(): void {}
 
   editDialog() {
-    const initialState = {
-      _id: this.id,
-      type: this.type,
-      description: this.description,
-      obs: this.obs,
-      where: this.where,
-    };
+    const initialState = this.item;
 
     let dialog = { component: EditFormComponent, title: 'Edit Item' };
 

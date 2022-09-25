@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { SubSink } from 'subsink';
 import { MessageService } from 'primeng/api';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
@@ -28,6 +28,12 @@ export class AuthComponent implements OnInit {
     private _messageService: MessageService,
     private facade: UserFacade
   ) {
+    this.subs.add(
+      this.facade.authState$.subscribe(
+        ({ isAuthenticated }) => isAuthenticated && this._router.navigate(['/'])
+      )
+    );
+
     this.createForm();
   }
 

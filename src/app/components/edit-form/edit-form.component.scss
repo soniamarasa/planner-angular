@@ -36,3 +36,13 @@ form {
       justify-content: flex-end;
       margin-top: 10px;
   }
+
+  .p-button {
+    background-color: #eec41e;
+    border-color: #eec41e;
+  
+    &:hover {
+      background-color: #ddb517 !important;
+      border-color: #ddb517 !important;
+    }
+  }

@@ -2,7 +2,7 @@
   & ::ng-deep {
     min-width: 500px;
     .container-cards {
-      margin: 10px 20px 0;
+      margin: 3rem;
       min-height: calc(100vh - 176.8px);
       height: max-content;
     }
@@ -24,6 +24,13 @@
         display: flex;
         flex-direction: column;
         margin-top: -8px;
+      }
+    }
+
+    @media (min-width: 1500px) {
+      .container-cards {
+        max-width: 1500px;
+        margin: 2rem auto;
       }
     }
   }

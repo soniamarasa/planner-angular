@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from '../guards/auth.guard';
-import { UserGuard } from '../guards/user.guard';
 import { AccountComponent } from './account/account.component';
 import { AuthComponent } from './auth/auth.component';
 import { HomeComponent } from './home/home.component';
@@ -23,6 +22,7 @@ const routes: Routes = [
       },
       {
         path: 'account',
+        title: 'My account',
         component: AccountComponent,
       },
     ],
@@ -34,12 +34,12 @@ const routes: Routes = [
   },
   {
     path: 'password-reset/:token',
-
+    title: 'Password',
     component: PasswordRecoverComponent,
   },
   {
     path: 'signup',
-
+    title: 'Sign up',
     component: RegistrationComponent,
   },
   {

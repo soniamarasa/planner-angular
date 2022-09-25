@@ -39,8 +39,6 @@ export class AccountComponent implements OnInit {
     private customValidator: CustomvalidationService,
     private facade: UserFacade
   ) {
- 
-
     this.gender = [
       { name: 'Female', code: 'female' },
       { name: 'Male', code: 'male' },
@@ -48,15 +46,17 @@ export class AccountComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.facade.getUser().subscribe((user) => {
-      this.user = user;
-      this.setForms(this.user);
+    this.subs.add(
+      this.facade.getUser().subscribe((user) => {
+        this.user = user;
+        this.setForms(this.user);
 
-      this.form.statusChanges.subscribe(() => (this.showBtnForm = true));
-      this.formPassword.statusChanges.subscribe(
-        () => (this.showBtnFormPass = true)
-      );
-    });
+        this.form.statusChanges.subscribe(() => (this.showBtnForm = true));
+        this.formPassword.statusChanges.subscribe(
+          () => (this.showBtnFormPass = true)
+        );
+      })
+    );
   }
 
   get formControl() {
