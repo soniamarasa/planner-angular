@@ -54,7 +54,6 @@ export class AuthStore {
     this.userService.remove('auth');
     this.userService.remove('idUser');
 
-    location.reload()
 
     return this._authState.asObservable();
   }

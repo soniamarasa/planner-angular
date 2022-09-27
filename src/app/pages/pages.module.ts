@@ -42,6 +42,7 @@ import { FooterComponent } from '../components/footer/footer.component';
 
 import { CardComponent } from '../components/card/card.component';
 import { ChartComponent } from '../components/chart/chart.component';
+import { UserImgComponent } from '../components/user-img/user-img.component';
 import { ActionsPlannerComponent } from '../components/actions-planner/actions-planner.component';
 import { ActionsItemComponent } from '../components/actions-item/actions-item.component';
 
@@ -69,6 +70,7 @@ import { UserFacade } from '../facades/user.facades';
 
     CardComponent,
     ChartComponent,
+    UserImgComponent,
     ActionsPlannerComponent,
     ActionsItemComponent,
     FormDialogComponent,

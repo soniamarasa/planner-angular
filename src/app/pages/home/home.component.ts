@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 import { ItemsFacade } from 'src/app/facades/items.facade';
 import { Item } from 'src/app/models/item';
 import { DateService } from 'src/app/services/date.service';
-import { ItemsService } from 'src/app/services/items.service';
+import { UserFacade } from '../../facades/user.facades';
 
 @Component({
   selector: 'app-home',
@@ -15,7 +15,11 @@ export class HomeComponent implements OnInit {
 
   public items$: Observable<Item[]> | undefined;
 
-  constructor(public facade: ItemsFacade, public date: DateService) {}
+  constructor(
+    public facade: ItemsFacade,
+    public date: DateService,
+    private userFacade: UserFacade
+  ) {}
 
   ngOnInit(): any {
     this.weekDay = this.date.weekDay.toLowerCase();

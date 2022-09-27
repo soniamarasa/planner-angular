@@ -12,7 +12,7 @@ export class HeaderComponent implements OnInit {
   todayIs: any;
   user = this.userFacade?.user;
   isHome = window.location.pathname === '/' ? true : false
-  userName = this.user.name.split(' ');
+  userName = this.user?.name?.split(' ');
 
   constructor(
     private _route: ActivatedRoute,

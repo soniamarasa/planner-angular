@@ -8,10 +8,14 @@
   --tertiary-color: #f52d55;
 }
 
+html {
+  width: 100%;
+  overflow-x: hidden;
+}
+
 body {
   margin: 0;
   height: 100%;
-  min-width: 500px !important;
   font-family: "Itim", cursive !important;
 }
 
@@ -89,6 +93,8 @@ h3 {
 .p-speeddial {
   z-index: 2 !important;
 }
+
+
 
 //Calendar Configs
 
@@ -190,6 +196,12 @@ h3 {
   }
 }
 
+.p-datepicker .p-datepicker-header .p-datepicker-title {
+  line-height: 1rem;
+  display: flex;
+}
+
+
 // TEMAS
 .theme01 {
   background-color: #f2ebe1;
@@ -202,7 +214,8 @@ h3 {
   .p-dialog-header,
   .p-dialog-content,
   .p-dialog-footer,
-  .p-calendar .p-datepicker, .p-datepicker:not(.p-datepicker-inline) .p-datepicker-header,
+  .p-calendar .p-datepicker,
+  .p-datepicker:not(.p-datepicker-inline) .p-datepicker-header,
   footer {
     background: #faf7f3 !important;
     color: #979797 !important;
@@ -236,7 +249,8 @@ h3 {
   .p-card,
   .p-dialog-header,
   .p-dialog-content,
-  .p-calendar .p-datepicker, .p-datepicker:not(.p-datepicker-inline) .p-datepicker-header,
+  .p-calendar .p-datepicker,
+  .p-datepicker:not(.p-datepicker-inline) .p-datepicker-header,
   .p-dialog-footer {
     background-color: #f8f8f8;
     color: #91796d;
@@ -275,7 +289,8 @@ h3 {
   .p-dialog-header,
   .p-dialog-content,
   .p-dialog-footer,
-  .p-calendar .p-datepicker, .p-datepicker:not(.p-datepicker-inline) .p-datepicker-header,
+  .p-calendar .p-datepicker,
+  .p-datepicker:not(.p-datepicker-inline) .p-datepicker-header,
   footer {
     background-color: #dbc3a7 !important;
     color: #7e7868 !important;
@@ -308,7 +323,8 @@ h3 {
   .p-dialog-header,
   .p-dialog-content,
   .p-dialog-footer,
-  .p-calendar .p-datepicker, .p-datepicker:not(.p-datepicker-inline) .p-datepicker-header,
+  .p-calendar .p-datepicker,
+  .p-datepicker:not(.p-datepicker-inline) .p-datepicker-header,
   footer {
     background-color: #312f2e !important;
     color: #d4be8a !important;
@@ -341,7 +357,8 @@ h3 {
   .p-dialog-header,
   .p-dialog-content,
   .p-dialog-footer,
-  .p-calendar .p-datepicker, .p-datepicker:not(.p-datepicker-inline) .p-datepicker-header,
+  .p-calendar .p-datepicker,
+  .p-datepicker:not(.p-datepicker-inline) .p-datepicker-header,
   footer {
     background-color: #22232e;
     color: #bbbbbb;
@@ -375,7 +392,8 @@ h3 {
   .p-dialog-content,
   .p-dialog-footer,
   footer,
-  .p-calendar .p-datepicker, .p-datepicker:not(.p-datepicker-inline) .p-datepicker-header {
+  .p-calendar .p-datepicker,
+  .p-datepicker:not(.p-datepicker-inline) .p-datepicker-header {
     background-color: #45351d;
     color: #cd996a;
   }
@@ -545,7 +563,11 @@ h3 {
   border-color: rgba(0, 0, 0, 0.08);
 }
 
+.p-dialog {
+  max-width: 90%;
+}
+
 .p-dialog .p-dialog-content {
-  padding: 0 1.5rem 1.5rem;
+  padding: 1rem 1.5rem 1.5rem;
   overflow-y: inherit;
 }

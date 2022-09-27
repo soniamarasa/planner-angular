@@ -7,18 +7,7 @@
     <p-card class="col-12">
       <div class="card-body">
         <div class="user">
-          <i
-            *ngIf="formControl.gender.value === 'female'"
-            class="fa-solid fa-person-dress"
-          ></i>
-          <i
-            *ngIf="formControl.gender.value === 'male'"
-            class="fa-solid fa-person"
-          ></i>
-          <i
-            *ngIf="formControl.gender.value === ''"
-            class="fa-solid fa-user"
-          ></i>
+          <app-user-img [gender]="formControl.gender.value"> </app-user-img>
         </div>
 
         <form [formGroup]="form">
@@ -245,7 +234,6 @@
     <div class="logo" [routerLink]="['/']">
       <h3>Weekly Planner</h3>
     </div>
-    
   </div>
 </div>
 <app-footer></app-footer>

@@ -202,8 +202,7 @@ export class ItemsFacade {
       .subscribe((data) => {
         this.itemsStore.reset();
       });
-    localStorage.clear();
-    this.themeService.theme = 'theme01';
+
     return sucessDelete;
   }
 }

@@ -1,6 +1,7 @@
 :host {
   & ::ng-deep {
     min-width: 500px;
+
     .container-cards {
       margin: 3rem;
       min-height: calc(100vh - 176.8px);
@@ -12,6 +13,10 @@
     }
 
     @media (max-width: 768px) {
+      .container-cards {
+        margin: 1rem;
+      }
+
       .col-calend {
         display: flex;
         flex-direction: column-reverse;
@@ -30,7 +35,7 @@
     @media (min-width: 1500px) {
       .container-cards {
         max-width: 1500px;
-        margin: 2rem auto;
+        margin: 3rem auto;
       }
     }
   }

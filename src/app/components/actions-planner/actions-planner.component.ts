@@ -32,7 +32,7 @@ export class ActionsPlannerComponent implements OnInit {
     private _messageService: MessageService,
     private _router: Router,
     private facade: ItemsFacade,
-    private userFacade : UserFacade,
+    private userFacade: UserFacade,
     private itemService: ItemsService,
     public themeService: ThemeService
   ) {
@@ -115,7 +115,7 @@ export class ActionsPlannerComponent implements OnInit {
         },
         icon: 'pi pi-user',
         command: () => {
-          this._router.navigate(['/account'])
+          this._router.navigate(['/account']);
         },
       },
       {
@@ -135,7 +135,7 @@ export class ActionsPlannerComponent implements OnInit {
         },
         icon: 'pi pi-sign-out',
         command: () => {
-          this.logout()
+          this.logout();
         },
       },
     ];
@@ -143,21 +143,20 @@ export class ActionsPlannerComponent implements OnInit {
 
   logout() {
     this.subs.add(
-      this.userFacade
-        .logout().subscribe({
-          next: () => {
-            setTimeout(() => this._router.navigate(['/auth']), 1000);
-          },
-          error: () =>
-            this._messageService.add({
-              key: 'notification',
-              severity: 'error',
-              summary: 'Houve um problema!',
-              detail:
-                'Nao foi possivel sair da sua conta.',
-              icon: 'fa-solid fa-check',
-            }),
-        })
+      this.userFacade.logout().subscribe({
+        next: () => {
+          this.themeService.theme = 'theme01';
+          this._router.navigate(['/auth']);
+        },
+        error: () =>
+          this._messageService.add({
+            key: 'notification',
+            severity: 'error',
+            summary: 'Houve um problema!',
+            detail: 'Nao foi possivel sair da sua conta.',
+            icon: 'fa-solid fa-check',
+          }),
+      })
     );
   }
 

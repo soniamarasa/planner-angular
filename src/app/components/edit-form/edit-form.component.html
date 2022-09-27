@@ -1,27 +1,52 @@
 <form [formGroup]="form">
-    <div class="row01">
-        <p-dropdown [options]="type" placeholder="Type" optionLabel="name" optionValue="code" formControlName="type">
-        </p-dropdown>
+  <div class="row01">
+    <p-dropdown
+      [options]="type"
+      placeholder="Type"
+      optionLabel="name"
+      optionValue="code"
+      formControlName="type"
+    >
+    </p-dropdown>
 
-        <p-dropdown [options]="box" placeholder="Where?" optionLabel="name" formControlName="where" optionValue="code">
-        </p-dropdown>
-    </div>
+    <p-dropdown
+      [options]="box"
+      placeholder="Where?"
+      optionLabel="name"
+      formControlName="where"
+      optionValue="code"
+    >
+    </p-dropdown>
+  </div>
 
-    <input type="text" pInputText class="p-inputtext p-inputtext-md" formControlName="description"
-        placeholder="Description">
+  <input
+    type="text"
+    pInputText
+    class="p-inputtext p-inputtext-md"
+    formControlName="description"
+    placeholder="Description"
+  />
 
-    <input type="text" formControlName="obs" pInputText class="p-inputtext p-inputtext-md" placeholder="Observation">
+  <input
+    type="text"
+    formControlName="obs"
+    pInputText
+    class="p-inputtext p-inputtext-md"
+    placeholder="Observation"
+  />
 
-    <div class="where-check">
+  <div class="where-check"></div>
 
-    </div>
-
-    <div id="button-div">
-        <button pButton pRipple type="submit" label="Save" (click)="editItem()"
-            class="p-button-raised p-button-success"></button>
-    </div>
-
+  <div id="button-div">
+    <button
+      pButton
+      pRipple
+      type="submit"
+      label="Save"
+      (click)="editItem()"
+      class="p-button-raised p-button-success"
+    ></button>
+  </div>
 </form>
-
 
 <p-toast position="bottom-center"></p-toast>

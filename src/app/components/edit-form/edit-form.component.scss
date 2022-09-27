@@ -1,48 +1,55 @@
 form {
-    width: 500px;
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-  }
-  
-  .p-multiselect-label-container {
-    width: 200px !important;
-  }
-  
-  form .row01{
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 10px;
-  }
-  
-  
-  .where-check {
-    display: flex;
-    justify-content: space-between;
-  }
-  
-  .where-check div label {
-   margin-left: 5px;
-  }
-  
-  
-  .p-button.p-button-success, .p-buttonset.p-button-success  {
-      width: max-content;
-    
-  }
-  
-  #button-div {
-      display: flex;
-      justify-content: flex-end;
-      margin-top: 10px;
-  }
+  width: 500px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
 
-  .p-button {
-    background-color: #eec41e;
-    border-color: #eec41e;
-  
-    &:hover {
-      background-color: #ddb517 !important;
-      border-color: #ddb517 !important;
+.p-multiselect-label-container {
+  width: 200px !important;
+}
+
+form .row01 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+
+.where-check {
+  display: flex;
+  justify-content: space-between;
+}
+
+.where-check div label {
+  margin-left: 5px;
+}
+
+.p-button.p-button-success,
+.p-buttonset.p-button-success {
+  width: max-content;
+}
+
+#button-div {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 10px;
+}
+
+.p-button {
+  background-color: #eec41e;
+  border-color: #eec41e;
+
+  &:hover {
+    background-color: #ddb517 !important;
+    border-color: #ddb517 !important;
+  }
+}
+
+@media (max-width: 600px) {
+  form {
+    width: 70vw;
+    div {
+      grid-template-columns: repeat(1, 1fr);
     }
   }
+}

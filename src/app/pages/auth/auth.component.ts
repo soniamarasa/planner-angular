@@ -28,6 +28,7 @@ export class AuthComponent implements OnInit {
     private _messageService: MessageService,
     private facade: UserFacade
   ) {
+    
     this.subs.add(
       this.facade.authState$.subscribe(
         ({ isAuthenticated }) => isAuthenticated && this._router.navigate(['/'])
@@ -48,7 +49,7 @@ export class AuthComponent implements OnInit {
 
   openDialogRecover() {
     const ref = this._dialogService.open(RecoverDialogComponent, {
-      width: '500px',
+      header: 'Forgot your password?'
     });
 
     this.subs.add(

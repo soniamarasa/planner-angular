@@ -59,11 +59,13 @@ export class TokenInterceptor implements HttpInterceptor {
 
     return next.handle(request).pipe(
       catchError((error: any) => {
-        if (error instanceof HttpErrorResponse)
+        if (error instanceof HttpErrorResponse) {
           if (error.status === 401) {
-            this.facade.logout();
-            this._router.navigate(['auth']);
+            this.facade.logout().subscribe(() => {
+              this._router.navigate(['/auth']);
+            });
           }
+        }
 
         return throwError(() => error);
       })
@@ -83,11 +85,12 @@ export class TokenInterceptor implements HttpInterceptor {
         next.handle(request).subscribe({
           next: (event) => observer.next(event),
           error: (error) => {
-            if (error instanceof HttpErrorResponse)
+            if (error instanceof HttpErrorResponse) {
               if (error.status === 401) {
                 this.facade.logout();
                 this._router.navigate(['/auth']);
               }
+            }
 
             return observer.error(error);
           },

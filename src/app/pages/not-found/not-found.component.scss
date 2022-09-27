@@ -1,13 +1,15 @@
 :host {
   & ::ng-deep {
     .container-not-found {
-      min-height: calc(100vh - 59.2px);
-      max-height: calc(100vh - 59.2px);
+      min-height: calc(100vh - 0px);
+      max-height: calc(100vh - 0px);
       background-color: white !important;
+      overflow-x: hidden;
 
       .container-div {
         margin: 3rem auto;
-        width: 800px;
+        width: 75%;
+        max-width: 800px;
         display: flex;
         flex-direction: column;
         justify-content: center;

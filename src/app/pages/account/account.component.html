@@ -3,17 +3,7 @@
 
   <div class="grid container-grid">
     <div class="sm:col-2 md:col-3 lg:col-3 user">
-      <div>
-        <i
-          *ngIf="formControl.gender.value === 'female'"
-          class="fa-solid fa-person-dress"
-        ></i>
-        <i
-          *ngIf="formControl.gender.value === 'male'"
-          class="fa-solid fa-person"
-        ></i>
-        <i *ngIf="formControl.gender.value === ''" class="fa-solid fa-user"></i>
-      </div>
+      <app-user-img [gender]="formControl.gender.value"> </app-user-img>
     </div>
 
     <p-card class="sm:col-12 md:col-9 lg:col-9">
@@ -21,51 +11,30 @@
         <form #form1 [formGroup]="form">
           <div class="col-12">
             <div class="field field-name">
-              <input
-                type="text"
-                pInputText
-                required
-                class="p-inputtext p-inputtext-md"
-                formControlName="name"
-                placeholder="Type your full name"
-              />
+              <input type="text" pInputText required class="p-inputtext p-inputtext-md" formControlName="name"
+                placeholder="Type your full name" />
 
-              <small
-                class="p-error"
-                *ngIf="
+              <small class="p-error" *ngIf="
                   formControl.name.touched && formControl.name.errors?.required
-                "
-              >
+                ">
                 Name is required
               </small>
             </div>
           </div>
           <div class="col-12">
             <div class="field grid">
-              <input
-                type="email"
-                pInputText
-                required
-                class="p-inputtext p-inputtext-md"
-                formControlName="email"
-                placeholder="Type your e-mail"
-              />
-              <small
-                class="p-error"
-                *ngIf="
+              <input type="email" pInputText required class="p-inputtext p-inputtext-md" formControlName="email"
+                placeholder="Type your e-mail" />
+              <small class="p-error" *ngIf="
                   formControl.email.touched &&
                   formControl.email.errors?.required
-                "
-              >
+                ">
                 E-mail is required
               </small>
 
-              <small
-                class="p-error"
-                *ngIf="
+              <small class="p-error" *ngIf="
                   formControl.email.touched && formControl.email.errors?.email
-                "
-              >
+                ">
                 Enter a valid email address
               </small>
             </div>
@@ -75,20 +44,12 @@
             <div class="col-12 md:col-4">
               <div class="field">
                 <label for="gender" class="block">Gender</label>
-                <p-dropdown
-                  [options]="gender"
-                  placeholder="Select a gender"
-                  optionLabel="name"
-                  optionValue="code"
-                  formControlName="gender"
-                ></p-dropdown>
-                <small
-                  class="p-error"
-                  *ngIf="
+                <p-dropdown [options]="gender" placeholder="Select a gender" optionLabel="name" optionValue="code"
+                  formControlName="gender"></p-dropdown>
+                <small class="p-error" *ngIf="
                     formControl.gender.touched &&
                     formControl.gender.errors?.required
-                  "
-                >
+                  ">
                   Gender is required
                 </small>
               </div>
@@ -97,20 +58,12 @@
             <div class="col-12 md:col-5">
               <div class="field">
                 <label for="birthdate" class="block">Bithdate</label>
-                <p-calendar
-                  formControlName="birthdate"
-                  dateFormat="dd.mm.yy"
-                  [showIcon]="true"
-                  inputId="icon"
-                  placeholder="Select your birthdate"
-                ></p-calendar>
-                <small
-                  class="p-error"
-                  *ngIf="
+                <p-calendar formControlName="birthdate" dateFormat="dd.mm.yy" [showIcon]="true" inputId="icon"
+                  placeholder="Select your birthdate"></p-calendar>
+                <small class="p-error" *ngIf="
                     formControl.birthdate.touched &&
                     formControl.birthdate.errors?.required
-                  "
-                >
+                  ">
                   Birthdate is required
                 </small>
               </div>
@@ -118,12 +71,8 @@
 
             <div class="col-12 md:col-3 button">
               <div class="field">
-                <p-button
-                  *ngIf="showBtnForm"
-                  [disabled]="form.invalid"
-                  (onClick)="submit(1)"
-                  label="Save changes"
-                ></p-button>
+                <p-button *ngIf="showBtnForm" [disabled]="form.invalid" (onClick)="submit(1)" label="Save changes">
+                </p-button>
               </div>
             </div>
           </div>
@@ -135,21 +84,13 @@
             <div class="col-12 md:col-6">
               <div class="field">
                 <label for="oldPassword" class="block">Old Password</label>
-                <p-password
-                  required
-                  formControlName="oldPassword"
-                  placeholder="Type your password"
-                  [feedback]="false"
-                  [toggleMask]="true"
-                  styleClass="p-password p-component p-inputwrapper p-input-icon-right"
-                ></p-password>
-                <small
-                  class="p-error"
-                  *ngIf="
+                <p-password required formControlName="oldPassword" placeholder="Type your password" [feedback]="false"
+                  [toggleMask]="true" styleClass="p-password p-component p-inputwrapper p-input-icon-right">
+                </p-password>
+                <small class="p-error" *ngIf="
                     formPasswordControl.oldPassword.touched &&
                     formPasswordControl.oldPassword.errors?.required
-                  "
-                >
+                  ">
                   Password is required
                 </small>
               </div>
@@ -158,12 +99,8 @@
             <div class="col-12 md:col-6">
               <div class="field">
                 <label for="password" class="block">New Password</label>
-                <p-password
-                  [toggleMask]="true"
-                  formControlName="password"
-                  placeholder="Type your password"
-                  styleClass="p-password p-component p-inputwrapper p-input-icon-right"
-                >
+                <p-password [toggleMask]="true" formControlName="password" placeholder="Type your password"
+                  styleClass="p-password p-component p-inputwrapper p-input-icon-right">
                   <ng-template pTemplate="header">
                     <h6>Pick a password</h6>
                   </ng-template>
@@ -178,13 +115,10 @@
                     </ul>
                   </ng-template>
                 </p-password>
-                <small
-                  class="p-error"
-                  *ngIf="
+                <small class="p-error" *ngIf="
                     formPasswordControl.password.touched &&
                     formPasswordControl.password.errors?.required
-                  "
-                >
+                  ">
                   Password is required
                 </small>
               </div>
@@ -194,36 +128,23 @@
           <div class="grid p-fluid">
             <div class="col-12 md:col-6">
               <div class="field">
-                <label for="confirmPassword" class="block"
-                  >Confirm Password</label
-                >
+                <label for="confirmPassword" class="block">Confirm Password</label>
 
-                <p-password
-                  required
-                  formControlName="confirmPassword"
-                  placeholder="Confirm your password"
-                  [feedback]="false"
-                  [toggleMask]="true"
-                  styleClass="p-password p-component p-inputwrapper p-input-icon-right"
-                ></p-password>
+                <p-password required formControlName="confirmPassword" placeholder="Confirm your password"
+                  [feedback]="false" [toggleMask]="true"
+                  styleClass="p-password p-component p-inputwrapper p-input-icon-right"></p-password>
 
-                <small
-                  class="p-error"
-                  *ngIf="
+                <small class="p-error" *ngIf="
                     formPasswordControl.confirmPassword.touched &&
                     formPasswordControl.confirmPassword.errors?.required
-                  "
-                >
+                  ">
                   Password is required
                 </small>
 
-                <small
-                  class="p-error"
-                  *ngIf="
+                <small class="p-error" *ngIf="
                     formPasswordControl.confirmPassword.touched &&
                     formPasswordControl.confirmPassword.errors?.passwordMismatch
-                  "
-                >
+                  ">
                   Passwords don't match
                 </small>
               </div>
@@ -231,13 +152,8 @@
 
             <div class="col-12 md:col-6 button">
               <div class="field">
-                <p-button
-                  *ngIf="showBtnFormPass"
-                  [disabled]="formPassword.invalid"
-                  (onClick)="submit(2)"
-                  label="Change password"
-                  styleClass="button-login"
-                ></p-button>
+                <p-button *ngIf="showBtnFormPass" [disabled]="formPassword.invalid" (onClick)="submit(2)"
+                  label="Change password" styleClass="button-login"></p-button>
               </div>
             </div>
           </div>
@@ -245,7 +161,8 @@
       </div>
 
       <div class="footer">
-        <p-button *ngIf=" showBtnForm || showBtnFormPass" (onClick)="setForms(user)" label="Reset" styleClass="reset"></p-button>
+        <p-button *ngIf="showBtnForm || showBtnFormPass" (onClick)="setForms(user)" label="Reset" styleClass="reset">
+        </p-button>
       </div>
     </p-card>
   </div>
