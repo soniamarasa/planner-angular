@@ -1,12 +1,46 @@
-div {
-  text-align: center;
-}
+:host {
+  & ::ng-deep {
+    min-width: 500px;
+    div {
+      text-align: center;
+    }
 
-h1,
-#date {
-  margin: 0;
-}
+    h1,
+    #date {
+      margin: 0;
+    }
 
-h1 {
-  padding-top: 20px;
+    h1 {
+      padding-top: 20px;
+    }
+
+    #home,
+    h4 {
+      position: absolute;
+      right: 70px;
+      top: 23px;
+      cursor: pointer;
+      margin: 0;
+    }
+
+    #home {
+      top: 21px;
+      font-size: 1.5rem;
+    }
+
+    i:hover {
+      opacity: 0.7;
+    }
+
+    @media (max-width: 768px) {
+      h4 {
+        display: none;
+      }
+
+      #home {
+        left: 1.5rem;
+        right: unset;
+      }
+    }
+  }
 }

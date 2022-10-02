@@ -1,0 +1,71 @@
+<p-toast key="notification" position="top-right" styleClass="default"></p-toast>
+
+<div class="container-auth">
+  <h1>Weekly Planner</h1>
+
+  <div class="grid">
+    <div class="col-12 sm:col-12 md:col-6 lg:col-8 container-img">
+      <div class="img">
+        <img src="../../../assets/weekly-planner.png" alt="" />
+        <h2>Plan your entire life in one place.</h2>
+      </div>
+      <p>
+        Organize your work, your studies, personal tasks and all the other
+        duties you want.
+      </p>
+    </div>
+
+    <div class="col-12 sm:col-12 md:col-6 lg:col-4 container-login">
+      <p-card>
+        <div class="card-body">
+          <h2>Login</h2>
+
+          <form [formGroup]="form">
+            <div class="field">
+              <label for="email" class="block">E-mail</label>
+              <input
+                type="text"
+                pInputText
+                required
+                class="p-inputtext p-inputtext-md"
+                formControlName="email"
+                placeholder="Type your e-mail"
+              />
+              <small id="username1-help" class="block"
+                >Enter your e-mail.</small
+              >
+            </div>
+
+            <div class="field">
+              <label for="password" class="block">Password</label>
+
+              <p-password
+                required
+                formControlName="password"
+                placeholder="Type your password"
+                [feedback]="false"
+                [toggleMask]="true"
+                styleClass="p-password p-component p-inputwrapper p-input-icon-right"
+              ></p-password>
+              <small id="username1-help" class="block"
+                >Enter your password.</small
+              >
+            </div>
+          </form>
+
+          <p-button (onClick)="login()" label="Sign in"></p-button>
+
+          <span (click)="openDialogRecover()">Forgot password?</span>
+        </div>
+
+        <div class="footer">
+          <p>Don't have an account?</p>
+          <p-button routerLink="/signup" styleClass=" p-button-sm"
+            >Sign up</p-button
+          >
+        </div>
+      </p-card>
+    </div>
+  </div>
+</div>
+<app-footer></app-footer>

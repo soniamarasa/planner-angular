@@ -15,8 +15,9 @@ import {
   FormControl,
   Validators,
 } from '@angular/forms';
-import { ItemsFacade } from 'src/app/facades/items.facade';
+
 import { MessageService } from 'primeng/api';
+import { ItemsFacade } from 'src/app/facades/items.facade';
 
 @Component({
   selector: 'app-form-dialog',
@@ -25,17 +26,18 @@ import { MessageService } from 'primeng/api';
   providers: [MessageService],
 })
 export class FormDialogComponent implements OnInit {
+  @ViewChildren('checkbox') checkboxes!: QueryList<ElementRef>;
+
   form!: FormGroup;
   getWhere: any;
-  @ViewChildren('checkbox') checkboxes!: QueryList<ElementRef>;
   type: Dropdown[];
 
   constructor(
-    public formBuilder: FormBuilder,
-    public ref: DynamicDialogRef,
-    public config: DynamicDialogConfig,
-    private facade: ItemsFacade,
-    private messageService: MessageService
+    public _formBuilder: FormBuilder,
+    public _ref: DynamicDialogRef,
+    public _config: DynamicDialogConfig,
+    private _messageService: MessageService,
+    private facade: ItemsFacade
   ) {
     this.createForm();
 
@@ -51,11 +53,11 @@ export class FormDialogComponent implements OnInit {
   ngOnInit(): void {}
 
   createForm(): any {
-    this.form = this.formBuilder.group({
+    this.form = this._formBuilder.group({
       type: ['', Validators.required],
       description: ['', Validators.required],
       obs: ['', Validators.required],
-      where: this.formBuilder.array([], Validators.required),
+      where: this._formBuilder.array([], Validators.required),
     });
   }
 
@@ -91,12 +93,11 @@ export class FormDialogComponent implements OnInit {
       this.form.value.where.length === 0 ||
       this.form.value.type === ''
     ) {
-      this.messageService.add({
+      this._messageService.add({
         severity: 'warn',
         summary: 'Empty fields!',
         detail: 'Type, description and checkbox are required!',
       });
-      console.log('form vazio');
       return false;
     } else {
       return true;
@@ -107,7 +108,7 @@ export class FormDialogComponent implements OnInit {
     const checkValidation = this.validation();
     if (checkValidation) {
       this.facade.create(this.form.value);
-      this.ref.destroy();
+      this._ref.destroy();
     }
   }
 }

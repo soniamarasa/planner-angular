@@ -19,8 +19,8 @@ import { Item } from '../models/item';
 
 @Injectable()
 export class ItemsFacade {
-
   currentId = null;
+  idUser = JSON.parse(localStorage.getItem('idUser') as string);
 
   public readonly itemsState$ = this.itemsStore.itemsState$;
   public readonly itemSearchState$ = this.itemSearchStore.itemSearchState$;
@@ -49,7 +49,7 @@ export class ItemsFacade {
   }
 
   getAllItems(): Observable<Item[]> {
-    return this.service.getAllItems();
+    return this.service.getAllItems(this.idUser);
   }
 
   actionsControl(id: any, typeAction: any, where: any, value: any): any {
@@ -114,8 +114,8 @@ export class ItemsFacade {
   }
 
   create(item: Item) {
-    const createObservable = this.service.newItem(item);
-    const sucessObservable = createObservable.pipe(
+    const createObservable = this.service.newItem(this.idUser, item);
+    const successObservable = createObservable.pipe(
       tap(() => this.loading.setLoading(false)),
       map((newItem) => (newItem._id ? true : false))
     );
@@ -126,18 +126,18 @@ export class ItemsFacade {
       newItem.forEach((item: any) => this.itemsStore.pushItem(item));
 
       this.messageService.add({
-        key: 'create',
+        key: 'notification',
         severity: 'success',
         detail: 'Successfully created item',
       });
 
       this.service.reload();
     });
-    return sucessObservable;
+    return successObservable;
   }
 
   update(id: string, item: Item) {
-    const updateItem = this.service.editItem(id, item);
+    const updateItem = this.service.editItem(this.idUser, id, item);
 
     const successObservable = updateItem.pipe(
       map((itemStatusUpdate: any) => (itemStatusUpdate._id ? true : false)),
@@ -146,14 +146,19 @@ export class ItemsFacade {
 
     this.loading.setLoading(true);
     updateItem.subscribe((itemUpdate) => {
-      console.log(itemUpdate);
+      this.currentId = null;
+      this.messageService.add({
+        key: 'notification',
+        severity: 'success',
+        detail: 'Successfully created item',
+      });
       this.itemsStore.replacetItem(itemUpdate);
     });
     return successObservable;
   }
 
   updateStatus(id: string, item: Item) {
-    const updateStatus = this.service.updateStatus(id, item);
+    const updateStatus = this.service.updateStatus(this.idUser, id, item);
 
     const successObservable = updateStatus.pipe(
       map((itemStatusUpdate: any) => (itemStatusUpdate._id ? true : false)),
@@ -168,8 +173,8 @@ export class ItemsFacade {
   }
 
   delete(id: string) {
-    const deleteObservable = this.service.deleteItem(id);
-    const sucessDelete = deleteObservable;
+    const deleteObservable = this.service.deleteItem(this.idUser, id);
+    const successDelete = deleteObservable;
 
     this.loading.setLoading(true);
 
@@ -178,17 +183,17 @@ export class ItemsFacade {
       .subscribe((data) => {
         this.itemsStore.deleteItem(id);
         this.messageService.add({
-          key: 'delete',
+          key: 'notification',
           severity: 'success',
           detail: 'Successfully deleted item!',
         });
       });
-    return sucessDelete;
+    return successDelete;
   }
 
   resetData() {
-    const deleteObservable = this.service.resetData();
-    const sucessDelete = deleteObservable;
+    const deleteObservable = this.service.resetData(this.idUser);
+    const successDelete = deleteObservable;
 
     this.loading.setLoading(true);
 
@@ -197,8 +202,7 @@ export class ItemsFacade {
       .subscribe((data) => {
         this.itemsStore.reset();
       });
-    localStorage.clear();
-    this.themeService.theme = 'theme01';
-    return sucessDelete;
+
+    return successDelete;
   }
 }

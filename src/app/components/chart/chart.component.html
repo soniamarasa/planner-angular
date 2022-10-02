@@ -1,5 +1,6 @@
 <div class="chart-content">
   <p-chart
+    *ngIf="items?.length"
     class="chart-container"
     [options]="pieChartOptions"
     type="pie"
@@ -7,5 +8,5 @@
     [responsive]="true"
   ></p-chart>
 
-  <div class="total">Total Tasks: {{ this.total }}</div>
+  <div class="total">Total tasks: {{ items?.length }}</div>
 </div>

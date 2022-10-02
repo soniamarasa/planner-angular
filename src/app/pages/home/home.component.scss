@@ -1,0 +1,66 @@
+:host {
+  & ::ng-deep {
+    min-width: 500px;
+
+    .new-item {
+      display: flex;
+      justify-content: flex-end;
+      padding: 0.5rem 3.5rem;
+    }
+
+    .container-cards {
+      margin: 0.5rem 3rem 3rem;
+      min-height: calc(100vh - 186px);
+      height: max-content;
+    }
+
+    .cards-days {
+      margin-bottom: 8px;
+    }
+
+    @media (max-width: 768px) {
+      .container-cards {
+        margin: 0 1rem 1rem;
+      }
+
+      .col-calend {
+        display: flex;
+        flex-direction: column-reverse;
+        margin-top: -24px;
+      }
+
+      .new-item {
+        padding: 0.5rem 1.5rem;
+      }
+    }
+
+    @media (min-width: 768px) {
+      .col-calend {
+        display: flex;
+        flex-direction: column;
+        margin-top: -8px;
+      }
+    }
+
+    @media (min-width: 2000px) {
+      .container-cards {
+        max-width: 1500px;
+        margin: 0 auto 3rem;
+      }
+      .new-item {
+        max-width: 1500px;
+        margin: 0 auto;
+      }
+    }
+
+    .p-button {
+      background-color: #eec41e;
+      border-color: #eec41e;
+
+      &:hover {
+        background-color: #ddb517 !important;
+        border-color: #ddb517 !important;
+      }
+    }
+  }
+}

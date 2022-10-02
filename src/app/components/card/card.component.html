@@ -1,11 +1,11 @@
-<p-card>
+<p-card class="container-card">
 
   <div>
     <img src="../../../assets/pin.png" *ngIf="day == weekDay" alt="pin">
     <h2 *ngIf="day">{{ day }}</h2>
     <h3 *ngIf="titleBox">{{ titleBox }}</h3>
   </div>
-  
+
   <ng-container *ngIf="day || titleBox != 'Calendar'">
     <ng-container *ngIf="items$ | async as items">
       <ul class="item" *ngIf="items.length > 0">
@@ -35,9 +35,7 @@
 
               <p class="obs" *ngIf="item.obs !== ''"> <i class="pi pi-reply"></i>{{item.obs}}</p>
 
-              <app-actions-item *ngIf="item._id === facade.currentId" [id]="item._id" [type]="item.type"
-                [description]="item.description" [obs]="item.obs" [where]="item.where" [finished]="item.finished"
-                [started]="item.started" [important]="item.important" [canceled]="item.canceled">
+              <app-actions-item *ngIf="item._id === facade.currentId" [item]="item">
               </app-actions-item>
             </li>
           </ng-container>

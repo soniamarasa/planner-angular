@@ -4,6 +4,7 @@ import { environment } from './../../environments/environment';
 import { Item } from '../models/item';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { share, shareReplay, take, tap } from 'rxjs/operators';
+import { User } from '../models/user';
 
 @Injectable({
   providedIn: 'root',
@@ -14,38 +15,38 @@ export class ItemsService {
   
   constructor(private http: HttpClient) {}
 
-  getAll(where: any): Observable<Item[]> {
-    return this.http.get<Item[]>(`${environment.url}/getItems/${where}`);
+  getAll(userId: User['id'], where: any): Observable<Item[]> {
+    return this.http.get<Item[]>(`${environment.url}/getItems/${userId}/${where}`);
   }
 
-  getAllItems(): Observable<Item[]> {
-    return this.http.get<Item[]>(`${environment.url}/getItems`).pipe(share());
+  getAllItems(userId: User['id']): Observable<Item[]> {
+    return this.http.get<Item[]>(`${environment.url}/getItems/${userId}`).pipe(shareReplay());
   }
 
-  newItem(item: Item): Observable<Item> {
+  newItem(userId: User['id'], item: Item): Observable<Item> {
     return this.http
-      .post<Item>(`${environment.url}/postItem`, item)
+      .post<Item>(`${environment.url}/postItem/${userId}`, item)
       .pipe(shareReplay());
   }
 
-  editItem(id: string, item: Item): Observable<Item> {
+  editItem(userId: User['id'], id: string, item: Item): Observable<Item> {
     return this.http
-      .put<Item>(`${environment.url}/editItem/${id}`, item)
+      .put<Item>(`${environment.url}/editItem/${userId}/${id}`, item)
       .pipe(shareReplay());
   }
 
-  updateStatus(id: any, item: Item): Observable<Item> {
+  updateStatus(userId: User['id'], id: any, item: Item): Observable<Item> {
     return this.http
-      .put<Item>(`${environment.url}/updateStatus/${id}`, item)
+      .put<Item>(`${environment.url}/updateStatus/${userId}/${id}`, item)
       .pipe(shareReplay());
   }
 
-  deleteItem(id: string): Observable<any> {
-    return this.http.delete<any>(`${environment.url}/deleteItem/${id}`);
+  deleteItem(userId: User['id'], id: string): Observable<any> {
+    return this.http.delete<any>(`${environment.url}/deleteItem/${userId}/${id}`);
   }
 
-  resetData(): Observable<any> {
-    return this.http.delete<any>(`${environment.url}/reset`);
+  resetData(userId: User['id']): Observable<any> {
+    return this.http.delete<any>(`${environment.url}/${userId}/reset`);
   }
 
   reload() {

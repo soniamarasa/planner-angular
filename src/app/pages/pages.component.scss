@@ -1,0 +1,5 @@
+:host {
+  & ::ng-deep {
+    min-width: 500px;
+  }
+}

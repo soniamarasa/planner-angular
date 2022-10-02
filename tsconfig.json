@@ -6,7 +6,7 @@
     "outDir": "./dist/out-tsc",
     "forceConsistentCasingInFileNames": true,
     "strict": true,
-    "noImplicitReturns": true,
+    "noImplicitReturns": false,
     "noFallthroughCasesInSwitch": true,
     "sourceMap": true,
     "declaration": false,
@@ -19,7 +19,21 @@
     "lib": [
       "es2018",
       "dom"
-    ]
+    ],
+    "paths": {
+			"@root/*": ["./*"],
+			"@app/*": ["./src/app/*"],
+			"@components/*": ["./src/app/components/*"],
+			"@facades/*": ["./src/app/facades/*"],
+			"@guards/*": ["./src/app/guards/*"],
+			"@models/*": ["./src/app/models/*"],
+			"@interceptors/*": ["./src/app/interceptors/*"],
+			"@pages/*": ["./src/app/pages/*"],
+			"@services/*": ["./src/app/services/*"],
+			"@stores/*": ["./src/app/stores/*"],
+			"@assets/*": ["./src/assets/*"],
+			"@environments/*": ["./src/environments/*"]
+		}
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,

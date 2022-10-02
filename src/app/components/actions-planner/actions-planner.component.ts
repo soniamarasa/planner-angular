@@ -1,13 +1,18 @@
 import { Component, OnInit } from '@angular/core';
-import { ConfirmationService } from 'primeng/api';
+import { Router } from '@angular/router';
+import { SubSink } from 'subsink';
+import { ConfirmationService, MessageService } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
+
 import { ThemeService } from 'src/app/services/theme.service';
-import { ItemsService } from 'src/app/services/items.service';
+
+import { ItemsFacade } from 'src/app/facades/items.facade';
+import { UserFacade } from 'src/app/facades/user.facades';
+
 import { FormDialogComponent } from '../form-dialog/form-dialog.component';
 import { ChartComponent } from '../chart/chart.component';
+
 import { Dropdown } from 'src/app/models/dropdown';
-import { Button } from 'primeng/button';
-import { ItemsFacade } from 'src/app/facades/items.facade';
 
 @Component({
   selector: 'app-actions-planner',
@@ -15,15 +20,18 @@ import { ItemsFacade } from 'src/app/facades/items.facade';
   styleUrls: ['./actions-planner.component.scss'],
 })
 export class ActionsPlannerComponent implements OnInit {
+  subs = new SubSink();
   themes: Dropdown[];
   leftTooltipItems: any;
   theme: boolean = false;
 
   constructor(
-    public dialogService: DialogService,
+    public _dialogService: DialogService,
+    private _confirmationService: ConfirmationService,
+    private _messageService: MessageService,
+    private _router: Router,
     private facade: ItemsFacade,
-    private confirmationService: ConfirmationService,
-    private itemService: ItemsService,
+    private userFacade: UserFacade,
     public themeService: ThemeService
   ) {
     this.themes = [
@@ -43,7 +51,7 @@ export class ActionsPlannerComponent implements OnInit {
     } else {
       dialog = { component: ChartComponent, title: 'Statistics - Tasks' };
     }
-    const ref = this.dialogService.open(dialog.component, {
+    const ref = this._dialogService.open(dialog.component, {
       header: dialog.title,
       width: 'max-content',
       styleClass: this.themeService.theme + ' modal',
@@ -51,7 +59,7 @@ export class ActionsPlannerComponent implements OnInit {
   }
 
   confirm() {
-    this.confirmationService.confirm({
+    this._confirmationService.confirm({
       message:
         'Are you sure you want to reset the Week? All data will be erased!',
       accept: () => this.reset(),
@@ -70,22 +78,32 @@ export class ActionsPlannerComponent implements OnInit {
     this.leftTooltipItems = [
       {
         tooltipOptions: {
-          tooltipLabel: 'New Item',
-          tooltipPosition: 'left',
-        },
-        icon: 'pi pi-plus',
-        command: () => {
-          this.showDialog('New');
-        },
-      },
-      {
-        tooltipOptions: {
           tooltipLabel: 'Statistics',
           tooltipPosition: 'left',
         },
         icon: 'pi pi-chart-bar',
         command: () => {
           this.showDialog('Chart');
+        },
+      },
+      {
+        tooltipOptions: {
+          tooltipLabel: 'Reset the Week?',
+          tooltipPosition: 'left',
+        },
+        icon: 'pi pi-refresh',
+        command: () => {
+          this.confirm();
+        },
+      },
+      {
+        tooltipOptions: {
+          tooltipLabel: 'My Account',
+          tooltipPosition: 'left',
+        },
+        icon: 'pi pi-user',
+        command: () => {
+          this._router.navigate(['/account']);
         },
       },
       {
@@ -100,19 +118,37 @@ export class ActionsPlannerComponent implements OnInit {
       },
       {
         tooltipOptions: {
-          tooltipLabel: 'Reset the Week?',
+          tooltipLabel: 'Logout',
           tooltipPosition: 'left',
         },
-        icon: 'pi pi-refresh',
+        icon: 'pi pi-sign-out',
         command: () => {
-          this.confirm();
+          this.logout();
         },
       },
     ];
   }
 
+  logout() {
+    this.subs.add(
+      this.userFacade.logout().subscribe({
+        next: () => {
+          this.themeService.theme = 'theme01';
+          this._router.navigate(['/auth']);
+        },
+        error: () =>
+          this._messageService.add({
+            key: 'notification',
+            severity: 'error',
+            summary: 'Houve um problema!',
+            detail: 'Nao foi possivel sair da sua conta.',
+            icon: 'fa-solid fa-check',
+          }),
+      })
+    );
+  }
+
   changeTheme(e: any): any {
-    console.log(e);
     this.themeService.theme = e;
     this.themeService.setTheme(this.themeService.theme);
   }

@@ -1,0 +1,167 @@
+:host {
+  & ::ng-deep {
+    .container-auth {
+      max-width: 1280px;
+      margin: 0 auto;
+      min-height: calc(100vh - 59.2px);
+    }
+
+    h1 {
+      margin: 0;
+      padding: 20px;
+      text-align: center;
+    }
+
+    .grid {
+      margin: 10px 30px;
+    }
+
+    .container-img {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      & p {
+        text-align: center;
+        width: 80%;
+      }
+    }
+
+    .img {
+      max-height: 500px;
+      min-height: 500px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      & img {
+        max-height: inherit;
+        width: 600px;
+        opacity: 0.7;
+      }
+
+      & h2 {
+        position: absolute;
+        text-align: center;
+        width: 400px;
+        min-height: inherit;
+        max-height: inherit;
+        display: flex;
+        align-items: center;
+        text-shadow: 0px 0px 5px white;
+      }
+    }
+
+    .p-card {
+      padding: 0 !important;
+
+      & .card-body {
+        padding: 1.5rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+
+        & form {
+          width: 100%;
+          & input {
+            width: 100% !important;
+          }
+        }
+
+        & span {
+          cursor: pointer;
+        }
+      }
+
+      & .p-card-body {
+        height: inherit !important;
+      }
+
+      & .p-card-content {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        height: inherit;
+      }
+    }
+
+    .footer {
+      padding: 1rem 1.5rem;
+      background-color: #c49877;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: #f2ebe1;
+      border-radius: 0 0 8px 8px;
+
+      & .p-button {
+        background-color: #f2ebe1;
+        border-color: #f2ebe1;
+        color: #c49877;
+
+        &:hover {
+          background-color: #e7ded1;
+          border-color: #e7ded1;
+        }
+      }
+    }
+
+    .p-button {
+      background-color: #eec41e;
+      border-color: #eec41e;
+
+      &:hover {
+        background-color: #ddb517;
+        border-color: #ddb517;
+      }
+    }
+
+    @media (max-width: 767px) {
+      .img {
+        display: none;
+      }
+
+      .grid {
+        margin: 0;
+      }
+
+      .container-img p {
+        margin: 0;
+      }
+
+      .container-auth {
+        padding: 0 1rem;
+      }
+    }
+
+    @media (min-width: 768px) and (max-width: 992px) {
+      .img {
+        max-height: 400px;
+        min-height: 400px;
+        h2 {
+          width: 300px;
+        }
+
+        & img {
+          max-height: inherit;
+          width:  calc(450px - 100px);
+          opacity: 0.7;
+        }
+      }
+    }
+
+  //   [_nghost-uri-c89]     .img img {
+  //     max-height: inherit;
+  //     width: calc(500px - 0.4vw);
+  //     opacity: 0.7;
+  // }
+
+
+    @media only screen and (max-width: 600px) {
+      // div.example {
+      //   font-size: 30px;
+      // }
+    }
+  }
+}

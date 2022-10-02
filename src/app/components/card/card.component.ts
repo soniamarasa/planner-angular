@@ -9,7 +9,14 @@ import { DateService } from 'src/app/services/date.service';
   styleUrls: ['./card.component.scss'],
 })
 export class CardComponent implements OnInit {
-  items$ = this.facade.itemsState$.pipe(map((state) => state.items));
+  items$ = this.facade.itemsState$.pipe(
+    map((state) => {
+      return state.items.sort((a, b): any => {
+        if (a.type && b.type)
+          return a.type < b.type ? -1 : a.type > b.type ? 1 : 0;
+      });
+    })
+  );
 
   weekDay: any;
 
@@ -22,8 +29,6 @@ export class CardComponent implements OnInit {
 
   ngOnInit(): void {
     this.day = this.day?.toLowerCase();
-
     this.weekDay = this.date.wD.toLowerCase();
-    console.log(this.day, this.weekDay);
   }
 }

@@ -1,0 +1,148 @@
+:host {
+  & ::ng-deep {
+    
+    .container-register {
+      width: 100%;
+      min-height: calc(100vh - 59.2px);
+    }
+
+    .container-grid {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 1rem;
+    }
+
+    h1 {
+      margin: 0;
+      padding: 20px;
+      text-align: center;
+    }
+
+    h3 {
+      width: 100%;
+      text-align: left;
+      margin: 0;
+      padding: 0.5rem;
+    }
+
+    .user {
+      display: flex !important;
+      justify-content: center;
+      div {
+        width: 10rem;
+        height: 10rem;
+        background-color: #eec41e;
+        color: #ffffff;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        & i {
+          font-size: 4rem;
+        }
+      }
+    }
+
+    .p-card {
+      padding: 1.5rem;
+      & .card-body {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.5rem;
+
+        & form {
+          width: 100%;
+          & input {
+            width: 100% !important;
+          }
+
+          .field-name {
+            & .p-inputtext:enabled:focus {
+              box-shadow: 0 0 0 transparent;
+              border-color: transparent;
+            }
+
+            & .p-inputtext:enabled:hover {
+              border-color: transparent;
+              background-color: rgba(0, 0, 0, 0.1);
+            }
+
+            & .p-inputtext {
+              background-color: transparent;
+              font-size: 40px;
+            }
+          }
+
+          .button {
+            display: flex;
+            align-items: flex-end;
+            justify-content: flex-end;
+          }
+        }
+      }
+
+      & .p-card-body {
+        height: inherit !important;
+      }
+
+      & .p-card-content {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        height: inherit;
+      }
+    }
+
+    .footer {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+    }
+
+    .p-button {
+      background-color: #eec41e;
+      border-color: #eec41e;
+
+      &:hover {
+        background-color: #ddb517;
+        border-color: #ddb517;
+      }
+    }
+
+    .reset {
+      background-color: #c49877;
+      border-color: #c49877;
+      color: #f2ebe1;
+
+      &:hover {
+        background-color: #c49877;
+        border-color: #c49877;
+        color: #f2ebe1;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .user {
+        display: none !important;
+      }
+
+      .p-card .card-body form .field-name .p-inputtext {
+        font-size: 30px;
+      }
+
+      .sm\:col-12 {
+        flex: 0 0 auto;
+        padding: 0 2rem;
+        width: 100%;
+      }
+    }
+
+    @media (width: 767px) {
+      .user {
+        display: flex !important;
+      }
+    }
+  }
+}
