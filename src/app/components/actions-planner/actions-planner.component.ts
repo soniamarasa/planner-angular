@@ -5,7 +5,6 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
 
 import { ThemeService } from 'src/app/services/theme.service';
-import { ItemsService } from 'src/app/services/items.service';
 
 import { ItemsFacade } from 'src/app/facades/items.facade';
 import { UserFacade } from 'src/app/facades/user.facades';
@@ -33,7 +32,6 @@ export class ActionsPlannerComponent implements OnInit {
     private _router: Router,
     private facade: ItemsFacade,
     private userFacade: UserFacade,
-    private itemService: ItemsService,
     public themeService: ThemeService
   ) {
     this.themes = [
@@ -78,16 +76,6 @@ export class ActionsPlannerComponent implements OnInit {
 
   ngOnInit(): void {
     this.leftTooltipItems = [
-      {
-        tooltipOptions: {
-          tooltipLabel: 'New Item',
-          tooltipPosition: 'left',
-        },
-        icon: 'pi pi-plus',
-        command: () => {
-          this.showDialog('New');
-        },
-      },
       {
         tooltipOptions: {
           tooltipLabel: 'Statistics',

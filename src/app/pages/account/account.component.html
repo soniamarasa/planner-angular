@@ -1,14 +1,14 @@
-<div *ngIf="user" class="container-register">
+<div class="container-register">
   <h1>My Account</h1>
 
-  <div class="grid container-grid">
+  <div class="grid container-grid" *ngIf="isLoaded">
     <div class="sm:col-2 md:col-3 lg:col-3 user">
       <app-user-img [gender]="formControl.gender.value"> </app-user-img>
     </div>
 
     <p-card class="sm:col-12 md:col-9 lg:col-9">
       <div class="card-body">
-        <form #form1 [formGroup]="form">
+        <form #form1 [formGroup]="formData">
           <div class="col-12">
             <div class="field field-name">
               <input type="text" pInputText required class="p-inputtext p-inputtext-md" formControlName="name"
@@ -47,8 +47,8 @@
                 <p-dropdown [options]="gender" placeholder="Select a gender" optionLabel="name" optionValue="code"
                   formControlName="gender"></p-dropdown>
                 <small class="p-error" *ngIf="
-                    formControl.gender.touched &&
-                    formControl.gender.errors?.required
+                    formControl?.gender?.touched &&
+                    formControl?.gender?.errors?.required
                   ">
                   Gender is required
                 </small>
@@ -71,7 +71,7 @@
 
             <div class="col-12 md:col-3 button">
               <div class="field">
-                <p-button *ngIf="showBtnForm" [disabled]="form.invalid" (onClick)="submit(1)" label="Save changes">
+                <p-button *ngIf="showBtnForm" [disabled]="formData.invalid" (onClick)="submit(1)" label="Save changes">
                 </p-button>
               </div>
             </div>

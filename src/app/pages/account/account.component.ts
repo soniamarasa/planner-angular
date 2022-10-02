@@ -1,5 +1,4 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
 import {
   FormGroup,
   Validators,
@@ -23,7 +22,7 @@ import { User } from 'src/app/models/user';
 export class AccountComponent implements OnInit {
   private subs = new SubSink();
 
-  form!: FormGroup;
+  formData!: FormGroup;
   formPassword!: FormGroup;
   gender: Dropdown[];
   user!: User;
@@ -32,10 +31,11 @@ export class AccountComponent implements OnInit {
   showBtnFormPass: boolean = false;
   isSubmitting!: boolean;
 
+  isLoaded: boolean = false;
+
   constructor(
     public _formBuilder: UntypedFormBuilder,
     private _messageService: MessageService,
-    private _router: Router,
     private customValidator: CustomvalidationService,
     private facade: UserFacade
   ) {
@@ -50,8 +50,7 @@ export class AccountComponent implements OnInit {
       this.facade.getUser().subscribe((user) => {
         this.user = user;
         this.setForms(this.user);
-
-        this.form.statusChanges.subscribe(() => (this.showBtnForm = true));
+        this.formData.statusChanges.subscribe(() => (this.showBtnForm = true));
         this.formPassword.statusChanges.subscribe(
           () => (this.showBtnFormPass = true)
         );
@@ -59,16 +58,14 @@ export class AccountComponent implements OnInit {
     );
   }
 
-  get formControl() {
-    return this.form.controls;
-  }
-
-  get formPasswordControl() {
-    return this.formPassword.controls;
+  setForms(user: User) {
+    this.createForm(user);
+    this.createFormPassword(user);
+    this.isLoaded = true;
   }
 
   createForm(user: User): any {
-    this.form = this._formBuilder.group({
+    this.formData = this._formBuilder.group({
       name: [user.name, Validators.required],
       gender: [user.gender, Validators.required],
       email: [user.email, [Validators.required, Validators.email]],
@@ -97,15 +94,18 @@ export class AccountComponent implements OnInit {
     );
   }
 
-  setForms(user: User) {
-    this.createForm(user);
-    this.createFormPassword(user);
+  get formControl() {
+    return this.formData.controls;
+  }
+
+  get formPasswordControl() {
+    return this.formPassword.controls;
   }
 
   submit(form: number) {
     this.isSubmitting = true;
 
-    let data: User = this.form.value;
+    let data: User = this.formData.value;
 
     if (form === 1) {
       this.subs.add(

@@ -8,7 +8,7 @@ import { Component, Input, OnInit } from '@angular/core';
 export class UserImgComponent implements OnInit {
   constructor() {}
 
-  @Input() gender!: any
+  @Input() gender!: any;
 
   ngOnInit(): void {}
 }

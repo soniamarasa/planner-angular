@@ -115,7 +115,7 @@ export class ItemsFacade {
 
   create(item: Item) {
     const createObservable = this.service.newItem(this.idUser, item);
-    const sucessObservable = createObservable.pipe(
+    const successObservable = createObservable.pipe(
       tap(() => this.loading.setLoading(false)),
       map((newItem) => (newItem._id ? true : false))
     );
@@ -133,7 +133,7 @@ export class ItemsFacade {
 
       this.service.reload();
     });
-    return sucessObservable;
+    return successObservable;
   }
 
   update(id: string, item: Item) {
@@ -174,7 +174,7 @@ export class ItemsFacade {
 
   delete(id: string) {
     const deleteObservable = this.service.deleteItem(this.idUser, id);
-    const sucessDelete = deleteObservable;
+    const successDelete = deleteObservable;
 
     this.loading.setLoading(true);
 
@@ -188,12 +188,12 @@ export class ItemsFacade {
           detail: 'Successfully deleted item!',
         });
       });
-    return sucessDelete;
+    return successDelete;
   }
 
   resetData() {
     const deleteObservable = this.service.resetData(this.idUser);
-    const sucessDelete = deleteObservable;
+    const successDelete = deleteObservable;
 
     this.loading.setLoading(true);
 
@@ -203,6 +203,6 @@ export class ItemsFacade {
         this.itemsStore.reset();
       });
 
-    return sucessDelete;
+    return successDelete;
   }
 }

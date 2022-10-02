@@ -34,13 +34,12 @@ export class RegistrationComponent implements OnInit {
     private customValidator: CustomvalidationService,
     private facade: UserFacade
   ) {
-
     this.subs.add(
       this.facade.authState$.subscribe(
         ({ isAuthenticated }) => isAuthenticated && this._router.navigate(['/'])
       )
     );
-    
+
     this.createForm();
 
     this.gender = [
@@ -97,7 +96,7 @@ export class RegistrationComponent implements OnInit {
               detail: res.message,
               icon: 'fa-solid fa-check',
             }),
-            setTimeout(() => this._router.navigate(['/auth']), 1500);
+              setTimeout(() => this._router.navigate(['/auth']), 1500);
           },
           error: (error) =>
             this._messageService.add({

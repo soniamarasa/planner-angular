@@ -23,8 +23,16 @@ export class ChartComponent implements OnInit {
 
   constructor(private facade: ItemsFacade) {
     const items$ = this.facade.itemsState$
-      .pipe(map((state) => state.items))
-      .subscribe((data: Item[]) => (this.items = data));
+      .pipe(
+        map((state) =>
+          state.items.filter((item) => {
+            if (item.type === 'task') return item;
+          })
+        )
+      )
+      .subscribe((data: Item[]) => {
+        this.items = data;
+      });
 
     this.dataChart();
   }
@@ -68,25 +76,25 @@ export class ChartComponent implements OnInit {
 
   dataChart() {
     this.items?.forEach((items) => {
-      if (items.type === 'task') {
-        if (items.started) {
-          this.started += 1;
-        } else if (items.finished) {
-          this.finished += 1;
-        } else if (items.canceled) {
-          this.canceled += 1;
-        } else if (items.important) {
-          this.important += 1;
-        } else if (
-          !items.important &&
-          !items.finished &&
-          !items.started &&
-          !items.canceled
-        ) {
-          this.notStarted += 1;
-        }
-        this.total += 1;
+      // if (items.type === 'task') {
+      if (items.started) {
+        this.started += 1;
+      } else if (items.finished) {
+        this.finished += 1;
+      } else if (items.canceled) {
+        this.canceled += 1;
+      } else if (items.important) {
+        this.important += 1;
+      } else if (
+        !items.important &&
+        !items.finished &&
+        !items.started &&
+        !items.canceled
+      ) {
+        this.notStarted += 1;
       }
+      this.total += 1;
+      // }
     });
 
     this.datatasks = [

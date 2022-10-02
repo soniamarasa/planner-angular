@@ -16,11 +16,16 @@ import { ILoginBody } from '../services/user.service';
 })
 export class UserFacade {
   readonly authState$ = this.authStore.authState$;
-
-  idUser = this.userService.get('idUser');
   user = this.userService.get('auth')?.user;
+  idUser: string = '';
 
-  constructor(private userService: UserService, private authStore: AuthStore) {}
+  constructor(private userService: UserService, private authStore: AuthStore) {
+    this.getIdUser()
+  }
+
+  getIdUser() {
+    this.idUser = this.userService.get('idUser');
+  }
 
   login({ email, password }: ILoginBody) {
     return this.userService

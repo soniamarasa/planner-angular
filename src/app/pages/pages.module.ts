@@ -24,8 +24,11 @@ import { ChartModule } from 'primeng/chart';
 
 import { ItemsService } from '../services/items.service';
 import { DateService } from '../services/date.service';
-import { ThemeService } from '../services/theme.service';
 import { ItemsFacade } from '../facades/items.facade';
+import { LoadingFacade } from '../facades/loading.facade';
+import { UserFacade } from '../facades/user.facades';
+import { ItemsStore } from '../stores/items.store';
+import { ItemSearchStore } from '../stores/item-search.store';
 
 import { PagesComponent } from './pages.component';
 import { PagesRoutingModule } from './pages-routing.module';
@@ -45,14 +48,9 @@ import { ChartComponent } from '../components/chart/chart.component';
 import { UserImgComponent } from '../components/user-img/user-img.component';
 import { ActionsPlannerComponent } from '../components/actions-planner/actions-planner.component';
 import { ActionsItemComponent } from '../components/actions-item/actions-item.component';
-
 import { FormDialogComponent } from '../components/form-dialog/form-dialog.component';
 import { EditFormComponent } from '../components/edit-form/edit-form.component';
-import { ItemsStore } from '../stores/items.store';
-import { LoadingFacade } from '../facades/loading.facade';
-import { ItemSearchStore } from '../stores/item-search.store';
 import { RecoverDialogComponent } from './auth/recover-dialog/recover-dialog.component';
-import { UserFacade } from '../facades/user.facades';
 
 @NgModule({
   declarations: [
@@ -107,8 +105,7 @@ import { UserFacade } from '../facades/user.facades';
     ItemSearchStore,
     ItemsService,
     DateService,
-    // ThemeService,
-    
+
     DialogService,
     ConfirmationService,
     MessageService,

@@ -8,6 +8,37 @@
   --tertiary-color: #f52d55;
 }
 
+// * {
+//   & ::-webkit-scrollbar {
+//     width: 5px;
+//     height: 5px;
+//   }
+
+//   & ::-webkit-scrollbar-track {
+//     background: transparent !important;
+//     padding: 2px;
+//   }
+//   & ::-webkit-scrollbar-thumb {
+//     border-width: 2px 0 2px 2px;
+//     background-color: #000;
+//   }
+// }
+
+*::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+*::-webkit-scrollbar-track {
+  background: #fafafa;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: #b8b8b8;
+  border-radius: 10px;
+  border: 2px solid #fafafa;
+}
+
 html {
   width: 100%;
   overflow-x: hidden;
@@ -93,8 +124,6 @@ h3 {
 .p-speeddial {
   z-index: 2 !important;
 }
-
-
 
 //Calendar Configs
 
@@ -200,7 +229,6 @@ h3 {
   line-height: 1rem;
   display: flex;
 }
-
 
 // TEMAS
 .theme01 {
