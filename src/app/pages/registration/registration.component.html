@@ -12,7 +12,7 @@
 
         <form [formGroup]="form">
           <div class="field">
-            <label for="email" class="block">Name</label>
+            <label for="name" class="block">Name</label>
             <input
               type="text"
               pInputText
@@ -219,15 +219,17 @@
               </div>
             </div>
           </div>
-        </form>
-      </div>
 
-      <div class="footer">
-        <p-button
-          [disabled]="form.invalid"
-          (onClick)="submit()"
-          label="Sign up"
-        ></p-button>
+          <div class="footer">
+            <p-button
+              [disabled]="form.invalid"
+              (onClick)="submit()"
+              type="submit"
+              (keydown.enter)="submit()"
+              label="Sign up"
+            ></p-button>
+          </div>
+        </form>
       </div>
     </p-card>
 

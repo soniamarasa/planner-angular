@@ -93,7 +93,7 @@ export class RegistrationComponent implements OnInit {
               key: 'notification',
               severity: 'success',
               summary: 'Success!',
-              detail: res.message,
+              detail: 'Your account has been successfully created.',
               icon: 'fa-solid fa-check',
             }),
               setTimeout(() => this._router.navigate(['/auth']), 1500);

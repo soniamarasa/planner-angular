@@ -147,16 +147,17 @@
       </div>
     </div>
   </div>
-</form>
-<div id="button-div">
-  <button
-    pButton
-    pRipple
-    type="submit"
-    label="Save"
-    class="p-button-raised p-button-success"
-    (click)="newItem()"
-  ></button>
-</div>
 
+  <div id="button-div">
+    <button
+      pButton
+      pRipple
+      type="submit"
+      (keydown.enter)="newItem()"
+      label="Save"
+      class="p-button-raised p-button-success"
+      (click)="newItem()"
+    ></button>
+  </div>
+</form>
 <p-toast position="bottom-center"></p-toast>

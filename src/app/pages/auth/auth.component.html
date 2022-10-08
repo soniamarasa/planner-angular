@@ -24,16 +24,31 @@
             <div class="field">
               <label for="email" class="block">E-mail</label>
               <input
-                type="text"
+                type="email"
                 pInputText
                 required
                 class="p-inputtext p-inputtext-md"
                 formControlName="email"
                 placeholder="Type your e-mail"
               />
-              <small id="username1-help" class="block"
-                >Enter your e-mail.</small
+              <small
+                class="p-error"
+                *ngIf="
+                  formControl.email.touched &&
+                  formControl.email.errors?.required
+                "
               >
+                E-mail is required
+              </small>
+
+              <small
+                class="p-error"
+                *ngIf="
+                  formControl.email.touched && formControl.email.errors?.email
+                "
+              >
+                Enter a valid email address
+              </small>
             </div>
 
             <div class="field">
@@ -47,13 +62,27 @@
                 [toggleMask]="true"
                 styleClass="p-password p-component p-inputwrapper p-input-icon-right"
               ></p-password>
-              <small id="username1-help" class="block"
-                >Enter your password.</small
+              <small
+                class="p-error"
+                *ngIf="
+                  formControl.password.touched &&
+                  formControl.password.errors?.required
+                "
               >
+                Password is required
+              </small>
+            </div>
+
+            <div class="button-container">
+              <p-button
+                [disabled]="form.invalid"
+                type="submit"
+                (keydown.enter)="login()"
+                (onClick)="login()"
+                label="Sign in"
+              ></p-button>
             </div>
           </form>
-
-          <p-button (onClick)="login()" label="Sign in"></p-button>
 
           <span (click)="openDialogRecover()">Forgot password?</span>
         </div>

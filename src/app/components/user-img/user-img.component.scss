@@ -1,14 +1,24 @@
-div {
-  padding: 1rem;
-  // color: #a78120;
-}
+:host {
+  & ::ng-deep {
+    div {
+      padding: 1rem;
+      // color: #a78120;
+    }
 
-img {
-  padding: 1rem;
-  min-width: 6rem;
-}
+    img {
+      padding: 1rem;
+      min-width: 6rem;
+      -moz-box-sizing: content-box;
+    }
 
-i {
-  color: #000;
-  font-size: 3.5rem;
+    i {
+      color: #000;
+      font-size: 3.5rem;
+    }
+  }
+}
+@-moz-document url-prefix() {
+  img {
+    min-width: 4.5rem !important;
+  }
 }
