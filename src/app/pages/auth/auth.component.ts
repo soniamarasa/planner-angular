@@ -39,9 +39,13 @@ export class AuthComponent implements OnInit {
 
   ngOnInit(): void {}
 
+  get formControl() {
+    return this.form.controls;
+  }
+
   createForm(): any {
     this.form = this._formBuilder.group({
-      email: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required],
     });
   }

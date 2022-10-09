@@ -14,6 +14,7 @@ const routes: Routes = [
     path: '',
     component: PagesComponent,
     canActivate: [AuthGuard],
+    title: 'Weekly Planner',
     children: [
       {
         path: '',
@@ -22,7 +23,7 @@ const routes: Routes = [
       },
       {
         path: 'account',
-        title: 'My account',
+        title: 'Weekly Planner | My account',
         component: AccountComponent,
       },
     ],
@@ -34,12 +35,12 @@ const routes: Routes = [
   },
   {
     path: 'password-reset/:token',
-    title: 'Password',
+    title: 'Weekly Planner | Password',
     component: PasswordRecoverComponent,
   },
   {
     path: 'signup',
-    title: 'Sign up',
+    title: 'Weekly Planner | Sign up',
     component: RegistrationComponent,
   },
   {

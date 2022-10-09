@@ -102,6 +102,13 @@ export class AccountComponent implements OnInit {
     return this.formPassword.controls;
   }
 
+  resetForm() {
+    this.showBtnForm = false;
+    this.showBtnFormPass = false;
+
+    this.setForms(this.user);
+  }
+
   submit(form: number) {
     this.isSubmitting = true;
 
