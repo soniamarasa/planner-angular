@@ -32,6 +32,7 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): any {
     this.weekDay = this.date.weekDay.toLowerCase();
+    this.userFacade.getIdUser()
   }
 
   newItem() {
