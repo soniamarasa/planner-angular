@@ -5,7 +5,6 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
 
 import { ThemeService } from 'src/app/services/theme.service';
-
 import { ItemsFacade } from 'src/app/facades/items.facade';
 import { UserFacade } from 'src/app/facades/user.facades';
 
@@ -140,8 +139,7 @@ export class ActionsPlannerComponent implements OnInit {
           this._messageService.add({
             key: 'notification',
             severity: 'error',
-            summary: 'Houve um problema!',
-            detail: 'Nao foi possivel sair da sua conta.',
+            detail: 'Unable to log out of your account.',
             icon: 'fa-solid fa-check',
           }),
       })

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UserFacade } from 'src/app/facades/user.facades';
 import { DateService } from 'src/app/services/date.service';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-header',
@@ -9,16 +10,18 @@ import { DateService } from 'src/app/services/date.service';
 })
 export class HeaderComponent implements OnInit {
   todayIs: any;
-  user = this.userFacade?.user;
   isHome = window.location.pathname === '/' ? true : false;
-  userName = this.user?.name?.split(' ');
+  userName = '';
 
   constructor(
     private dateService: DateService,
+    private userService: UserService,
     private userFacade: UserFacade
   ) {}
 
   ngOnInit(): void {
+    this.userFacade.user = this.userService.get('auth')?.user;
+    this.userName = this.userFacade.user?.name?.split(' ');
     this.todayIs = this.dateService.today();
   }
 }

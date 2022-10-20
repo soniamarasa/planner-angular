@@ -1,6 +1,11 @@
 :host {
     & ::ng-deep {
       min-width: 500px;
+
+      & .p-speeddial {
+        left: 1rem;
+        width: max-content;
+      }
     }
   }
   

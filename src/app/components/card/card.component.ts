@@ -1,25 +1,17 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { map } from 'rxjs/operators';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { ItemsFacade } from 'src/app/facades/items.facade';
 import { DateService } from 'src/app/services/date.service';
+import { Item } from '../../models/item';
 
 @Component({
   selector: 'app-card',
   templateUrl: './card.component.html',
   styleUrls: ['./card.component.scss'],
 })
-export class CardComponent implements OnInit {
-  items$ = this.facade.itemsState$.pipe(
-    map((state) => {
-      return state.items.sort((a, b): any => {
-        if (a.type && b.type)
-          return a.type < b.type ? -1 : a.type > b.type ? 1 : 0;
-      });
-    })
-  );
-
+export class CardComponent implements OnInit, OnDestroy {
   weekDay: any;
 
+  @Input() items: Item[] = [];
   @Input() titleBox: string | undefined;
   @Input() day: string | undefined;
   @Input() box: string | undefined;
@@ -31,4 +23,6 @@ export class CardComponent implements OnInit {
     this.day = this.day?.toLowerCase();
     this.weekDay = this.date.wD.toLowerCase();
   }
+
+  ngOnDestroy(): void {}
 }
