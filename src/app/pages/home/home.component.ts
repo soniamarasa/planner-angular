@@ -60,6 +60,7 @@ export class HomeComponent implements OnInit, OnDestroy {
         // }
       })
     );
+    
   }
 
   newItem() {
