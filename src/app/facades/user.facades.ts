@@ -17,15 +17,8 @@ import { ILoginBody } from '../services/user.service';
 export class UserFacade {
   readonly authState$ = this.authStore.authState$;
   user = this.userService.get('auth')?.user;
-  idUser: string = '';
 
-  constructor(private userService: UserService, private authStore: AuthStore) {
-    this.getIdUser()
-  }
-
-  getIdUser() {
-    this.idUser = this.userService.get('idUser');
-  }
+  constructor(private userService: UserService, private authStore: AuthStore) {}
 
   login({ email, password }: ILoginBody) {
     return this.userService
@@ -42,7 +35,7 @@ export class UserFacade {
   }
 
   logout() {
-    return this.userService.logout(this.idUser).pipe(
+    return this.userService.logout(this.userService.get('idUser')).pipe(
       shareReplay(),
       tap(() => this.authStore.logout())
     );
@@ -53,10 +46,14 @@ export class UserFacade {
   }
 
   getUser() {
-    return this.userService.getUser(this.idUser).pipe(shareReplay());
+    return this.userService
+      .getUser(this.userService.get('idUser'))
+      .pipe(shareReplay());
   }
 
   updateUser(user: User) {
-    return this.userService.updateUser(user, this.idUser).pipe(shareReplay());
+    return this.userService
+      .updateUser(user, this.userService.get('idUser'))
+      .pipe(shareReplay());
   }
 }

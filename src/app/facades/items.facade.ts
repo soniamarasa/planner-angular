@@ -20,7 +20,7 @@ import { Item } from '../models/item';
 @Injectable()
 export class ItemsFacade {
   currentId = null;
-  idUser = JSON.parse(localStorage.getItem('idUser') as string);
+  idUser = '';
 
   public readonly itemsState$ = this.itemsStore.itemsState$;
   public readonly itemSearchState$ = this.itemSearchStore.itemSearchState$;
@@ -30,8 +30,7 @@ export class ItemsFacade {
     private itemSearchStore: ItemSearchStore,
     private service: ItemsService,
     private loading: LoadingFacade,
-    private messageService: MessageService,
-    private themeService: ThemeService
+    private messageService: MessageService
   ) {
     this.init();
   }
@@ -49,6 +48,7 @@ export class ItemsFacade {
   }
 
   getAllItems(): Observable<Item[]> {
+    this.idUser = JSON.parse(localStorage.getItem('idUser') as string);
     return this.service.getAllItems(this.idUser);
   }
 
@@ -128,7 +128,7 @@ export class ItemsFacade {
       this.messageService.add({
         key: 'notification',
         severity: 'success',
-        detail: 'Successfully created item',
+        detail: 'Successfully created item.',
       });
 
       this.service.reload();
@@ -150,7 +150,7 @@ export class ItemsFacade {
       this.messageService.add({
         key: 'notification',
         severity: 'success',
-        detail: 'Successfully created item',
+        detail: 'Successfully updated item.',
       });
       this.itemsStore.replacetItem(itemUpdate);
     });
@@ -204,5 +204,9 @@ export class ItemsFacade {
       });
 
     return successDelete;
+  }
+
+  cleanItems() {
+    return this.itemsStore.reset();
   }
 }

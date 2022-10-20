@@ -18,25 +18,25 @@
         class="col-12 sm:col-6 md:col-6 lg:col-3"
         [ngClass]="{ 'today-is': weekDay === 'monday' }"
       >
-        <app-card box="mon" day="Monday"></app-card>
+        <app-card [items]="items" box="mon" day="Monday"></app-card>
       </div>
       <div
         class="col-12 sm:col-6 md:col-6 lg:col-3"
         [ngClass]="{ 'today-is': weekDay === 'Tuesday' }"
       >
-        <app-card box="tue" day="Tuesday"></app-card>
+        <app-card [items]="items" box="tue" day="Tuesday"></app-card>
       </div>
       <div
         class="col-12 sm:col-6 md:col-6 lg:col-3"
         [ngClass]="{ 'today-is': weekDay === 'wednesday' }"
       >
-        <app-card box="wed" day="Wednesday"></app-card>
+        <app-card [items]="items" box="wed" day="Wednesday"></app-card>
       </div>
       <div
         class="col-12 sm:col-6 md:col-6 lg:col-3"
         [ngClass]="{ 'today-is': weekDay === 'thursday' }"
       >
-        <app-card box="thu" day="Thursday"></app-card>
+        <app-card [items]="items" box="thu" day="Thursday"></app-card>
       </div>
     </div>
 
@@ -45,22 +45,22 @@
         class="col-12 sm:col-6 md:col-6 lg:col-3"
         [ngClass]="{ 'today-is': weekDay === 'friday' }"
       >
-        <app-card box="fri" day="Friday"></app-card>
+        <app-card [items]="items" box="fri" day="Friday"></app-card>
       </div>
       <div
         class="col-12 sm:col-6 md:col-6 lg:col-3"
         [ngClass]="{ 'today-is': weekDay === 'saturday' }"
       >
-        <app-card box="sat" day="Saturday"></app-card>
+        <app-card [items]="items" box="sat" day="Saturday"></app-card>
       </div>
       <div
         class="col-12 sm:col-6 md:col-6 lg:col-3"
         [ngClass]="{ 'today-is': weekDay === 'sunday' }"
       >
-        <app-card box="sun" day="Sunday"></app-card>
+        <app-card [items]="items" box="sun" day="Sunday"></app-card>
       </div>
       <div class="col-12 sm:col-6 md:col-6 lg:col-3">
-        <app-card box="notes" titleBox="Notes"></app-card>
+        <app-card [items]="items" box="notes" titleBox="Notes"></app-card>
       </div>
     </div>
   </div>
@@ -71,7 +71,7 @@
         <app-card titleBox="Calendar"></app-card>
       </div>
       <div class="col-12 md:col-12">
-        <app-card box="todo" titleBox="To Do"></app-card>
+        <app-card [items]="items" box="todo" titleBox="To Do"></app-card>
       </div>
     </div>
   </div>

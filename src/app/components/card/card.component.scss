@@ -31,16 +31,16 @@ ul {
 }
 
 .finished {
-  font-style: italic;
+  text-decoration: line-through;
   opacity: 40%;
-  color: var(--green-500);
 }
 
 .canceled span,
 .canceled i {
-  text-decoration-color: var(--tertiary-color);
+  color: var(--tertiary-color);
   text-decoration: line-through;
-  opacity: 30%;
+  opacity: 35%;
+  font-style: italic;
 }
 
 .started span,

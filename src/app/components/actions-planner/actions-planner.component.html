@@ -5,12 +5,11 @@
   showIcon="pi pi-bars"
   [mask]="true"
   hideIcon="pi pi-times"
-
   buttonClassName="p-button-raised p-button-warning p-button-text"
 ></p-speedDial>
 
 <p-dialog
-  header="Choose the theme"
+  header="Choose a theme"
   [(visible)]="theme"
   [style]="{ width: 'max-content', height: 'max-content' }"
   [modal]="true"
@@ -18,7 +17,7 @@
   <p-dropdown
     [options]="themes"
     [(ngModel)]="themeService.theme"
-    placeholder="choose the theme"
+    placeholder="choose a theme"
     optionLabel="name"
     optionValue="code"
     (ngModelChange)="changeTheme($event)"
