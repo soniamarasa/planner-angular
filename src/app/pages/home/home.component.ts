@@ -46,7 +46,12 @@ export class HomeComponent implements OnInit, OnDestroy {
   newItem() {
     const ref = this._dialogService.open(FormDialogComponent, {
       header: 'New Item',
-      width: 'max-content',
+      width: '640px',
+      breakpoints: {
+        '960px': '90vw',
+      },
+      closable: true,
+      closeOnEscape: true,
       styleClass: this.themeService.theme + ' modal',
     });
   }

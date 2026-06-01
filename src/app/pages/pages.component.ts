@@ -12,13 +12,8 @@ export class PagesComponent {
 
   constructor(public themeService: ThemeService) {
     window.location.pathname === '/auth';
-
-    if (!this.themeService.getTheme()) {
-      this.themeService.theme = 'theme01';
-    } else {
-      window.location.pathname === '/auth'
-        ? (this.themeService.theme = 'theme01')
-        : (this.themeService.theme = this.themeService.getTheme());
-    }
+    const storedTheme = this.themeService.getTheme();
+    this.themeService.theme =
+      window.location.pathname === '/auth' ? 'theme-light' : storedTheme;
   }
 }

@@ -11,12 +11,10 @@ export class AppComponent {
   title = 'planner-angular';
 
   constructor(public themeService: ThemeService) {
-    if (!this.themeService.getTheme()) {
-      this.themeService.theme = 'theme01';
-    } else {
+    const storedTheme = this.themeService.getTheme();
+    this.themeService.theme =
       window.location.pathname === '' || window.location.pathname === '/account'
-        ? (this.themeService.theme = this.themeService.getTheme())
-        : (this.themeService.theme = 'theme01');
-    }
+        ? storedTheme
+        : 'theme-light';
   }
 }

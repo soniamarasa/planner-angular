@@ -3,6 +3,8 @@ footer {
   box-sizing: border-box;
   width: 100%;
   height: max-content;
-  padding: 10px;
-  margin-top: 20px;
+  padding: 0.9rem 1rem 1.2rem;
+  margin-top: 0.2rem;
+  color: var(--text-muted);
+  border-top: 1px solid color-mix(in srgb, var(--surface-border) 70%, transparent);
 }

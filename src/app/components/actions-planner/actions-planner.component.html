@@ -3,21 +3,22 @@
   direction="down"
   [transitionDelay]="80"
   showIcon="pi pi-bars"
-  [mask]="true"
+  [mask]="false"
   hideIcon="pi pi-times"
   buttonClassName="p-button-raised p-button-warning p-button-text"
 ></p-speedDial>
 
 <p-dialog
-  header="Choose a theme"
+  header="Escolha o tema"
   [(visible)]="theme"
   [style]="{ width: 'max-content', height: 'max-content' }"
   [modal]="true"
+  [styleClass]="themeService.theme + ' modal'"
 >
   <p-select
     [options]="themes"
     [(ngModel)]="themeService.theme"
-    placeholder="choose a theme"
+    placeholder="Selecione"
     optionLabel="name"
     optionValue="code"
     (ngModelChange)="changeTheme($event)"
@@ -29,5 +30,6 @@
   icon="pi pi-exclamation-triangle"
   acceptButtonStyleClass="p-button-success"
   rejectButtonStyleClass="p-button-danger"
+  [styleClass]="themeService.theme + ' modal'"
 >
 </p-confirmDialog>

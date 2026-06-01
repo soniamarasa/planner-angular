@@ -5,32 +5,32 @@
     .new-item {
       display: flex;
       justify-content: flex-end;
-      padding: 0.5rem 3.5rem;
+      padding: 1rem 3.5rem 0.35rem;
     }
 
     .container-cards {
-      margin: 0.5rem 3rem 3rem;
+      margin: 0.4rem 2.6rem 2.6rem;
       min-height: calc(100vh - 186px);
       height: max-content;
     }
 
     .cards-days {
-      margin-bottom: 8px;
+      margin-bottom: 2px;
     }
 
     @media (max-width: 768px) {
       .container-cards {
-        margin: 0 1rem 1rem;
+        margin: 0 0.7rem 1rem;
       }
 
       .col-calend {
         display: flex;
         flex-direction: column-reverse;
-        margin-top: -24px;
+        margin-top: -14px;
       }
 
       .new-item {
-        padding: 0.5rem 1.5rem;
+        padding: 0.9rem 1rem 0.2rem;
       }
     }
 
@@ -38,7 +38,7 @@
       .col-calend {
         display: flex;
         flex-direction: column;
-        margin-top: -8px;
+        margin-top: -2px;
       }
     }
 
@@ -54,12 +54,14 @@
     }
 
     .p-button {
-      background-color: #eec41e;
-      border-color: #eec41e;
+      background: linear-gradient(135deg, var(--accent), #ffc27f);
+      border-color: transparent;
+      box-shadow: 0 10px 24px rgba(255, 154, 61, 0.28);
 
       &:hover {
-        background-color: #ddb517 !important;
-        border-color: #ddb517 !important;
+        background: linear-gradient(135deg, var(--accent-hover), #ffb766) !important;
+        border-color: transparent !important;
+        transform: translateY(-1px);
       }
     }
   }

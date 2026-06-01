@@ -1,11 +1,17 @@
 :host {
-    & ::ng-deep {
-      min-width: 500px;
+  & ::ng-deep {
+    min-width: 500px;
 
-      & .p-speeddial {
-        left: 1rem;
-        width: max-content;
-      }
+    & .p-speeddial {
+      left: 1rem;
+      top: 1rem;
+      width: max-content;
+    }
+
+    & .p-speeddial-button {
+      backdrop-filter: blur(6px);
+      border: 1px solid var(--surface-border);
     }
   }
+}
   

@@ -1,7 +1,7 @@
 :host {
   & ::ng-deep {
     form {
-      width: 500px;
+      width: min(500px, 100%);
       display: flex;
       flex-direction: column;
     }
@@ -18,7 +18,7 @@
 
     @media (max-width: 600px) {
       form {
-        width: 70vw;
+        width: 100%;
         div {
           grid-template-columns: repeat(1, 1fr);
         }
@@ -42,7 +42,9 @@
     #button-div {
       display: flex;
       justify-content: flex-end;
-      margin-top: 10px;
+      margin-top: 0.9rem;
+      padding-top: 0.75rem;
+      border-top: 1px solid var(--surface-border);
     }
 
     .p-inputtext {

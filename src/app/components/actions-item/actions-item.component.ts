@@ -32,7 +32,12 @@ export class ActionsItemComponent implements OnInit {
 
     const ref = this.dialogService.open(dialog.component, {
       header: dialog.title,
-      width: 'max-content',
+      width: '640px',
+      breakpoints: {
+        '960px': '90vw',
+      },
+      closable: true,
+      closeOnEscape: true,
       styleClass: this.themeService.theme + ' modal',
       data: initialState,
     });

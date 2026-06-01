@@ -35,12 +35,8 @@ export class ActionsPlannerComponent implements OnInit {
     public themeService: ThemeService
   ) {
     this.themes = [
-      { name: 'Tema 01', code: 'theme01' },
-      { name: 'Tema 02', code: 'theme02' },
-      { name: 'Tema 03', code: 'theme03' },
-      { name: 'Tema 04', code: 'theme04' },
-      { name: 'Tema 05', code: 'theme05' },
-      { name: 'Tema 06', code: 'theme06' },
+      { name: 'Claro', code: 'theme-light' },
+      { name: 'Escuro', code: 'theme-dark' },
     ];
   }
 
@@ -53,7 +49,12 @@ export class ActionsPlannerComponent implements OnInit {
     }
     const ref = this._dialogService.open(dialog.component, {
       header: dialog.title,
-      width: 'max-content',
+      width: '640px',
+      breakpoints: {
+        '960px': '90vw',
+      },
+      closable: true,
+      closeOnEscape: true,
       styleClass: this.themeService.theme + ' modal',
     });
   }
@@ -108,7 +109,7 @@ export class ActionsPlannerComponent implements OnInit {
       },
       {
         tooltipOptions: {
-          tooltipLabel: 'Theme',
+          tooltipLabel: 'Tema',
           tooltipPosition: 'left',
         },
         icon: 'pi pi-palette',
@@ -133,7 +134,7 @@ export class ActionsPlannerComponent implements OnInit {
     this.subs.add(
       this.userFacade.logout().subscribe({
         next: () => {
-          this.themeService.theme = 'theme01';
+          this.themeService.theme = 'theme-light';
           this._router.navigate(['/auth']);
         },
         error: () =>

@@ -4,14 +4,15 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class ThemeService {
-  theme = "theme01"
+  theme = 'theme-light';
 
   setTheme(currentTheme: string): any {
-    localStorage.setItem("theme", currentTheme);
+    localStorage.setItem('theme', currentTheme);
   }
 
-  getTheme():any {
-    return localStorage.getItem('theme')
+  getTheme(): any {
+    const savedTheme = localStorage.getItem('theme');
+    return savedTheme === 'theme-dark' ? 'theme-dark' : 'theme-light';
   }
 
   constructor() { }
