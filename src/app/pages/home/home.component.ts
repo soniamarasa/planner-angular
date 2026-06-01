@@ -2,7 +2,6 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { map, Observable } from 'rxjs';
 import { DialogService } from 'primeng/dynamicdialog';
-import { SubSink } from 'subsink';
 
 import { ThemeService } from '../../services/theme.service';
 import { DateService } from 'src/app/services/date.service';
@@ -12,19 +11,20 @@ import { FormDialogComponent } from '../../components/form-dialog/form-dialog.co
 
 @Component({
   selector: 'app-home',
+  standalone: false,
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit, OnDestroy {
-  subs = new SubSink();
   weekDay: any;
-  items: Item[] = [];
 
   public items$ = this.facade.itemsState$.pipe(
-    map((state) => {
-      return state.items.sort((a, b): any => {
+    map((state): Item[] => {
+      return [...state.items].sort((a, b): number => {
         if (a.type && b.type)
           return a.type < b.type ? -1 : a.type > b.type ? 1 : 0;
+
+        return 0;
       });
     })
   );
@@ -36,31 +36,11 @@ export class HomeComponent implements OnInit, OnDestroy {
     public date: DateService,
     public themeService: ThemeService
   ) {
-    this.facade.init();
     this._router.routeReuseStrategy.shouldReuseRoute = () => false;
   }
 
   ngOnInit(): any {
     this.weekDay = this.date.weekDay.toLowerCase();
-
-    this.subs.add(
-      this.items$.subscribe((items) => {
-        this.items = items;
-        // if (items.length) {
-        //   const userId = items[0].userId;
-        //   const userIdStorage = JSON.parse(
-        //     localStorage.getItem('idUser') as string
-        //   );
-
-        //   if (userId === userIdStorage) {
-        //     this.items = items;
-        //   }
-        // } else {
-        //   this.items = [];
-        // }
-      })
-    );
-    
   }
 
   newItem() {
