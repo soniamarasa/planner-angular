@@ -37,16 +37,6 @@ form .row01 {
   border-top: 1px solid var(--surface-border);
 }
 
-.p-button {
-  background-color: #eec41e;
-  border-color: #eec41e;
-
-  &:hover {
-    background-color: #ddb517 !important;
-    border-color: #ddb517 !important;
-  }
-}
-
 @media (max-width: 600px) {
   form {
     width: 100%;

@@ -3,7 +3,7 @@
     .container-not-found {
       min-height: calc(100vh - 0px);
       max-height: calc(100vh - 0px);
-      background-color: white !important;
+      background-color: transparent !important;
       overflow-x: hidden;
 
       .container-div {
@@ -24,12 +24,12 @@
     }
 
     .p-button {
-      background-color: #eec41e;
-      border-color: #eec41e;
+      background-color: var(--accent);
+      border-color: var(--accent);
 
       &:hover {
-        background-color: #ddb517;
-        border-color: #ddb517;
+        background-color: var(--accent-hover);
+        border-color: var(--accent-hover);
       }
     }
 
@@ -40,13 +40,13 @@
     h2 {
       margin: 2rem 0 0;
       text-align: center;
-      color: #eec41e !important;
+      color: var(--accent) !important;
     }
 
     h3 {
       padding-top: 2rem;
       cursor: pointer;
-      color: #c49877 !important;
+      color: var(--text-muted) !important;
     }
   }
 }

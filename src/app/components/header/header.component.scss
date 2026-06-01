@@ -4,6 +4,7 @@
 
     .header-shell {
       position: relative;
+      z-index: 100;
       text-align: center;
       padding: 1.7rem 1rem 1rem;
       margin: 0 2.6rem 0;
@@ -27,7 +28,8 @@
       position: absolute;
       top: 0.9rem;
       left: 1rem;
-      z-index: 3;
+      z-index: 1700;
+      isolation: isolate;
     }
 
     h1,

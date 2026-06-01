@@ -112,6 +112,7 @@ h3 {
   box-shadow: var(--shadow-soft);
   background: var(--surface);
   backdrop-filter: blur(8px);
+  z-index: 1;
 }
 
 .p-card-content,
@@ -140,6 +141,7 @@ h3 {
 
 .p-speeddial-list {
   z-index: 1501 !important;
+  position: relative;
 }
 
 .p-speeddial-item {
@@ -543,6 +545,8 @@ h3 {
 .modal .p-dialog-footer {
   border-radius: 0 0 18px 18px;
   padding: 0.8rem 1.4rem 1rem;
+  display: flex;
+  justify-content: flex-end;
 }
 
 .modal .p-dialog-header-actions {
@@ -668,4 +672,16 @@ h3 {
     color-mix(in srgb, var(--surface-strong) 96%, transparent),
     color-mix(in srgb, #111215 88%, transparent)
   ) !important;
+}
+
+.theme-light.modal .p-dialog-title,
+.theme-dark.modal .p-dialog-title {
+  color: var(--title-color) !important;
+}
+
+.theme-light.modal .p-dialog-content,
+.theme-dark.modal .p-dialog-content,
+.theme-light.modal .p-dialog-footer,
+.theme-dark.modal .p-dialog-footer {
+  color: var(--text-main) !important;
 }

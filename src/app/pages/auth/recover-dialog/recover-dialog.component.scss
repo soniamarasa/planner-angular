@@ -11,9 +11,9 @@
         width: 100%;
         & .p-inputtext {
           width: 100%;
-          color: black;
-          border-color: transparent;
-          background: rgba(0, 0, 0, 0.05);
+          color: var(--text-main);
+          border-color: var(--surface-border);
+          background: color-mix(in srgb, var(--surface-strong) 90%, transparent);
         }
       }
     }
@@ -22,16 +22,10 @@
       display: flex;
       justify-content: flex-end;
       align-items: center;
+      margin-top: 0.8rem;
+      padding-top: 0.7rem;
+      border-top: 1px solid var(--surface-border);
     }
 
-    .p-button {
-      background-color: #eec41e;
-      border-color: #eec41e;
-
-      &:hover {
-        background-color: #ddb517;
-        border-color: #ddb517;
-      }
-    }
   }
 }

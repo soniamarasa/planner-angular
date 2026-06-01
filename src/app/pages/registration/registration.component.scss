@@ -11,7 +11,7 @@
         width: 100%;
 
         & h3 {
-          color: #eec41e !important;
+          color: var(--accent) !important;
           cursor: pointer;
         }
       }
@@ -28,7 +28,7 @@
       top: 6rem;
       width: 6rem;
       height: 6rem;
-      background-color: #eec41e;
+      background-color: var(--accent);
       color: #ffffff;
       border-radius: 50%;
       display: flex;
@@ -73,12 +73,12 @@
     }
 
     .p-button {
-      background-color: #eec41e;
-      border-color: #eec41e;
+      background-color: var(--accent);
+      border-color: var(--accent);
 
       &:hover {
-        background-color: #ddb517;
-        border-color: #ddb517;
+        background-color: var(--accent-hover);
+        border-color: var(--accent-hover);
       }
     }
 

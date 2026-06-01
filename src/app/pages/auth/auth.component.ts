@@ -9,6 +9,7 @@ import { finalize } from 'rxjs';
 import { UserFacade } from 'src/app/facades/user.facades';
 import { User } from 'src/app/models/user';
 import { RecoverDialogComponent } from './recover-dialog/recover-dialog.component';
+import { ThemeService } from 'src/app/services/theme.service';
 
 @Component({
   selector: 'app-auth',
@@ -27,7 +28,8 @@ export class AuthComponent implements OnInit {
     public _dialogService: DialogService,
     private _router: Router,
     private _messageService: MessageService,
-    private facade: UserFacade
+    private facade: UserFacade,
+    private themeService: ThemeService
   ) {
     this.subs.add(
       this.facade.authState$.subscribe(
@@ -54,6 +56,13 @@ export class AuthComponent implements OnInit {
   openDialogRecover() {
     const ref = this._dialogService.open(RecoverDialogComponent, {
       header: 'Forgot your password?',
+      width: '560px',
+      breakpoints: {
+        '960px': '90vw',
+      },
+      closable: true,
+      closeOnEscape: true,
+      styleClass: this.themeService.theme + ' modal',
     });
 
     this.subs.add(

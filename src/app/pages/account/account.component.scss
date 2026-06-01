@@ -31,7 +31,7 @@
       div {
         width: 10rem;
         height: 10rem;
-        background-color: #eec41e;
+        background-color: var(--accent);
         color: #ffffff;
         border-radius: 50%;
         display: flex;
@@ -66,7 +66,7 @@
 
             & .p-inputtext:enabled:hover {
               border-color: transparent;
-              background-color: rgba(0, 0, 0, 0.1);
+              background-color: color-mix(in srgb, var(--surface-strong) 82%, transparent);
             }
 
             & .p-inputtext {
@@ -102,24 +102,24 @@
     }
 
     .p-button {
-      background-color: #eec41e;
-      border-color: #eec41e;
+      background-color: var(--accent);
+      border-color: var(--accent);
 
       &:hover {
-        background-color: #ddb517;
-        border-color: #ddb517;
+        background-color: var(--accent-hover);
+        border-color: var(--accent-hover);
       }
     }
 
     .reset {
-      background-color: #c49877;
-      border-color: #c49877;
-      color: #f2ebe1;
+      background-color: color-mix(in srgb, var(--surface-strong) 84%, var(--tertiary-color) 16%);
+      border-color: color-mix(in srgb, var(--surface-border) 72%, var(--tertiary-color) 28%);
+      color: var(--text-main);
 
       &:hover {
-        background-color: #c49877;
-        border-color: #c49877;
-        color: #f2ebe1;
+        background-color: color-mix(in srgb, var(--surface-strong) 76%, var(--tertiary-color) 24%);
+        border-color: var(--tertiary-color);
+        color: var(--text-main);
       }
     }
 
