@@ -1,6 +1,6 @@
 export interface Item {
-  _id?: string;
-  userId?: string;
+  id?: string;
+  user_id?: string;
   description?: string;
   type?: string;
   where?: string;

@@ -21,6 +21,7 @@ import { ItemsFacade } from 'src/app/facades/items.facade';
 
 @Component({
   selector: 'app-form-dialog',
+  standalone: false,
   templateUrl: './form-dialog.component.html',
   styleUrls: ['./form-dialog.component.scss'],
   providers: [MessageService],

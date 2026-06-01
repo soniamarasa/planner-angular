@@ -1,14 +1,14 @@
 <form [formGroup]="form">
   <div class="formgrid grid">
     <div class="field col-12 sm:col-6 md:col-4 lg:col-4">
-      <p-dropdown
+      <p-select
         [options]="type"
         placeholder="Type"
         optionLabel="name"
         optionValue="code"
         formControlName="type"
       >
-      </p-dropdown>
+      </p-select>
     </div>
 
     <div class="field col-12 sm:col-6 md:col-8 lg:col-8">

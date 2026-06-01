@@ -3,6 +3,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { providePrimeNG } from 'primeng/config';
+import Aura from '@primeuix/themes/aura';
 
 import { ThemeService } from './services/theme.service';
 
@@ -23,6 +25,11 @@ import { TokenInterceptor } from '../app/interceptors/token.interceptor';
     PagesModule,
   ],
   providers: [
+    providePrimeNG({
+      theme: {
+        preset: Aura,
+      },
+    }),
     ThemeService,
     {
       provide: HTTP_INTERCEPTORS,

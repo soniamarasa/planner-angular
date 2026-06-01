@@ -14,14 +14,14 @@
   [style]="{ width: 'max-content', height: 'max-content' }"
   [modal]="true"
 >
-  <p-dropdown
+  <p-select
     [options]="themes"
     [(ngModel)]="themeService.theme"
     placeholder="choose a theme"
     optionLabel="name"
     optionValue="code"
     (ngModelChange)="changeTheme($event)"
-  ></p-dropdown>
+  ></p-select>
 </p-dialog>
 
 <p-confirmDialog

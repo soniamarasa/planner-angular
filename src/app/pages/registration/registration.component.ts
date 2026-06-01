@@ -17,6 +17,7 @@ import { UserFacade } from 'src/app/facades/user.facades';
 
 @Component({
   selector: 'app-registration',
+  standalone: false,
   templateUrl: './registration.component.html',
   styleUrls: ['./registration.component.scss'],
 })

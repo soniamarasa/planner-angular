@@ -14,6 +14,7 @@ import { UserFacade } from 'src/app/facades/user.facades';
 
 @Component({
   selector: 'app-password-recover',
+  standalone: false,
   templateUrl: './password-recover.component.html',
   styleUrls: ['./password-recover.component.scss'],
 })

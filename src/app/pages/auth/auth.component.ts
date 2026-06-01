@@ -12,6 +12,7 @@ import { RecoverDialogComponent } from './recover-dialog/recover-dialog.componen
 
 @Component({
   selector: 'app-auth',
+  standalone: false,
   templateUrl: './auth.component.html',
   styleUrls: ['./auth.component.scss'],
 })

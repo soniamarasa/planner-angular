@@ -6,6 +6,7 @@ import { Item } from 'src/app/models/item';
 
 @Component({
   selector: 'app-chart',
+  standalone: false,
   templateUrl: './chart.component.html',
   styleUrls: ['./chart.component.scss'],
 })

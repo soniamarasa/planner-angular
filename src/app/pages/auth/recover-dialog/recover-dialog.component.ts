@@ -7,6 +7,7 @@ import { SubSink } from 'subsink';
 
 @Component({
   selector: 'app-recover-dialog',
+  standalone: false,
   templateUrl: './recover-dialog.component.html',
   styleUrls: ['./recover-dialog.component.scss'],
   providers: [MessageService],

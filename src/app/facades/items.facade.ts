@@ -117,7 +117,7 @@ export class ItemsFacade {
     const createObservable = this.service.newItem(this.idUser, item);
     const successObservable = createObservable.pipe(
       tap(() => this.loading.setLoading(false)),
-      map((newItem) => (newItem._id ? true : false))
+      map((newItem: any) => Array.isArray(newItem) && newItem.length > 0)
     );
 
     this.loading.setLoading(true);
@@ -140,7 +140,7 @@ export class ItemsFacade {
     const updateItem = this.service.editItem(this.idUser, id, item);
 
     const successObservable = updateItem.pipe(
-      map((itemStatusUpdate: any) => (itemStatusUpdate._id ? true : false)),
+      map((itemStatusUpdate: any) => (itemStatusUpdate.id ? true : false)),
       tap(() => this.loading.setLoading(false))
     );
 
@@ -161,7 +161,7 @@ export class ItemsFacade {
     const updateStatus = this.service.updateStatus(this.idUser, id, item);
 
     const successObservable = updateStatus.pipe(
-      map((itemStatusUpdate: any) => (itemStatusUpdate._id ? true : false)),
+      map((itemStatusUpdate: any) => (itemStatusUpdate.id ? true : false)),
       tap(() => this.loading.setLoading(false))
     );
 

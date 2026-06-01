@@ -16,6 +16,7 @@ import { User } from 'src/app/models/user';
 
 @Component({
   selector: 'app-account',
+  standalone: false,
   templateUrl: './account.component.html',
   styleUrls: ['./account.component.scss'],
 })

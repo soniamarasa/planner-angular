@@ -14,6 +14,7 @@ import { ItemsFacade } from 'src/app/facades/items.facade';
 
 @Component({
   selector: 'app-edit-form',
+  standalone: false,
   templateUrl: './edit-form.component.html',
   styleUrls: ['./edit-form.component.scss'],
 })
@@ -77,7 +78,7 @@ export class EditFormComponent implements OnInit {
   editItem() {
     const checkValidation = this.validation();
     if (checkValidation) {
-      this.facade.update(this.config.data._id, this.form.value);
+      this.facade.update(this.config.data.id, this.form.value);
       this.ref.destroy();
     }
   }

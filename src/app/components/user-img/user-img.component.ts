@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-user-img',
+  standalone: false,
   templateUrl: './user-img.component.html',
   styleUrls: ['./user-img.component.scss'],
 })

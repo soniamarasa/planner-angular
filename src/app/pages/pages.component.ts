@@ -3,6 +3,7 @@ import { ThemeService } from '../services/theme.service';
 
 @Component({
   selector: 'app-pages',
+  standalone: false,
   templateUrl: './pages.component.html',
   styleUrls: ['./pages.component.scss'],
 })

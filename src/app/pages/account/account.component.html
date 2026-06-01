@@ -65,18 +65,18 @@
             <div class="col-12 md:col-4">
               <div class="field">
                 <label for="gender" class="block">Gender</label>
-                <p-dropdown
+                <p-select
                   [options]="gender"
                   placeholder="Select your gender"
                   optionLabel="name"
                   optionValue="code"
                   formControlName="gender"
-                ></p-dropdown>
+                ></p-select>
                 <small
                   class="p-error"
                   *ngIf="
-                    formControl?.gender?.touched &&
-                    formControl?.gender?.errors?.required
+                    formControl.gender.touched &&
+                    formControl.gender.errors?.required
                   "
                 >
                   Gender is required
@@ -87,13 +87,13 @@
             <div class="col-12 md:col-5">
               <div class="field">
                 <label for="birthdate" class="block">Bithdate</label>
-                <p-calendar
+                <p-datepicker
                   formControlName="birthdate"
                   dateFormat="dd.mm.yy"
                   [showIcon]="true"
                   inputId="icon"
                   placeholder="Select your birthdate"
-                ></p-calendar>
+                ></p-datepicker>
                 <small
                   class="p-error"
                   *ngIf="

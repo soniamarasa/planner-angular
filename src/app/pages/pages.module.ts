@@ -4,13 +4,13 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
-import { CalendarModule } from 'primeng/calendar';
+import { DatePickerModule } from 'primeng/datepicker';
 import { DividerModule } from 'primeng/divider';
 import { SpeedDialModule } from 'primeng/speeddial';
 import { TooltipModule } from 'primeng/tooltip';
 import { DialogModule } from 'primeng/dialog';
 import { DialogService, DynamicDialogModule } from 'primeng/dynamicdialog';
-import { DropdownModule } from 'primeng/dropdown';
+import { SelectModule } from 'primeng/select';
 import { InputTextModule } from 'primeng/inputtext';
 import { PasswordModule } from 'primeng/password';
 import { MultiSelectModule } from 'primeng/multiselect';
@@ -18,7 +18,6 @@ import { CheckboxModule } from 'primeng/checkbox';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
-import { MessagesModule } from 'primeng/messages';
 import { MessageModule } from 'primeng/message';
 import { ChartModule } from 'primeng/chart';
 
@@ -80,21 +79,20 @@ import { RecoverDialogComponent } from './auth/recover-dialog/recover-dialog.com
     ReactiveFormsModule,
     ButtonModule,
     CardModule,
-    CalendarModule,
+    DatePickerModule,
     DividerModule,
     SpeedDialModule,
     TooltipModule,
     DialogModule,
     DynamicDialogModule,
     ConfirmDialogModule,
-    DropdownModule,
+    SelectModule,
     InputTextModule,
     PasswordModule,
     MultiSelectModule,
     CheckboxModule,
     ToastModule,
     MessageModule,
-    MessagesModule,
     ChartModule,
 
     // --- Pages Routing ---

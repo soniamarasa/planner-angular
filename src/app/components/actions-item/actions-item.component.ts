@@ -9,6 +9,7 @@ import { Item } from 'src/app/models/item';
 
 @Component({
   selector: 'app-actions-item',
+  standalone: false,
   templateUrl: './actions-item.component.html',
   styleUrls: ['./actions-item.component.scss'],
 })

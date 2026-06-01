@@ -15,6 +15,7 @@ import { Dropdown } from 'src/app/models/dropdown';
 
 @Component({
   selector: 'app-actions-planner',
+  standalone: false,
   templateUrl: './actions-planner.component.html',
   styleUrls: ['./actions-planner.component.scss'],
 })

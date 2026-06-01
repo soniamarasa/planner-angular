@@ -1,22 +1,22 @@
 <form [formGroup]="form">
   <div class="row01">
-    <p-dropdown
+    <p-select
       [options]="type"
       placeholder="Type"
       optionLabel="name"
       optionValue="code"
       formControlName="type"
     >
-    </p-dropdown>
+    </p-select>
 
-    <p-dropdown
+    <p-select
       [options]="box"
       placeholder="Where?"
       optionLabel="name"
       formControlName="where"
       optionValue="code"
     >
-    </p-dropdown>
+    </p-select>
   </div>
 
   <input

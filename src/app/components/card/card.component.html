@@ -21,7 +21,7 @@
               important: item.important,
               canceled: item.canceled
             }"
-            (click)="facade.actionsControl(item._id, null, null, null)"
+            (click)="facade.actionsControl(item.id, null, null, null)"
           >
             <i
               *ngIf="item.type === 'task' && !item.finished"
@@ -46,7 +46,7 @@
             </p>
 
             <app-actions-item
-              *ngIf="item._id === facade.currentId"
+              *ngIf="item.id === facade.currentId"
               [item]="item"
             >
             </app-actions-item>
@@ -59,6 +59,6 @@
   </ng-container>
 
   <ng-container *ngIf="titleBox === 'Calendar'">
-    <p-calendar [(ngModel)]="value" [inline]="true"> </p-calendar>
+    <p-datepicker [(ngModel)]="value" [inline]="true"> </p-datepicker>
   </ng-container>
 </p-card>
