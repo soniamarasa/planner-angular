@@ -14,11 +14,11 @@
   margin-bottom: 0;
   padding: 0.65rem 1rem;
   border-radius: 16px;
-  background: var(--surface);
-  border: 1px solid var(--surface-border);
+  background: color-mix(in srgb, var(--surface-strong) 62%, transparent);
+  border: 1px solid color-mix(in srgb, var(--surface-border) 75%, transparent);
   box-shadow: var(--shadow-soft);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   isolation: isolate;
 }
 

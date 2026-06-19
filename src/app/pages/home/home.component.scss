@@ -28,6 +28,14 @@
       min-height: calc(100vh - 186px);
       height: max-content;
       box-sizing: border-box;
+
+      .p-card {
+        background: color-mix(in srgb, var(--surface-strong) 50%, transparent) !important;
+        border: 1px solid color-mix(in srgb, var(--surface-border) 50%, transparent) !important;
+        backdrop-filter: blur(5px);
+        -webkit-backdrop-filter: blur(8px);
+        box-shadow: var(--shadow-soft) !important;
+      }
     }
 
     .cards-days {

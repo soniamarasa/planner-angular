@@ -16,7 +16,8 @@
   --accent: #ff9a3d;
   --accent-hover: #f48a25;
   --surface-border: rgba(87, 105, 137, 0.1);
-  --shadow-soft: 0 1px 2px rgba(28, 45, 78, 0.04), 0 6px 18px rgba(28, 45, 78, 0.05);
+  --shadow-soft:
+    0 1px 2px rgba(28, 45, 78, 0.04), 0 6px 18px rgba(28, 45, 78, 0.05);
   --shadow-lift: 0 10px 28px rgba(28, 45, 78, 0.08);
   --today-border: rgba(255, 154, 61, 0.35);
   --planner-gutter: 2.6rem;
@@ -130,7 +131,9 @@ h3 {
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   z-index: 1;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .p-card-content,
@@ -323,7 +326,8 @@ h3 {
 .theme-light:not(.modal),
 .theme-dark:not(.modal) {
   min-height: 100vh;
-  background: radial-gradient(
+  background:
+    radial-gradient(
       circle at 14% 12%,
       color-mix(in srgb, var(--secundary-color) 12%, transparent),
       transparent 32%
@@ -348,7 +352,8 @@ body.theme-light,
   --accent: #ff9a3d;
   --accent-hover: #f48a25;
   --surface-border: rgba(87, 105, 137, 0.1);
-  --shadow-soft: 0 1px 2px rgba(28, 45, 78, 0.04), 0 6px 18px rgba(28, 45, 78, 0.05);
+  --shadow-soft:
+    0 1px 2px rgba(28, 45, 78, 0.04), 0 6px 18px rgba(28, 45, 78, 0.05);
   --shadow-lift: 0 10px 28px rgba(28, 45, 78, 0.08);
   --today-border: rgba(255, 154, 61, 0.35);
 }
@@ -391,14 +396,12 @@ body.theme-dark,
   }
 
   .p-datepicker {
-    background: #1e2026 !important;
     border: 0 !important;
     border-radius: 10px !important;
   }
 
   .p-datepicker-panel,
   .p-datepicker-panel-inline {
-    background: #1e2026 !important;
     border: 0 !important;
     border-radius: 10px !important;
     box-shadow: none !important;
@@ -422,7 +425,6 @@ body.theme-dark,
   .p-datepicker table tr,
   .p-datepicker table td,
   .p-datepicker table th {
-    background-color: #1e2026 !important;
     color: var(--text-main) !important;
   }
 
@@ -438,14 +440,6 @@ body.theme-dark,
   .p-datepicker .p-datepicker-header .p-datepicker-title .p-datepicker-year {
     color: var(--text-main) !important;
     background: transparent !important;
-  }
-
-  .p-datepicker-calendar,
-  .p-datepicker table,
-  .p-datepicker table tbody,
-  .p-datepicker table tr,
-  .p-datepicker table td {
-    background: #1e2026 !important;
   }
 
   .p-datepicker table th {
@@ -493,7 +487,8 @@ body.theme-dark,
 }
 
 .theme-dark:not(.modal) {
-  background: radial-gradient(
+  background:
+    radial-gradient(
       circle at 12% 8%,
       rgba(255, 255, 255, 0.14),
       transparent 42%
@@ -503,7 +498,11 @@ body.theme-dark,
       rgba(215, 164, 99, 0.24),
       transparent 40%
     ),
-    radial-gradient(circle at 55% 88%, rgba(255, 255, 255, 0.1), transparent 38%),
+    radial-gradient(
+      circle at 55% 88%,
+      rgba(255, 255, 255, 0.1),
+      transparent 38%
+    ),
     linear-gradient(165deg, #040405 0%, #0e0f12 46%, #17181d 100%);
 }
 
@@ -574,7 +573,11 @@ body.theme-dark .p-dialog-mask.planner-dialog-mask {
 
 .theme-light.planner-dialog,
 .theme-light.modal {
-  background: color-mix(in srgb, var(--surface-strong) 96%, transparent) !important;
+  background: color-mix(
+    in srgb,
+    var(--surface-strong) 96%,
+    transparent
+  ) !important;
 }
 
 .theme-dark.planner-dialog,
@@ -628,7 +631,11 @@ body.theme-dark .p-dialog-mask.planner-dialog-mask {
   border-radius: 999px;
   border: 1px solid var(--surface-border);
   color: var(--text-muted) !important;
-  background: color-mix(in srgb, var(--surface-strong) 88%, transparent) !important;
+  background: color-mix(
+    in srgb,
+    var(--surface-strong) 88%,
+    transparent
+  ) !important;
 }
 
 .modal .p-dialog-close-button:hover,
@@ -755,7 +762,12 @@ body.theme-dark .p-datepicker-panel:not(.p-datepicker-panel-inline),
 }
 
 .today-is .p-card {
-  border-color: color-mix(in srgb, var(--accent) 24%, var(--surface-border)) !important;
+  border-color: color-mix(
+    in srgb,
+    var(--accent) 28%,
+    var(--surface-border)
+  ) !important;
+  background: color-mix(in srgb, var(--accent) 6%, transparent) !important;
   box-shadow: var(--shadow-soft);
   transform: none;
   position: relative;
@@ -768,7 +780,11 @@ body.theme-dark .p-datepicker-panel:not(.p-datepicker-panel-inline),
     left: 0;
     right: 0;
     height: 3px;
-    background: linear-gradient(90deg, var(--accent), color-mix(in srgb, var(--accent) 55%, transparent));
+    background: linear-gradient(
+      90deg,
+      var(--accent),
+      color-mix(in srgb, var(--accent) 55%, transparent)
+    );
   }
 }
 
