@@ -1,0 +1,220 @@
+<div class="focus-page" *ngIf="state && !state.loading">
+  <p-toast key="notification" position="top-right"></p-toast>
+  <div class="focus-bg" [ngStyle]="backgroundStyle"></div>
+  <div class="focus-overlay"></div>
+
+  <header class="focus-header">
+    <button pButton type="button" icon="pi pi-arrow-left" label="Planner" class="p-button-text back-btn" (click)="goHome()"></button>
+    <div class="focus-header__center">
+      <span class="focus-badge">{{ sessionStatusLabel }}</span>
+      <h1>Focus Mode</h1>
+    </div>
+    <button pButton type="button" icon="pi pi-cog" class="p-button-rounded p-button-text settings-btn" (click)="openSettings()"></button>
+  </header>
+
+  <main class="focus-layout">
+    <aside class="task-panel">
+      <div class="panel-head">
+        <h2>Tasks</h2>
+        <span>{{ state.tasks.length }} available</span>
+      </div>
+
+      <div class="task-list" *ngIf="state.tasks.length; else emptyTasks">
+        <button
+          type="button"
+          class="task-card"
+          *ngFor="let task of state.tasks"
+          [class.task-card--active]="state.selectedTask?.id === task.id"
+          [class.task-card--running]="state.session?.item_id === task.id"
+          (click)="selectTask(task)"
+        >
+          <div class="task-card__top">
+            <strong>{{ task.description }}</strong>
+            <span *ngIf="task.important" class="task-card__flag">!</span>
+          </div>
+          <small>{{ task.where | uppercase }}</small>
+          <div class="task-card__progress">
+            <div class="task-card__bar">
+              <span [style.width.%]="taskProgressPercent(task)"></span>
+            </div>
+            <small>{{ taskProgressLabel(task) }}</small>
+          </div>
+        </button>
+      </div>
+
+      <ng-template #emptyTasks>
+        <div class="empty-state">
+          <p>No pending tasks.</p>
+          <button pButton type="button" label="Back to planner" class="p-button-outlined" (click)="goHome()"></button>
+        </div>
+      </ng-template>
+    </aside>
+
+    <section class="timer-panel">
+      <div
+        class="timer-ring"
+        [style.background]="'conic-gradient(#ff9a3d ' + progressDegrees + 'deg, rgba(255,255,255,0.12) 0deg)'"
+      >
+        <div class="timer-ring__inner">
+          <span class="timer-label">Remaining</span>
+          <strong class="timer-value">{{ timerDisplay }}</strong>
+          <small *ngIf="state.session">
+            {{ focusFacade.formatTime(state.elapsedSeconds) }} / {{ focusFacade.formatTime(state.session.target_seconds) }}
+          </small>
+          <small *ngIf="!state.session && state.settings">
+            Session length: {{ state.settings.work_minutes }} min
+          </small>
+        </div>
+      </div>
+
+      <div class="timer-actions">
+        <button
+          *ngIf="!state.session"
+          pButton
+          type="button"
+          icon="pi pi-play"
+          label="Start focus"
+          class="p-button-rounded p-button-lg"
+          [disabled]="!state.selectedTask || state.loading"
+          (click)="startSession()"
+        ></button>
+
+        <ng-container *ngIf="state.session">
+          <button
+            *ngIf="state.isRunning"
+            pButton
+            type="button"
+            icon="pi pi-pause"
+            label="Pause"
+            class="p-button-rounded p-button-warning p-button-lg"
+            [disabled]="state.loading"
+            (click)="pauseSession()"
+          ></button>
+
+          <button
+            *ngIf="!state.isRunning && state.session.status === 'paused'"
+            pButton
+            type="button"
+            icon="pi pi-play"
+            label="Resume"
+            class="p-button-rounded p-button-lg"
+            [disabled]="state.loading"
+            (click)="resumeSession()"
+          ></button>
+
+          <button
+            pButton
+            type="button"
+            icon="pi pi-check"
+            label="Complete"
+            class="p-button-rounded p-button-success"
+            [disabled]="state.loading"
+            (click)="completeSession()"
+          ></button>
+
+          <button
+            pButton
+            type="button"
+            icon="pi pi-times"
+            label="Abandon"
+            class="p-button-rounded p-button-text abandon-btn"
+            [disabled]="state.loading"
+            (click)="abandonSession()"
+          ></button>
+        </ng-container>
+      </div>
+    </section>
+
+    <aside class="edit-panel" *ngIf="state.selectedTask as selectedTask">
+      <div class="panel-head">
+        <h2>Edit task</h2>
+        <span>{{ selectedTask.where | uppercase }}</span>
+      </div>
+
+      <form [formGroup]="taskForm" (ngSubmit)="saveTask()">
+        <label>Description</label>
+        <input type="text" pInputText formControlName="description" />
+
+        <label>Observation</label>
+        <input type="text" pInputText formControlName="obs" />
+
+        <label>Estimated pomodoros</label>
+        <p-inputNumber formControlName="estimated_pomodoros" [minFractionDigits]="1" [maxFractionDigits]="1" [min]="0.1" [max]="100"></p-inputNumber>
+
+        <button pButton type="submit" label="Save task" icon="pi pi-save" class="p-button-success" [disabled]="taskForm.invalid || state.loading"></button>
+      </form>
+    </aside>
+  </main>
+
+  <footer class="focus-credit" *ngIf="activeBackgroundCredit">
+    {{ activeBackgroundCredit }}
+  </footer>
+
+  <p-dialog
+    header="Focus settings"
+    [(visible)]="settingsVisible"
+    [modal]="true"
+    [style]="{ width: '520px' }"
+    [breakpoints]="{ '960px': '92vw' }"
+    styleClass="focus-settings-dialog"
+  >
+    <form [formGroup]="settingsForm" class="settings-form">
+      <div class="settings-grid">
+        <div>
+          <label>Focus (min)</label>
+          <p-inputNumber formControlName="work_minutes" [min]="1" [max]="180"></p-inputNumber>
+        </div>
+        <div>
+          <label>Short break (min)</label>
+          <p-inputNumber formControlName="short_break_minutes" [min]="1" [max]="60"></p-inputNumber>
+        </div>
+        <div>
+          <label>Long break (min)</label>
+          <p-inputNumber formControlName="long_break_minutes" [min]="1" [max]="60"></p-inputNumber>
+        </div>
+        <div>
+          <label>Long break every</label>
+          <p-inputNumber formControlName="long_break_interval" [min]="1" [max]="20"></p-inputNumber>
+        </div>
+      </div>
+
+      <label>Background</label>
+      <div class="background-picker">
+        <button
+          type="button"
+          class="background-option"
+          *ngFor="let background of backgrounds"
+          [class.background-option--active]="settingsForm.get('background_id')?.value === background.id"
+          (click)="selectBackground(background.id)"
+        >
+          <img [src]="background.imageUrl" [alt]="background.name" loading="lazy" />
+          <span>{{ background.name }}</span>
+        </button>
+      </div>
+
+      <label>Ambient sound</label>
+      <p-select
+        [options]="soundOptions"
+        optionLabel="name"
+        optionValue="code"
+        formControlName="ambient_sound"
+        (onChange)="onSoundChange()"
+      ></p-select>
+
+      <label>Volume</label>
+      <p-slider formControlName="sound_volume" [min]="0" [max]="1" [step]="0.05" (onSlideEnd)="onVolumeChange()"></p-slider>
+
+      <div class="settings-checks">
+        <div><p-checkbox formControlName="auto_start_breaks" [binary]="true" inputId="autoBreak"></p-checkbox><label for="autoBreak">Auto start breaks</label></div>
+        <div><p-checkbox formControlName="auto_start_focus" [binary]="true" inputId="autoFocus"></p-checkbox><label for="autoFocus">Auto start next focus</label></div>
+        <div><p-checkbox formControlName="notify_on_complete" [binary]="true" inputId="notifyComplete"></p-checkbox><label for="notifyComplete">Notify on complete</label></div>
+      </div>
+
+      <button pButton type="button" label="Save settings" icon="pi pi-check" class="p-button-success" (click)="saveSettings()"></button>
+    </form>
+  </p-dialog>
+</div>
+
+<div class="focus-loading" *ngIf="!state || state.loading">
+  <i class="pi pi-spin pi-spinner"></i>
+</div>
