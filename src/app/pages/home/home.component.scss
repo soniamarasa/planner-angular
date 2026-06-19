@@ -17,6 +17,12 @@
       display: block;
     }
 
+    .planner-toolbar__filter {
+      flex-shrink: 0;
+      min-width: 10rem;
+      max-width: 14rem;
+    }
+
     .planner-toolbar__action {
       flex-shrink: 0;
     }

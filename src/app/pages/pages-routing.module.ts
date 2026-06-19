@@ -5,6 +5,9 @@ import { AccountComponent } from './account/account.component';
 import { AuthComponent } from './auth/auth.component';
 import { FocusComponent } from './focus/focus.component';
 import { HomeComponent } from './home/home.component';
+import { ProjectsShellComponent } from './projects/projects-shell.component';
+import { ProjectsListComponent } from './projects/projects-list.component';
+import { ProjectDetailComponent } from './projects/project-detail.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { PagesComponent } from './pages.component';
 import { PasswordRecoverComponent } from './password-recover/password-recover.component';
@@ -32,6 +35,21 @@ const routes: Routes = [
         path: 'account',
         title: 'Weekly Planner | My account',
         component: AccountComponent,
+      },
+      {
+        path: 'projects',
+        title: 'Weekly Planner | Projects',
+        component: ProjectsShellComponent,
+        children: [
+          {
+            path: 'unassigned',
+            component: ProjectDetailComponent,
+          },
+          {
+            path: ':id',
+            component: ProjectDetailComponent,
+          },
+        ],
       },
     ],
   },

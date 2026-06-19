@@ -1,12 +1,16 @@
 import { ChangeDetectorRef, Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Observable, of } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
 import { SubSink } from 'subsink';
 import { Dropdown } from 'src/app/models/dropdown';
 import { FocusSettingsUpdate } from 'src/app/models/focus';
 import { Item } from 'src/app/models/item';
 import { FocusFacade, FocusState } from 'src/app/facades/focus.facade';
 import { ThemeService } from 'src/app/services/theme.service';
+import { ProjectsService } from 'src/app/services/projects.service';
+import { getStoredUserId } from 'src/app/utils/stored-user.util';
 import { plannerDialogStyleClass } from 'src/app/utils/planner-dialog.util';
 import {
   FOCUS_BACKGROUNDS,
@@ -25,13 +29,16 @@ export class FocusComponent implements OnInit, OnDestroy {
   taskForm!: FormGroup;
   settingsForm!: FormGroup;
   settingsVisible = false;
+  readonly defaultProjectFilter: Dropdown[] = [{ name: 'Todos os projetos', code: '' }];
+  projectFilterOptions$: Observable<Dropdown[]> = of(this.defaultProjectFilter);
+  selectedProjectId = '';
   readonly backgrounds: FocusBackground[] = FOCUS_BACKGROUNDS;
 
   soundOptions: Dropdown[] = [
-    { name: 'Rain', code: 'rain' },
-    { name: 'White noise', code: 'white' },
-    { name: 'Cafe', code: 'cafe' },
-    { name: 'Silence', code: 'none' },
+    { name: 'Chuva', code: 'rain' },
+    { name: 'Ruído branco', code: 'white' },
+    { name: 'Café', code: 'cafe' },
+    { name: 'Silêncio', code: 'none' },
   ];
 
   private subs = new SubSink();
@@ -42,7 +49,8 @@ export class FocusComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private router: Router,
     private formBuilder: FormBuilder,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private projectsService: ProjectsService
   ) {
     this.taskForm = this.formBuilder.group({
       description: ['', Validators.required],
@@ -84,6 +92,7 @@ export class FocusComponent implements OnInit, OnDestroy {
     );
 
     this.focusFacade.init(this.route.snapshot.queryParamMap.get('taskId'));
+    this.projectFilterOptions$ = this.buildProjectFilterOptions();
   }
 
   ngOnDestroy(): void {
@@ -133,15 +142,20 @@ export class FocusComponent implements OnInit, OnDestroy {
 
   get sessionStatusLabel(): string {
     if (!this.state?.session) {
-      return 'Ready to focus';
+      return 'Pronto para focar';
     }
     if (this.state.isRunning) {
-      return 'Focusing';
+      return 'Em foco';
     }
     if (this.state.session.status === 'paused') {
-      return 'Paused';
+      return 'Pausado';
     }
-    return 'Ready to focus';
+    return 'Pronto para focar';
+  }
+
+  onProjectFilterChange(projectId: string): void {
+    this.selectedProjectId = projectId;
+    this.focusFacade.setProjectFilter(projectId || null);
   }
 
   selectTask(task: Item): void {
@@ -231,6 +245,24 @@ export class FocusComponent implements OnInit, OnDestroy {
 
   goHome(): void {
     this.router.navigate(['/']);
+  }
+
+  private buildProjectFilterOptions(): Observable<Dropdown[]> {
+    const userId = getStoredUserId();
+    if (!userId) {
+      return of(this.defaultProjectFilter);
+    }
+
+    return this.projectsService.getProjects(userId).pipe(
+      map((projects) => [
+        ...this.defaultProjectFilter,
+        ...(projects ?? []).map((project) => ({
+          name: project.name,
+          code: project.id!,
+        })),
+      ]),
+      catchError(() => of(this.defaultProjectFilter))
+    );
   }
 
   private patchTaskForm(task: Item): void {

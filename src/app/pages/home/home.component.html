@@ -1,11 +1,22 @@
 <div class="planner-toolbar planner-shell">
   <app-week-nav class="planner-toolbar__nav"></app-week-nav>
 
+  <p-select
+    class="planner-toolbar__filter"
+    [options]="(projectFilterOptions$ | async) ?? defaultProjectFilter"
+    optionLabel="name"
+    optionValue="code"
+    [(ngModel)]="selectedProjectId"
+    (ngModelChange)="onProjectFilterChange($event)"
+    placeholder="Filtrar por projeto"
+    appendTo="body"
+  ></p-select>
+
   <div class="planner-toolbar__action">
     <button
       pButton
       pRipple
-      pTooltip="New Item"
+      pTooltip="Novo item"
       type="button"
       (click)="newItem()"
       icon="pi pi-plus"
@@ -51,7 +62,7 @@
           ></app-card>
         </div>
         <div class="col-12 sm:col-6 md:col-6 lg:col-3">
-          <app-card [items]="(items$ | async) || []" box="notes" titleBox="Notes"></app-card>
+          <app-card [items]="(items$ | async) || []" box="notes" titleBox="Notas"></app-card>
         </div>
       </div>
     </div>
@@ -59,11 +70,11 @@
     <div class="col-12 sm:col-12 md:col-4 lg:col-3">
       <div class="grid col-calend">
         <div class="col-12 md:col-12">
-          <app-card titleBox="Calendar"></app-card>
+          <app-card titleBox="Calendário"></app-card>
         </div>
         <div class="col-12 md:col-12">
           <app-overdue-panel *ngIf="weekView.isCurrentWeek"></app-overdue-panel>
-          <app-card [items]="(items$ | async) || []" box="todo" titleBox="To Do"></app-card>
+          <app-card [items]="(items$ | async) || []" box="todo" titleBox="A fazer"></app-card>
         </div>
       </div>
     </div>

@@ -23,6 +23,7 @@ import { ChartModule } from 'primeng/chart';
 import { SliderModule } from 'primeng/slider';
 import { InputNumberModule } from 'primeng/inputnumber';
 
+import { ProjectsService } from '../services/projects.service';
 import { ItemsService } from '../services/items.service';
 import { DateService } from '../services/date.service';
 import { FocusService } from '../services/focus.service';
@@ -42,6 +43,9 @@ import { PasswordRecoverComponent } from './password-recover/password-recover.co
 import { HomeComponent } from './home/home.component';
 import { AccountComponent } from './account/account.component';
 import { FocusComponent } from './focus/focus.component';
+import { ProjectsShellComponent } from './projects/projects-shell.component';
+import { ProjectsListComponent } from './projects/projects-list.component';
+import { ProjectDetailComponent } from './projects/project-detail.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 
 import { HeaderComponent } from '../components/header/header.component';
@@ -55,6 +59,7 @@ import { FormDialogComponent } from '../components/form-dialog/form-dialog.compo
 import { EditFormComponent } from '../components/edit-form/edit-form.component';
 import { WeekNavComponent } from '../components/week-nav/week-nav.component';
 import { OverduePanelComponent } from '../components/overdue-panel/overdue-panel.component';
+import { ProjectFormDialogComponent } from '../components/project-form-dialog/project-form-dialog.component';
 import { RecoverDialogComponent } from './auth/recover-dialog/recover-dialog.component';
 import { WeekStore } from '../stores/week.store';
 
@@ -81,6 +86,10 @@ import { WeekStore } from '../stores/week.store';
     EditFormComponent,
     WeekNavComponent,
     OverduePanelComponent,
+    ProjectFormDialogComponent,
+    ProjectsShellComponent,
+    ProjectsListComponent,
+    ProjectDetailComponent,
   ],
   imports: [
     CommonModule,
@@ -114,6 +123,7 @@ import { WeekStore } from '../stores/week.store';
     ItemSearchStore,
     WeekStore,
     ItemsService,
+    ProjectsService,
     FocusService,
     DateService,
 
