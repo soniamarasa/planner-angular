@@ -78,7 +78,16 @@ export class UserService {
   }
 
   get(key: string) {
-    return JSON.parse(localStorage.getItem(key) as string);
+    const raw = localStorage.getItem(key);
+    if (raw === null || raw === undefined || raw === '') {
+      return null;
+    }
+
+    try {
+      return JSON.parse(raw);
+    } catch {
+      return raw;
+    }
   }
 
   remove(key: string) {
