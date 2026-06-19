@@ -1,0 +1,46 @@
+.week-nav {
+  position: relative;
+  z-index: 2100;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 0.75rem;
+  margin: 0 2.6rem 1rem;
+  padding: 0.85rem 1.2rem;
+  border-radius: 18px;
+  background: var(--surface);
+  border: 1px solid var(--surface-border);
+  box-shadow: var(--shadow-soft);
+  isolation: isolate;
+}
+
+.week-nav__center {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.15rem;
+
+  strong {
+    font-size: 1.05rem;
+    color: var(--title-color);
+  }
+}
+
+.week-nav__today {
+  padding: 0.1rem 0.5rem !important;
+  min-height: unset !important;
+}
+
+.week-nav__arrow {
+  position: relative;
+  z-index: 1;
+  pointer-events: auto;
+  color: var(--title-color) !important;
+}
+
+@media (max-width: 768px) {
+  .week-nav {
+    margin: 0 0.7rem 0.85rem;
+  }
+}

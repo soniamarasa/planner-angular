@@ -1,0 +1,31 @@
+<div class="week-nav">
+  <button
+    pButton
+    type="button"
+    icon="pi pi-chevron-left"
+    class="p-button-rounded p-button-text week-nav__arrow"
+    (click)="previousWeek()"
+    aria-label="Previous week"
+  ></button>
+
+  <div class="week-nav__center">
+    <strong>{{ weekLabel$ | async }}</strong>
+    <button
+      *ngIf="!(isCurrentWeek$ | async)"
+      pButton
+      type="button"
+      label="Today"
+      class="p-button-text p-button-sm week-nav__today"
+      (click)="goToToday()"
+    ></button>
+  </div>
+
+  <button
+    pButton
+    type="button"
+    icon="pi pi-chevron-right"
+    class="p-button-rounded p-button-text week-nav__arrow"
+    (click)="nextWeek()"
+    aria-label="Next week"
+  ></button>
+</div>
