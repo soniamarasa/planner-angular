@@ -92,7 +92,7 @@ h1,
 h2,
 h3,
 .p-datepicker-title {
-  font-family: "Handlee" !important;
+  font-family: "Itim", cursive !important;
   color: var(--title-color);
 }
 
@@ -336,6 +336,7 @@ h3 {
     linear-gradient(160deg, var(--bg) 0%, var(--bg-alt) 100%);
 }
 
+body.theme-light,
 .theme-light {
   --bg: #f4f7fb;
   --bg-alt: #ebf0f8;
@@ -352,6 +353,7 @@ h3 {
   --today-border: rgba(255, 154, 61, 0.35);
 }
 
+body.theme-dark,
 .theme-dark {
   --secundary-color: #7f8a96;
   --bg: #0d0d0f;
@@ -521,10 +523,6 @@ h3 {
   #date {
     font-size: 1rem;
   }
-
-  .modal {
-    height: 500px;
-  }
 }
 
 .p-dropdown,
@@ -549,34 +547,82 @@ h3 {
   width: 100%;
 }
 
+.p-dialog-mask.planner-dialog-mask {
+  backdrop-filter: blur(6px);
+}
+
+body.theme-light .p-dialog-mask.planner-dialog-mask {
+  background: color-mix(in srgb, var(--bg) 58%, transparent) !important;
+}
+
+body.theme-dark .p-dialog-mask.planner-dialog-mask {
+  background: color-mix(in srgb, #0b0c10 52%, transparent) !important;
+}
+
+.p-dialog.planner-dialog,
+.p-dialog.modal {
+  width: min(640px, calc(100vw - 2rem)) !important;
+  height: auto !important;
+  max-height: calc(100vh - 2rem) !important;
+  border-radius: 18px;
+  border: 1px solid var(--surface-border) !important;
+  box-shadow: var(--shadow-lift) !important;
+  overflow: hidden;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+.theme-light.planner-dialog,
+.theme-light.modal {
+  background: color-mix(in srgb, var(--surface-strong) 96%, transparent) !important;
+}
+
+.theme-dark.planner-dialog,
+.theme-dark.modal {
+  background: color-mix(in srgb, var(--surface-strong) 94%, #121318) !important;
+}
+
 .modal .p-dialog-header,
-.modal .p-dialog-content,
-.modal .p-dialog-footer {
-  border: 0 !important;
-}
-
-.modal .p-dialog-header {
-  padding: 1rem 1.4rem 0.9rem;
+.planner-dialog .p-dialog-header {
+  padding: 1rem 1.35rem 0.85rem;
   border-radius: 18px 18px 0 0;
+  border: 0 !important;
+  background: transparent !important;
 }
 
-.modal .p-dialog-content {
+.modal .p-dialog-content,
+.planner-dialog .p-dialog-content {
   border-radius: 0;
-  padding: 0.9rem 1.4rem 1rem !important;
+  padding: 0.35rem 1.35rem 1.15rem !important;
+  overflow-y: auto !important;
+  background: transparent !important;
 }
 
-.modal .p-dialog-footer {
+.modal .p-dialog-footer,
+.planner-dialog .p-dialog-footer {
   border-radius: 0 0 18px 18px;
-  padding: 0.8rem 1.4rem 1rem;
+  padding: 0.75rem 1.35rem 1rem;
   display: flex;
   justify-content: flex-end;
+  gap: 0.55rem;
+  border: 0 !important;
+  background: transparent !important;
 }
 
-.modal .p-dialog-header-actions {
+.modal .p-dialog-title,
+.planner-dialog .p-dialog-title {
+  color: var(--title-color) !important;
+  font-size: 1.15rem;
+  font-weight: 600;
+}
+
+.modal .p-dialog-header-actions,
+.planner-dialog .p-dialog-header-actions {
   margin-left: auto;
 }
 
-.modal .p-dialog-close-button {
+.modal .p-dialog-close-button,
+.planner-dialog .p-dialog-close-button {
   width: 2rem;
   height: 2rem;
   border-radius: 999px;
@@ -585,10 +631,88 @@ h3 {
   background: color-mix(in srgb, var(--surface-strong) 88%, transparent) !important;
 }
 
-.modal .p-dialog-close-button:hover {
+.modal .p-dialog-close-button:hover,
+.planner-dialog .p-dialog-close-button:hover {
   color: var(--text-main) !important;
+  border-color: color-mix(in srgb, var(--accent) 45%, var(--surface-border));
+  background: color-mix(in srgb, var(--accent) 14%, transparent) !important;
+}
+
+.p-confirmdialog .p-dialog-footer .p-button {
+  min-width: 5.5rem;
+}
+
+body.theme-light .p-select-overlay,
+.theme-light .p-select-overlay {
+  border: 1px solid var(--surface-border);
+  border-radius: 12px;
+  background: var(--surface-strong) !important;
+  box-shadow: var(--shadow-lift);
+}
+
+body.theme-dark .p-select-overlay,
+.theme-dark .p-select-overlay {
+  border: 1px solid var(--surface-border);
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--surface-strong) 96%, #121318) !important;
+  box-shadow: var(--shadow-lift);
+}
+
+body.theme-light .p-select-option,
+.theme-light .p-select-option,
+body.theme-dark .p-select-option,
+.theme-dark .p-select-option {
+  color: var(--text-main);
+}
+
+body.theme-light .p-select-option.p-select-option-selected,
+.theme-light .p-select-option.p-select-option-selected,
+body.theme-dark .p-select-option.p-select-option-selected,
+.theme-dark .p-select-option.p-select-option-selected {
+  color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 14%, transparent) !important;
+}
+
+body.theme-light .p-select-option:not(.p-disabled).p-focus,
+.theme-light .p-select-option:not(.p-disabled).p-focus,
+body.theme-dark .p-select-option:not(.p-disabled).p-focus,
+.theme-dark .p-select-option:not(.p-disabled).p-focus {
+  background: color-mix(in srgb, var(--accent) 10%, transparent) !important;
+  color: var(--text-main);
+}
+
+body.theme-light .p-select,
+body.theme-dark .p-select,
+.theme-light .p-select,
+.theme-dark .p-select {
+  width: 100%;
+  border-color: var(--surface-border);
+  background: color-mix(in srgb, var(--surface-strong) 90%, transparent);
+}
+
+body.theme-light .p-select:not(.p-disabled).p-focus,
+body.theme-dark .p-select:not(.p-disabled).p-focus,
+.theme-light .p-select:not(.p-disabled).p-focus,
+.theme-dark .p-select:not(.p-disabled).p-focus {
   border-color: var(--accent);
-  background: color-mix(in srgb, var(--accent) 16%, transparent) !important;
+  box-shadow: 0 0 0 0.16rem color-mix(in srgb, var(--accent) 24%, transparent);
+}
+
+body.theme-light .p-select-label,
+body.theme-dark .p-select-label,
+.theme-light .p-select-label,
+.theme-dark .p-select-label {
+  color: var(--text-main);
+}
+
+body.theme-light .p-datepicker-panel:not(.p-datepicker-panel-inline),
+.theme-light .p-datepicker-panel:not(.p-datepicker-panel-inline),
+body.theme-dark .p-datepicker-panel:not(.p-datepicker-panel-inline),
+.theme-dark .p-datepicker-panel:not(.p-datepicker-panel-inline) {
+  border: 1px solid var(--surface-border) !important;
+  border-radius: 12px !important;
+  box-shadow: var(--shadow-lift) !important;
+  background: var(--surface-strong) !important;
 }
 
 .theme-light,
@@ -611,6 +735,7 @@ h3 {
     background: color-mix(in srgb, var(--surface-strong) 90%, transparent);
   }
 
+  .p-select,
   .p-dropdown {
     border-color: var(--surface-border);
     background: color-mix(in srgb, var(--surface-strong) 90%, transparent);
@@ -647,10 +772,6 @@ h3 {
   }
 }
 
-.p-dialog {
-  height: min-content !important;
-}
-
 .p-password {
   width: 100%;
 
@@ -675,47 +796,4 @@ h3 {
 .p-inputtext:enabled:hover,
 .p-checkbox:not(.p-checkbox-disabled) .p-checkbox-box:hover {
   border-color: color-mix(in srgb, var(--accent) 45%, var(--surface-border));
-}
-
-.p-dialog {
-  max-width: 90%;
-}
-
-.p-dialog .p-dialog-content {
-  padding: 1rem 1.5rem 1.5rem;
-  overflow-y: inherit;
-}
-
-.p-dialog.modal {
-  width: min(640px, calc(100vw - 2rem)) !important;
-  height: auto !important;
-  max-height: calc(100vh - 2rem) !important;
-  border-radius: 18px;
-  border: 1px solid var(--surface-border) !important;
-  overflow: hidden;
-}
-
-.p-dialog.modal .p-dialog-content {
-  overflow-y: auto !important;
-}
-
-.theme-light.modal,
-.theme-dark.modal {
-  background: linear-gradient(
-    150deg,
-    color-mix(in srgb, var(--surface-strong) 96%, transparent),
-    color-mix(in srgb, #111215 88%, transparent)
-  ) !important;
-}
-
-.theme-light.modal .p-dialog-title,
-.theme-dark.modal .p-dialog-title {
-  color: var(--title-color) !important;
-}
-
-.theme-light.modal .p-dialog-content,
-.theme-dark.modal .p-dialog-content,
-.theme-light.modal .p-dialog-footer,
-.theme-dark.modal .p-dialog-footer {
-  color: var(--text-main) !important;
 }

@@ -1,17 +1,19 @@
-<div class="new-item">
-  <button
-    pButton
-    pRipple
-    pTooltip="New Item"
-    type="button"
-    (click)="newItem()"
-    icon="pi pi-plus"
-    tooltipPosition="left"
-    class="p-button-rounded"
-  ></button>
-</div>
+<div class="planner-toolbar planner-shell">
+  <app-week-nav class="planner-toolbar__nav"></app-week-nav>
 
-<app-week-nav></app-week-nav>
+  <div class="planner-toolbar__action">
+    <button
+      pButton
+      pRipple
+      pTooltip="New Item"
+      type="button"
+      (click)="newItem()"
+      icon="pi pi-plus"
+      tooltipPosition="left"
+      class="p-button-rounded"
+    ></button>
+  </div>
+</div>
 
 <ng-container *ngIf="weekView$ | async as weekView">
   <div class="grid container-cards">
