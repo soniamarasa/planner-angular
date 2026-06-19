@@ -1,0 +1,23 @@
+<section
+  class="projects-hub planner-shell"
+  [class.projects-hub--detail-open]="detailOpen"
+>
+  <aside class="projects-hub__sidebar">
+    <app-projects-list
+      (ready)="onSidebarReady($event)"
+      (listChanged)="onSidebarRefresh()"
+    ></app-projects-list>
+  </aside>
+
+  <main class="projects-hub__main">
+    <router-outlet></router-outlet>
+
+    <div class="projects-hub__placeholder" *ngIf="!detailOpen">
+      <span class="projects-hub__placeholder-icon" aria-hidden="true">
+        <i class="pi pi-folder-open"></i>
+      </span>
+      <h2>Selecione um projeto</h2>
+      <p>Escolha um projeto na lista ou crie um novo para ver e gerenciar tarefas.</p>
+    </div>
+  </main>
+</section>

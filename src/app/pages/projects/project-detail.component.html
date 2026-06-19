@@ -1,0 +1,124 @@
+<section class="project-detail">
+  <div
+    class="project-detail__accent"
+    *ngIf="!loading && !isUnassigned && project?.color"
+    [style.background]="project?.color"
+    aria-hidden="true"
+  ></div>
+
+  <div class="project-detail__top">
+    <button
+      type="button"
+      class="project-detail__back-mobile"
+      (click)="backToList()"
+    >
+      <i class="pi pi-arrow-left"></i>
+      Projetos
+    </button>
+
+    <div class="project-detail__hero" *ngIf="!loading">
+      <span
+        class="project-detail__icon"
+        *ngIf="!isUnassigned && project as currentProject"
+        [style.color]="currentProject.color"
+        aria-hidden="true"
+      >
+        <i [class]="iconClass(currentProject.icon)"></i>
+      </span>
+      <span class="project-detail__icon project-detail__icon--muted" *ngIf="isUnassigned" aria-hidden="true">
+        <i class="pi pi-inbox"></i>
+      </span>
+
+      <div class="project-detail__meta">
+        <h2>{{ pageTitle }}</h2>
+        <p *ngIf="isUnassigned">Tarefas sem vínculo com projeto.</p>
+        <p *ngIf="!isUnassigned && project as meta">
+          {{ meta.open_tasks_count || 0 }} aberta{{ (meta.open_tasks_count || 0) === 1 ? '' : 's' }}
+          <span *ngIf="meta.focus_seconds_total"> · {{ formatFocus(meta.focus_seconds_total) }} de foco</span>
+        </p>
+      </div>
+
+      <div class="project-detail__actions" *ngIf="!isUnassigned && project">
+        <button
+          pButton
+          pRipple
+          type="button"
+          icon="pi pi-plus"
+          class="p-button-rounded p-button-text"
+          pTooltip="Nova tarefa"
+          (click)="openAddTask()"
+        ></button>
+        <button
+          pButton
+          pRipple
+          type="button"
+          icon="pi pi-pencil"
+          class="p-button-rounded p-button-text"
+          pTooltip="Editar"
+          (click)="openEditDialog()"
+        ></button>
+        <button
+          pButton
+          pRipple
+          type="button"
+          icon="pi pi-inbox"
+          class="p-button-rounded p-button-text"
+          pTooltip="Arquivar"
+          (click)="archiveProject()"
+        ></button>
+      </div>
+
+      <div class="project-detail__actions" *ngIf="isUnassigned">
+        <button
+          pButton
+          pRipple
+          type="button"
+          icon="pi pi-plus"
+          class="p-button-rounded p-button-text"
+          pTooltip="Nova tarefa"
+          (click)="openAddTask()"
+        ></button>
+      </div>
+    </div>
+  </div>
+
+  <p *ngIf="loading" class="project-detail__status">Carregando…</p>
+
+  <div class="project-sections" *ngIf="!loading">
+    <section class="project-section" *ngFor="let section of sections">
+      <h3>{{ section.title }} <span>({{ section.items.length }})</span></h3>
+      <ul>
+        <li
+          *ngFor="let item of section.items"
+          [class.finished]="item.finished"
+          [class.overdue]="item.is_overdue"
+          (click)="openItem(item)"
+        >
+          <span class="item-row">
+            <i
+              class="pi"
+              [class.pi-check-circle]="item.finished"
+              [class.pi-circle-off]="!item.finished"
+            ></i>
+            <span>{{ item.description }}</span>
+          </span>
+          <small *ngIf="item.scheduled_date">{{ formatDate(item.scheduled_date) }}</small>
+          <small *ngIf="!item.scheduled_date && item.where">{{ item.where }}</small>
+        </li>
+      </ul>
+    </section>
+
+    <div class="project-detail__empty" *ngIf="!sections.length">
+      <p>Nenhuma tarefa neste projeto ainda.</p>
+      <button
+        pButton
+        pRipple
+        type="button"
+        icon="pi pi-plus"
+        label="Adicionar tarefa"
+        class="p-button-success"
+        (click)="openAddTask()"
+      ></button>
+    </div>
+  </div>
+</section>
