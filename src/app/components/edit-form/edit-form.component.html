@@ -8,15 +8,6 @@
       formControlName="type"
     >
     </p-select>
-
-    <p-select
-      [options]="box"
-      placeholder="Where?"
-      optionLabel="name"
-      formControlName="where"
-      optionValue="code"
-    >
-    </p-select>
   </div>
 
   <input
@@ -35,7 +26,28 @@
     placeholder="Observation"
   />
 
-  <div class="where-check"></div>
+  <div class="field placement-field">
+    <label for="editScheduledDate" class="placement-label">Date</label>
+    <p-datepicker
+      inputId="editScheduledDate"
+      formControlName="scheduledDate"
+      dateFormat="dd M yy"
+      [showIcon]="true"
+      [showButtonBar]="true"
+      placeholder="Pick a day for this item"
+    ></p-datepicker>
+  </div>
+
+  <div class="where-check">
+    <div class="p-field-checkbox">
+      <p-checkbox formControlName="notes" [binary]="true" inputId="editNotes"></p-checkbox>
+      <label for="editNotes">Notes</label>
+    </div>
+    <div class="p-field-checkbox">
+      <p-checkbox formControlName="todo" [binary]="true" inputId="editTodo"></p-checkbox>
+      <label for="editTodo">To Do</label>
+    </div>
+  </div>
 
   <div id="button-div">
     <button

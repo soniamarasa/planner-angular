@@ -1,16 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { DynamicDialogRef } from 'primeng/dynamicdialog';
 import { DynamicDialogConfig } from 'primeng/dynamicdialog';
 import { MessageService } from 'primeng/api';
 import { Dropdown } from 'src/app/models/dropdown';
-import {
-  FormGroup,
-  FormBuilder,
-  FormArray,
-  FormControl,
-  Validators,
-} from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { SubSink } from 'subsink';
 import { ItemsFacade } from 'src/app/facades/items.facade';
+import { WeekService } from 'src/app/services/week.service';
+import { Item } from 'src/app/models/item';
 
 @Component({
   selector: 'app-edit-form',
@@ -18,20 +15,19 @@ import { ItemsFacade } from 'src/app/facades/items.facade';
   templateUrl: './edit-form.component.html',
   styleUrls: ['./edit-form.component.scss'],
 })
-export class EditFormComponent implements OnInit {
+export class EditFormComponent implements OnInit, OnDestroy {
   form!: FormGroup;
   type: Dropdown[];
-  box: Dropdown[];
+  private readonly subs = new SubSink();
 
   constructor(
     public formBuilder: FormBuilder,
     public ref: DynamicDialogRef,
     public config: DynamicDialogConfig,
     private facade: ItemsFacade,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private weekService: WeekService
   ) {
-    this.createForm(this.config.data);
-
     this.type = [
       { name: 'Task', code: 'task' },
       { name: 'Event', code: 'event' },
@@ -39,47 +35,156 @@ export class EditFormComponent implements OnInit {
       { name: 'Note', code: 'note' },
       { name: 'Entertainment', code: 'tv' },
     ];
-    this.box = [
-      { name: 'Mon', code: 'mon' },
-      { name: 'Tue', code: 'tue' },
-      { name: 'Wed', code: 'wed' },
-      { name: 'Thu', code: 'thu' },
-      { name: 'Fri', code: 'fri' },
-      { name: 'Sat', code: 'sat' },
-      { name: 'Sun', code: 'sun' },
-      { name: 'To Do', code: 'todo' },
-      { name: 'Notes', code: 'notes' },
-    ];
+    this.createForm(this.config.data as Item);
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.subs.sink = this.form.get('scheduledDate')!.valueChanges.subscribe((date) => {
+      if (date) {
+        this.form.patchValue({ notes: false, todo: false }, { emitEvent: false });
+      }
+      this.syncPlacementControls();
+    });
 
-  createForm(data: any): any {
+    this.subs.sink = this.form.get('notes')!.valueChanges.subscribe((checked) => {
+      if (checked) {
+        this.form.patchValue({ todo: false, scheduledDate: null }, { emitEvent: false });
+      }
+      this.syncPlacementControls();
+    });
+
+    this.subs.sink = this.form.get('todo')!.valueChanges.subscribe((checked) => {
+      if (checked) {
+        this.form.patchValue({ notes: false, scheduledDate: null }, { emitEvent: false });
+      }
+      this.syncPlacementControls();
+    });
+
+    this.syncPlacementControls();
+  }
+
+  ngOnDestroy(): void {
+    this.subs.unsubscribe();
+  }
+
+  createForm(data: Item): void {
+    const isNotes = data.where === 'notes';
+    const isTodo = data.where === 'todo';
+    const scheduledDate = data.scheduled_date
+      ? this.weekService.parseDateKey(data.scheduled_date)
+      : null;
+
     this.form = this.formBuilder.group({
       type: [data.type, Validators.required],
       description: [data.description, Validators.required],
-      obs: [data.obs, Validators.required],
-      where: [data.where, Validators.required],
+      obs: [data.obs ?? ''],
+      scheduledDate: [scheduledDate],
+      notes: [isNotes],
+      todo: [isTodo],
     });
   }
 
-  validation() {
-    if (this.form.value.description === '') {
+  private syncPlacementControls(): void {
+    const scheduledDate = this.form.get('scheduledDate')!.value;
+    const notes = this.form.get('notes')!.value;
+    const todo = this.form.get('todo')!.value;
+    const hasDate = !!scheduledDate;
+    const hasEvergreen = notes || todo;
+
+    if (hasDate) {
+      this.form.get('notes')!.disable({ emitEvent: false });
+      this.form.get('todo')!.disable({ emitEvent: false });
+      this.form.get('scheduledDate')!.enable({ emitEvent: false });
+      return;
+    }
+
+    if (hasEvergreen) {
+      this.form.get('scheduledDate')!.disable({ emitEvent: false });
+      this.form.get('notes')!.enable({ emitEvent: false });
+      this.form.get('todo')!.enable({ emitEvent: false });
+      return;
+    }
+
+    this.form.get('scheduledDate')!.enable({ emitEvent: false });
+    this.form.get('notes')!.enable({ emitEvent: false });
+    this.form.get('todo')!.enable({ emitEvent: false });
+  }
+
+  validation(): boolean {
+    const value = this.form.getRawValue();
+
+    if (!value.description?.trim()) {
       this.messageService.add({
         severity: 'warn',
         summary: 'The description field is required!',
       });
       return false;
-    } else {
-      return true;
     }
+
+    if (!value.scheduledDate && !value.notes && !value.todo) {
+      this.messageService.add({
+        severity: 'warn',
+        summary: 'Choose a destination',
+        detail: 'Select a date, Notes, or To Do.',
+      });
+      return false;
+    }
+
+    return true;
   }
 
-  editItem() {
-    const checkValidation = this.validation();
-    if (checkValidation) {
-      this.facade.update(this.config.data.id, this.form.value);
-      this.ref.destroy();
+  buildPayload(): Item & { scheduled_date?: string | null } {
+    const value = this.form.getRawValue();
+
+    if (value.scheduledDate) {
+      const date =
+        value.scheduledDate instanceof Date ? value.scheduledDate : new Date(value.scheduledDate);
+      return {
+        type: value.type,
+        description: value.description,
+        obs: value.obs,
+        where: this.weekService.whereForScheduledDate(date),
+        scheduled_date: this.weekService.toDateKey(date),
+        started: this.config.data.started,
+        finished: this.config.data.finished,
+        important: this.config.data.important,
+        canceled: this.config.data.canceled,
+      };
     }
+
+    if (value.notes) {
+      return {
+        type: value.type,
+        description: value.description,
+        obs: value.obs,
+        where: 'notes',
+        scheduled_date: null,
+        started: this.config.data.started,
+        finished: this.config.data.finished,
+        important: this.config.data.important,
+        canceled: this.config.data.canceled,
+      };
+    }
+
+    return {
+      type: value.type,
+      description: value.description,
+      obs: value.obs,
+      where: 'todo',
+      scheduled_date: null,
+      started: this.config.data.started,
+      finished: this.config.data.finished,
+      important: this.config.data.important,
+      canceled: this.config.data.canceled,
+    };
+  }
+
+  editItem(): void {
+    if (!this.validation()) {
+      return;
+    }
+
+    this.facade.update(this.config.data.id, this.buildPayload());
+    this.ref.close();
   }
 }
