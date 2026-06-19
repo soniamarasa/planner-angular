@@ -1,4 +1,4 @@
-<p-card class="container-card">
+<p-card class="container-card" [ngClass]="{ 'calendar-card': titleBox === 'Calendar' }">
   <div>
     <img src="../../../assets/pin.png" *ngIf="isTodayColumn" alt="pin" />
     <h2 *ngIf="day">{{ day }}</h2>
@@ -65,6 +65,14 @@
   </ng-container>
 
   <ng-container *ngIf="titleBox === 'Calendar'">
-    <p-datepicker [(ngModel)]="value" [inline]="true" [firstDayOfWeek]="1"></p-datepicker>
+    <div class="calendar-shell">
+      <p-datepicker
+        [(ngModel)]="value"
+        [inline]="true"
+        [firstDayOfWeek]="1"
+        styleClass="planner-inline-calendar"
+        panelStyleClass="planner-inline-calendar-panel"
+      ></p-datepicker>
+    </div>
   </ng-container>
 </p-card>
