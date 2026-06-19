@@ -32,6 +32,18 @@ ul {
   margin: 0 5px;
 }
 
+.project-chip {
+  display: inline-flex;
+  align-items: center;
+  margin-right: 0.2rem;
+  vertical-align: middle;
+
+  i {
+    font-size: 0.78rem;
+    margin: 0;
+  }
+}
+
 .task i,
 .event i,
 .appointment i,

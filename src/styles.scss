@@ -1,4 +1,3 @@
-@import url("https://fonts.googleapis.com/css2?family=Handlee&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Itim&display=swap");
 
 :root {
@@ -22,6 +21,7 @@
   --today-border: rgba(255, 154, 61, 0.35);
   --planner-gutter: 2.6rem;
   --planner-max-width: 1500px;
+  --overlay-solid: #ffffff;
 }
 
 .planner-shell {
@@ -346,6 +346,7 @@ body.theme-light,
   --bg-alt: #ebf0f8;
   --surface: rgba(255, 255, 255, 0.68);
   --surface-strong: rgba(255, 255, 255, 0.82);
+  --overlay-solid: #ffffff;
   --text-main: #243041;
   --text-muted: #6f7c91;
   --title-color: #182334;
@@ -365,6 +366,7 @@ body.theme-dark,
   --bg-alt: #17181c;
   --surface: rgba(29, 30, 35, 0.72);
   --surface-strong: rgba(35, 37, 43, 0.88);
+  --overlay-solid: #23252b;
   --text-main: #f2f3f5;
   --text-muted: #b3b7c0;
   --title-color: #ffffff;
@@ -385,12 +387,11 @@ body.theme-dark,
     background: var(--surface) !important;
   }
 
-  .p-datepicker,
-  .p-datepicker-panel,
   .p-datepicker-panel-inline,
-  .p-datepicker table,
-  .p-datepicker table td,
-  .p-datepicker table th {
+  .p-datepicker-panel-inline .p-datepicker,
+  .p-datepicker-panel-inline .p-datepicker table,
+  .p-datepicker-panel-inline .p-datepicker table td,
+  .p-datepicker-panel-inline .p-datepicker table th {
     background: transparent !important;
     color: var(--text-main) !important;
   }
@@ -526,7 +527,7 @@ body.theme-dark,
 
 .p-dropdown,
 .p-dropdown-label {
-  background: transparent;
+  background: var(--overlay-solid, #ffffff);
 }
 
 .p-dropdown:not(.p-disabled).p-focus {
@@ -653,7 +654,7 @@ body.theme-light .p-select-overlay,
 .theme-light .p-select-overlay {
   border: 1px solid var(--surface-border);
   border-radius: 12px;
-  background: var(--surface-strong) !important;
+  background: var(--overlay-solid) !important;
   box-shadow: var(--shadow-lift);
 }
 
@@ -661,7 +662,7 @@ body.theme-dark .p-select-overlay,
 .theme-dark .p-select-overlay {
   border: 1px solid var(--surface-border);
   border-radius: 12px;
-  background: color-mix(in srgb, var(--surface-strong) 96%, #121318) !important;
+  background: var(--overlay-solid) !important;
   box-shadow: var(--shadow-lift);
 }
 
@@ -694,7 +695,7 @@ body.theme-dark .p-select,
 .theme-dark .p-select {
   width: 100%;
   border-color: var(--surface-border);
-  background: color-mix(in srgb, var(--surface-strong) 90%, transparent);
+  background: var(--overlay-solid) !important;
 }
 
 body.theme-light .p-select:not(.p-disabled).p-focus,
@@ -719,7 +720,40 @@ body.theme-dark .p-datepicker-panel:not(.p-datepicker-panel-inline),
   border: 1px solid var(--surface-border) !important;
   border-radius: 12px !important;
   box-shadow: var(--shadow-lift) !important;
-  background: var(--surface-strong) !important;
+  background: var(--overlay-solid) !important;
+}
+
+body.theme-light .p-datepicker-panel:not(.p-datepicker-panel-inline) .p-datepicker,
+body.theme-light .p-datepicker-panel:not(.p-datepicker-panel-inline) .p-datepicker-panel,
+body.theme-light .p-datepicker-panel:not(.p-datepicker-panel-inline) .p-datepicker table,
+body.theme-light .p-datepicker-panel:not(.p-datepicker-panel-inline) .p-datepicker table td,
+body.theme-light .p-datepicker-panel:not(.p-datepicker-panel-inline) .p-datepicker table th,
+body.theme-light .p-datepicker-panel:not(.p-datepicker-panel-inline) .p-datepicker .p-datepicker-calendar-container,
+.theme-light .p-datepicker-panel:not(.p-datepicker-panel-inline) .p-datepicker,
+.theme-light .p-datepicker-panel:not(.p-datepicker-panel-inline) .p-datepicker-panel,
+.theme-light .p-datepicker-panel:not(.p-datepicker-panel-inline) .p-datepicker table,
+.theme-light .p-datepicker-panel:not(.p-datepicker-panel-inline) .p-datepicker table td,
+.theme-light .p-datepicker-panel:not(.p-datepicker-panel-inline) .p-datepicker table th,
+.theme-light .p-datepicker-panel:not(.p-datepicker-panel-inline) .p-datepicker .p-datepicker-calendar-container,
+body.theme-dark .p-datepicker-panel:not(.p-datepicker-panel-inline) .p-datepicker,
+body.theme-dark .p-datepicker-panel:not(.p-datepicker-panel-inline) .p-datepicker-panel,
+body.theme-dark .p-datepicker-panel:not(.p-datepicker-panel-inline) .p-datepicker table,
+body.theme-dark .p-datepicker-panel:not(.p-datepicker-panel-inline) .p-datepicker table td,
+body.theme-dark .p-datepicker-panel:not(.p-datepicker-panel-inline) .p-datepicker table th,
+body.theme-dark .p-datepicker-panel:not(.p-datepicker-panel-inline) .p-datepicker .p-datepicker-calendar-container,
+.theme-dark .p-datepicker-panel:not(.p-datepicker-panel-inline) .p-datepicker,
+.theme-dark .p-datepicker-panel:not(.p-datepicker-panel-inline) .p-datepicker-panel,
+.theme-dark .p-datepicker-panel:not(.p-datepicker-panel-inline) .p-datepicker table,
+.theme-dark .p-datepicker-panel:not(.p-datepicker-panel-inline) .p-datepicker table td,
+.theme-dark .p-datepicker-panel:not(.p-datepicker-panel-inline) .p-datepicker table th,
+.theme-dark .p-datepicker-panel:not(.p-datepicker-panel-inline) .p-datepicker .p-datepicker-calendar-container {
+  background: var(--overlay-solid) !important;
+  color: var(--text-main) !important;
+}
+
+body.theme-dark .p-datepicker-panel:not(.p-datepicker-panel-inline) .p-datepicker .p-datepicker-header,
+.theme-dark .p-datepicker-panel:not(.p-datepicker-panel-inline) .p-datepicker .p-datepicker-header {
+  background: linear-gradient(145deg, #2a2c34, #22242b) !important;
 }
 
 .theme-light,
@@ -739,13 +773,13 @@ body.theme-dark .p-datepicker-panel:not(.p-datepicker-panel-inline),
     font-family: inherit;
     color: var(--text-main);
     border-color: var(--surface-border);
-    background: color-mix(in srgb, var(--surface-strong) 90%, transparent);
+    background: var(--overlay-solid);
   }
 
   .p-select,
   .p-dropdown {
     border-color: var(--surface-border);
-    background: color-mix(in srgb, var(--surface-strong) 90%, transparent);
+    background: var(--overlay-solid) !important;
 
     &:hover {
       border-color: var(--accent) !important;
@@ -812,4 +846,44 @@ body.theme-dark .p-datepicker-panel:not(.p-datepicker-panel-inline),
 .p-inputtext:enabled:hover,
 .p-checkbox:not(.p-checkbox-disabled) .p-checkbox-box:hover {
   border-color: color-mix(in srgb, var(--accent) 45%, var(--surface-border));
+}
+
+.background-picker {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.65rem;
+}
+
+.background-option {
+  border: 2px solid transparent;
+  border-radius: 12px;
+  padding: 0;
+  overflow: hidden;
+  cursor: pointer;
+  background: color-mix(in srgb, var(--surface) 80%, transparent);
+  color: var(--text-main);
+  transition: border-color 0.2s ease, transform 0.2s ease;
+
+  img {
+    display: block;
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+  }
+
+  span {
+    display: block;
+    padding: 0.35rem 0.4rem;
+    font-size: 0.75rem;
+    text-align: center;
+  }
+
+  &:hover {
+    transform: translateY(-1px);
+  }
+
+  &--active {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 1px color-mix(in srgb, var(--accent) 35%, transparent);
+  }
 }

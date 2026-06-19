@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { ItemsFacade } from 'src/app/facades/items.facade';
 import { Item } from '../../models/item';
 import { format, parseISO } from 'date-fns';
+import { projectIconClass } from 'src/app/utils/project-icon.util';
 
 @Component({
   selector: 'app-card',
@@ -47,5 +48,9 @@ export class CardComponent implements OnInit {
       return '';
     }
     return format(parseISO(item.carried_from), 'd MMM');
+  }
+
+  projectIconClass(icon?: string | null): string {
+    return projectIconClass(icon);
   }
 }

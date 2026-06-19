@@ -39,7 +39,14 @@
             <i *ngIf="item.type === 'tv'" class="pi pi-youtube"></i>
 
             <span
-              >{{ item.description }}
+              ><span
+                class="project-chip"
+                *ngIf="item.project_icon"
+                [style.color]="item.project_color || 'inherit'"
+                [attr.aria-label]="item.project_name || 'Project'"
+              >
+                <i [class]="projectIconClass(item.project_icon)"></i>
+              </span>{{ item.description }}
               <i *ngIf="item.important" class="pi pi-exclamation-triangle"></i>
             </span>
 
