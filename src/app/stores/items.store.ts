@@ -41,10 +41,14 @@ export class ItemsStore {
 
   replacetItem(item: Item) {
     const state = this._itemsState.value;
-    const items = state.items;
+    const items = [...state.items];
     const index = items.findIndex((a) => a.id === item.id);
 
-    items.splice(index, 1, item);
+    if (index === -1) {
+      items.push(item);
+    } else {
+      items[index] = item;
+    }
 
     this._itemsState.next({
       ...state,

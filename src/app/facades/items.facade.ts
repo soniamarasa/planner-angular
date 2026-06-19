@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import {
-  debounceTime,
-  distinctUntilChanged,
+  catchError,
+  filter,
   map,
   switchMap,
   tap,
@@ -10,9 +10,10 @@ import {
 
 import { MessageService } from 'primeng/api';
 import { ItemsService } from '../services/items.service';
-import { ThemeService } from '../services/theme.service';
+import { WeekService } from '../services/week.service';
 import { ItemsStore } from '../stores/items.store';
-import { ItemSearchState, ItemSearchStore } from '../stores/item-search.store';
+import { ItemSearchStore } from '../stores/item-search.store';
+import { WeekStore } from '../stores/week.store';
 import { LoadingFacade } from './loading.facade';
 
 import { Item } from '../models/item';
@@ -24,32 +25,77 @@ export class ItemsFacade {
 
   public readonly itemsState$ = this.itemsStore.itemsState$;
   public readonly itemSearchState$ = this.itemSearchStore.itemSearchState$;
+  public readonly weekState$ = this.weekStore.weekState$;
+
+  public readonly overdueItems$ = this.itemsState$.pipe(
+    map((state) => state.items.filter((item) => item.is_overdue))
+  );
 
   constructor(
     private itemsStore: ItemsStore,
     private itemSearchStore: ItemSearchStore,
+    private weekStore: WeekStore,
+    private weekService: WeekService,
     private service: ItemsService,
     private loading: LoadingFacade,
     private messageService: MessageService
   ) {
+    this.weekStore.setWeekStart(this.weekService.toDateKey(this.weekService.getWeekStart()));
     this.init();
   }
 
+  get weekStart(): string {
+    return this.weekStore.weekStart;
+  }
+
   init() {
-    this.itemSearchState$
+    this.weekStore.weekState$
       .pipe(
-        debounceTime(500),
-        distinctUntilChanged(),
+        filter((weekState) => !!weekState.weekStart),
         tap(() => this.loading.setLoading(true)),
-        switchMap(() => this.getAllItems()),
+        switchMap((weekState) =>
+          this.getAllItems(weekState.weekStart).pipe(
+            catchError(() => {
+              this.messageService.add({
+                key: 'notification',
+                severity: 'error',
+                detail: 'Unable to load items for this week.',
+              });
+              return of([] as Item[]);
+            })
+          )
+        ),
         tap(() => this.loading.setLoading(false))
       )
       .subscribe((items) => this.itemsStore.setItems(items));
   }
 
-  getAllItems(): Observable<Item[]> {
+  refreshItems(): void {
+    if (!this.weekStore.weekStart) {
+      return;
+    }
+
+    this.weekStore.setWeekStart(this.weekStore.weekStart);
+  }
+
+  getAllItems(weekStart?: string): Observable<Item[]> {
     this.idUser = JSON.parse(localStorage.getItem('idUser') as string);
-    return this.service.getAllItems(this.idUser);
+    return this.service.getAllItems(this.idUser, weekStart || this.weekStore.weekStart);
+  }
+
+  changeWeek(delta: number): void {
+    const monday = this.weekService.parseDateKey(this.weekStore.weekStart);
+    const targetMonday = this.weekService.shiftWeek(monday, delta);
+    this.weekStore.setWeekStart(this.weekService.toDateKey(targetMonday));
+  }
+
+  goToToday(): void {
+    const todayMonday = this.weekService.toDateKey(this.weekService.getWeekStart());
+    this.weekStore.setWeekStart(todayMonday);
+  }
+
+  isCurrentWeekView(): boolean {
+    return this.weekService.isCurrentWeek(this.weekService.parseDateKey(this.weekStore.weekStart));
   }
 
   actionsControl(id: any, typeAction: any, where: any, value: any): any {
@@ -113,34 +159,42 @@ export class ItemsFacade {
     }
   }
 
-  create(item: Item) {
-    const createObservable = this.service.newItem(this.idUser, item);
+  create(item: Item & { week_start?: string; scheduled_date?: string | null }) {
+    let weekStart = this.weekStore.weekStart;
+    if (item.scheduled_date) {
+      weekStart = this.weekService.toDateKey(
+        this.weekService.getWeekStart(this.weekService.parseDateKey(item.scheduled_date))
+      );
+    }
+
+    const payload = {
+      ...item,
+      week_start: weekStart,
+    };
+    const createObservable = this.service.newItem(this.idUser, payload);
     const successObservable = createObservable.pipe(
       tap(() => this.loading.setLoading(false)),
-      map((newItem: any) => Array.isArray(newItem) && newItem.length > 0)
+      map((newItem: Item[]) => Array.isArray(newItem) && newItem.length > 0)
     );
 
     this.loading.setLoading(true);
 
-    createObservable.subscribe((newItem: any) => {
-      newItem.forEach((item: any) => this.itemsStore.pushItem(item));
-
+    createObservable.subscribe(() => {
+      this.getAllItems().subscribe((items) => this.itemsStore.setItems(items));
       this.messageService.add({
         key: 'notification',
         severity: 'success',
         detail: 'Successfully created item.',
       });
-
-      this.service.reload();
     });
     return successObservable;
   }
 
   update(id: string, item: Item) {
-    const updateItem = this.service.editItem(this.idUser, id, item);
+    const updateItem = this.service.editItem(this.idUser, id, item, this.weekStore.weekStart);
 
     const successObservable = updateItem.pipe(
-      map((itemStatusUpdate: any) => (itemStatusUpdate.id ? true : false)),
+      map((itemStatusUpdate: Item) => !!itemStatusUpdate.id),
       tap(() => this.loading.setLoading(false))
     );
 
@@ -161,7 +215,7 @@ export class ItemsFacade {
     const updateStatus = this.service.updateStatus(this.idUser, id, item);
 
     const successObservable = updateStatus.pipe(
-      map((itemStatusUpdate: any) => (itemStatusUpdate.id ? true : false)),
+      map((itemStatusUpdate: Item) => !!itemStatusUpdate.id),
       tap(() => this.loading.setLoading(false))
     );
 
@@ -172,6 +226,35 @@ export class ItemsFacade {
     return successObservable;
   }
 
+  rescheduleToToday(item: Item): void {
+    if (!item.id) {
+      return;
+    }
+
+    const todayKey = this.weekService.toDateKey(new Date());
+    this.loading.setLoading(true);
+    this.service
+      .rescheduleItem(
+        this.idUser,
+        item.id,
+        { scheduled_date: todayKey },
+        this.weekStore.weekStart
+      )
+      .subscribe({
+        next: (updated) => {
+          this.itemsStore.replacetItem(updated);
+          this.getAllItems().subscribe((items) => this.itemsStore.setItems(items));
+          this.loading.setLoading(false);
+          this.messageService.add({
+            key: 'notification',
+            severity: 'success',
+            detail: 'Task moved to today.',
+          });
+        },
+        error: () => this.loading.setLoading(false),
+      });
+  }
+
   delete(id: string) {
     const deleteObservable = this.service.deleteItem(this.idUser, id);
     const successDelete = deleteObservable;
@@ -180,7 +263,7 @@ export class ItemsFacade {
 
     deleteObservable
       .pipe(tap(() => this.loading.setLoading(false)))
-      .subscribe((data) => {
+      .subscribe(() => {
         this.itemsStore.deleteItem(id);
         this.messageService.add({
           key: 'notification',
@@ -191,19 +274,35 @@ export class ItemsFacade {
     return successDelete;
   }
 
-  resetData() {
-    const deleteObservable = this.service.resetData(this.idUser);
-    const successDelete = deleteObservable;
-
+  clearWeek() {
+    const deleteObservable = this.service.clearWeek(this.idUser, this.weekStore.weekStart);
     this.loading.setLoading(true);
 
     deleteObservable
       .pipe(tap(() => this.loading.setLoading(false)))
-      .subscribe((data) => {
+      .subscribe(() => {
+        this.getAllItems().subscribe((items) => this.itemsStore.setItems(items));
+        this.messageService.add({
+          key: 'notification',
+          severity: 'success',
+          detail: 'Selected week cleared.',
+        });
+      });
+
+    return deleteObservable;
+  }
+
+  resetData() {
+    const deleteObservable = this.service.resetData(this.idUser);
+    this.loading.setLoading(true);
+
+    deleteObservable
+      .pipe(tap(() => this.loading.setLoading(false)))
+      .subscribe(() => {
         this.itemsStore.reset();
       });
 
-    return successDelete;
+    return deleteObservable;
   }
 
   cleanItems() {
