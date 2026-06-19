@@ -78,6 +78,24 @@ h2 {
   font-size: 1.3rem;
 }
 
+.column-date {
+  margin: -0.15rem 0 0.35rem;
+  font-size: 0.82rem;
+  color: var(--text-muted);
+}
+
+.carried-from {
+  margin: 0.15rem 0 0 1.45rem !important;
+  font-size: 0.78rem !important;
+  color: var(--accent) !important;
+}
+
+.overdue {
+  border-left: 3px solid #f85757;
+  padding-left: 0.35rem;
+  background: rgba(248, 87, 87, 0.08);
+}
+
 h3 {
   font-size: 1.2rem;
 }

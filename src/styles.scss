@@ -123,8 +123,6 @@ h3 {
 .p-speeddial-direction-down {
   align-items: center;
   flex-direction: column;
-  top: 14px;
-  right: 10px;
 }
 
 .p-speeddial-button {
@@ -136,16 +134,24 @@ h3 {
 }
 
 .p-speeddial {
-  z-index: 1500 !important;
+  z-index: 120 !important;
+  width: max-content;
 }
 
 .p-speeddial-list {
-  z-index: 1501 !important;
+  z-index: 121 !important;
   position: relative;
+  pointer-events: none;
+}
+
+.p-speeddial-opened .p-speeddial-list,
+.p-speeddial-open .p-speeddial-list,
+.p-speeddial[aria-expanded="true"] .p-speeddial-list {
+  pointer-events: auto;
 }
 
 .p-speeddial-item {
-  z-index: 1502 !important;
+  z-index: 122 !important;
 }
 
 //Calendar Configs

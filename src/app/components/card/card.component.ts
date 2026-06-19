@@ -1,7 +1,7 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ItemsFacade } from 'src/app/facades/items.facade';
-import { DateService } from 'src/app/services/date.service';
 import { Item } from '../../models/item';
+import { format, parseISO } from 'date-fns';
 
 @Component({
   selector: 'app-card',
@@ -9,21 +9,43 @@ import { Item } from '../../models/item';
   templateUrl: './card.component.html',
   styleUrls: ['./card.component.scss'],
 })
-export class CardComponent implements OnInit, OnDestroy {
-  weekDay: any;
-
+export class CardComponent implements OnInit {
   @Input() items: Item[] = [];
   @Input() titleBox: string | undefined;
   @Input() day: string | undefined;
   @Input() box: string | undefined;
+  @Input() columnDateKey: string | undefined;
+  @Input() columnDateLabel: string | undefined;
+  @Input() isTodayColumn = false;
+
   value: Date | undefined;
 
-  constructor(public facade: ItemsFacade, public date: DateService) {}
+  constructor(public facade: ItemsFacade) {}
 
   ngOnInit(): void {
     this.day = this.day?.toLowerCase();
-    this.weekDay = this.date.wD.toLowerCase();
   }
 
-  ngOnDestroy(): void {}
+  matchesItem(item: Item): boolean {
+    if (!this.box) {
+      return false;
+    }
+
+    if (this.box === 'todo' || this.box === 'notes') {
+      return item.where === this.box;
+    }
+
+    if (this.columnDateKey) {
+      return item.scheduled_date === this.columnDateKey;
+    }
+
+    return item.where === this.box;
+  }
+
+  formatCarriedFrom(item: Item): string {
+    if (!item.carried_from) {
+      return '';
+    }
+    return format(parseISO(item.carried_from), 'd MMM');
+  }
 }

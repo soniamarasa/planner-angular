@@ -1,14 +1,15 @@
 <p-card class="container-card">
   <div>
-    <img src="../../../assets/pin.png" *ngIf="day == weekDay" alt="pin" />
+    <img src="../../../assets/pin.png" *ngIf="isTodayColumn" alt="pin" />
     <h2 *ngIf="day">{{ day }}</h2>
+    <p class="column-date" *ngIf="columnDateLabel">{{ columnDateLabel }}</p>
     <h3 *ngIf="titleBox">{{ titleBox }}</h3>
   </div>
 
   <ng-container *ngIf="day || titleBox != 'Calendar'">
     <ul class="item" *ngIf="items.length > 0">
       <ng-container *ngFor="let item of items">
-        <ng-container *ngIf="item.where === box">
+        <ng-container *ngIf="matchesItem(item)">
           <li
             [ngClass]="{
               task: item.type === 'task',
@@ -19,7 +20,8 @@
               finished: item.finished,
               started: item.started,
               important: item.important,
-              canceled: item.canceled
+              canceled: item.canceled,
+              overdue: item.is_overdue
             }"
             (click)="facade.actionsControl(item.id, null, null, null)"
           >
@@ -43,6 +45,10 @@
 
             <p class="obs" *ngIf="item.obs !== ''">
               <i class="pi pi-reply"></i>{{ item.obs }}
+            </p>
+
+            <p class="carried-from" *ngIf="item.carried_from">
+              <i class="pi pi-replay"></i>From {{ formatCarriedFrom(item) }}
             </p>
 
             <app-actions-item
