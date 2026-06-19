@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { ConfirmationService } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
 import { ThemeService } from 'src/app/services/theme.service';
@@ -20,7 +21,8 @@ export class ActionsItemComponent implements OnInit {
     public service: ItemsService,
     public facade: ItemsFacade,
     public dialogService: DialogService,
-    public themeService: ThemeService
+    public themeService: ThemeService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {}
@@ -40,6 +42,12 @@ export class ActionsItemComponent implements OnInit {
       closeOnEscape: true,
       styleClass: this.themeService.theme + ' modal',
       data: initialState,
+    });
+  }
+
+  openFocusMode() {
+    this.router.navigate(['/focus'], {
+      queryParams: { taskId: this.item.id },
     });
   }
 }

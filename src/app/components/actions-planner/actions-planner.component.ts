@@ -62,8 +62,8 @@ export class ActionsPlannerComponent implements OnInit {
   confirm() {
     this._confirmationService.confirm({
       message:
-        'Are you sure you want to reset the Week? All data will be erased!',
-      accept: () => this.reset(),
+        'Clear all scheduled items from this week? Notes and To Do will stay.',
+      accept: () => this.clearWeek(),
     });
   }
 
@@ -71,12 +71,22 @@ export class ActionsPlannerComponent implements OnInit {
     this.theme = true;
   }
 
-  reset() {
-    this.facade.resetData();
+  clearWeek() {
+    this.facade.clearWeek();
   }
 
   ngOnInit(): void {
     this.leftTooltipItems = [
+      {
+        tooltipOptions: {
+          tooltipLabel: 'Focus Mode',
+          tooltipPosition: 'left',
+        },
+        icon: 'pi pi-clock',
+        command: () => {
+          this._router.navigate(['/focus']);
+        },
+      },
       {
         tooltipOptions: {
           tooltipLabel: 'Statistics',
@@ -89,7 +99,7 @@ export class ActionsPlannerComponent implements OnInit {
       },
       {
         tooltipOptions: {
-          tooltipLabel: 'Reset the Week?',
+          tooltipLabel: 'Clear this week',
           tooltipPosition: 'left',
         },
         icon: 'pi pi-refresh',

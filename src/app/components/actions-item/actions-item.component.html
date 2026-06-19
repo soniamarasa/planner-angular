@@ -1,4 +1,6 @@
 <div class="acoes">
+    <i *ngIf="item.type === 'task' && !item.finished && !item.canceled" class="pi pi-clock" id="focus" pTooltip="Focus"
+        (click)="openFocusMode(); $event.stopPropagation()"></i>
     <i class="pi pi-check-square" id="complete" pTooltip="Finished"
         (click)="facade.actionsControl(item.id,'finished', item.where, item.finished); $event.stopPropagation()"></i>
     <i class="pi pi-play" id="started" pTooltip="Started"
