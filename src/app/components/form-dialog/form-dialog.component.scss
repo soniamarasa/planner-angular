@@ -27,11 +27,28 @@
 
     .where-check {
       display: flex;
-      justify-content: space-between;
+      gap: 1.5rem;
+      align-items: center;
     }
 
     .where-check div label {
       margin-left: 5px;
+    }
+
+    .placement-field {
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+    }
+
+    .placement-label {
+      font-size: 0.95rem;
+      color: var(--title-color);
+    }
+
+    .placement-hint {
+      color: var(--text-muted);
+      font-size: 0.85rem;
     }
 
     .p-button.p-button-success,

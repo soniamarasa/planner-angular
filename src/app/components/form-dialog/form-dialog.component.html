@@ -33,118 +33,27 @@
     />
   </div>
 
-  <div class="formgrid grid">
-    <div class="field where-check col-12 sm:col-6 md:col-6 lg:col-6">
-      <div class="p-field-checkbox">
-        <p-checkbox
-          #checkbox
-          type="checkbox"
-          (onChange)="onCheckChanges('mon', $event)"
-          name="where"
-          value="mon"
-          inputId="mon"
-        >
-        </p-checkbox>
-        <label for="mon">M</label>
-      </div>
-      <div class="p-field-checkbox">
-        <p-checkbox
-          #checkbox
-          type="checkbox"
-          (onChange)="onCheckChanges('tue', $event)"
-          name="where"
-          value="tue"
-          inputId="tue"
-        >
-        </p-checkbox>
-        <label for="tue">T</label>
-      </div>
-      <div class="p-field-checkbox">
-        <p-checkbox
-          #checkbox
-          type="checkbox"
-          (onChange)="onCheckChanges('wed', $event)"
-          name="where"
-          value="wed"
-          inputId="wed"
-        >
-        </p-checkbox>
-        <label for="wed">W</label>
-      </div>
-      <div class="p-field-checkbox">
-        <p-checkbox
-          #checkbox
-          type="checkbox"
-          (onChange)="onCheckChanges('thu', $event)"
-          name="where"
-          value="thu"
-          inputId="thu"
-        >
-        </p-checkbox>
-        <label for="thu">T</label>
-      </div>
-      <div class="p-field-checkbox">
-        <p-checkbox
-          #checkbox
-          type="checkbox"
-          (onChange)="onCheckChanges('fri', $event)"
-          name="where"
-          value="fri"
-          inputId="fri"
-        >
-        </p-checkbox>
-        <label for="fri">F</label>
-      </div>
-    </div>
+  <div class="field placement-field">
+    <label for="scheduledDate" class="placement-label">Date</label>
+    <p-datepicker
+      inputId="scheduledDate"
+      formControlName="scheduledDate"
+      dateFormat="dd M yy"
+      [showIcon]="true"
+      [showButtonBar]="true"
+      placeholder="Pick a day for this item"
+    ></p-datepicker>
+    <small class="placement-hint">Use a date to schedule in any week. Notes and To Do are general lists.</small>
+  </div>
 
-    <div class="field where-check col-12 sm:col-6 md:col-6 lg:col-6">
-      <div class="p-field-checkbox">
-        <p-checkbox
-          #checkbox
-          type="checkbox"
-          (onChange)="onCheckChanges('sat', $event)"
-          name="where"
-          value="sat"
-          inputId="sat"
-        >
-        </p-checkbox>
-        <label for="sat">S</label>
-      </div>
-      <div class="p-field-checkbox">
-        <p-checkbox
-          #checkbox
-          type="checkbox"
-          (onChange)="onCheckChanges('sun', $event)"
-          name="where"
-          value="sun"
-          inputId="sun"
-        >
-        </p-checkbox>
-        <label for="sun">S</label>
-      </div>
-      <div class="p-field-checkbox">
-        <p-checkbox
-          #checkbox
-          type="checkbox"
-          (onChange)="onCheckChanges('notes', $event)"
-          name="where"
-          value="notes"
-          inputId="notes"
-        ></p-checkbox>
-        <label for="notes">Notes</label>
-      </div>
-      <div class="p-field-checkbox">
-        <p-checkbox
-          #checkbox
-          type="checkbox"
-          (onChange)="onCheckChanges('todo', $event)"
-          name="where"
-          value="todo"
-          inputId="todo"
-        >
-        </p-checkbox>
-        <label for="todo">To Do</label>
-      </div>
+  <div class="field where-check">
+    <div class="p-field-checkbox">
+      <p-checkbox formControlName="notes" [binary]="true" inputId="notes"></p-checkbox>
+      <label for="notes">Notes</label>
+    </div>
+    <div class="p-field-checkbox">
+      <p-checkbox formControlName="todo" [binary]="true" inputId="todo"></p-checkbox>
+      <label for="todo">To Do</label>
     </div>
   </div>
 
