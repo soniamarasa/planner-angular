@@ -10,7 +10,6 @@ import { ThemeService } from './services/theme.service';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { PagesModule } from './pages/pages.module';
 
 import { TokenInterceptor } from '../app/interceptors/token.interceptor';
 
@@ -22,7 +21,6 @@ import { TokenInterceptor } from '../app/interceptors/token.interceptor';
     BrowserAnimationsModule,
     CommonModule,
     HttpClientModule,
-    PagesModule,
   ],
   providers: [
     providePrimeNG({
