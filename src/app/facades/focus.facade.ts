@@ -9,12 +9,15 @@ import { ItemsService } from '../services/items.service';
 import { ItemsStore } from '../stores/items.store';
 import { FocusSettings, FocusSettingsUpdate, PomodoroSession } from '../models/focus';
 import { Item } from '../models/item';
+import { getStoredUserId } from '../utils/stored-user.util';
 
 export interface FocusState {
   settings: FocusSettings | null;
   session: PomodoroSession | null;
+  allTasks: Item[];
   tasks: Item[];
   selectedTask: Item | null;
+  projectFilterId: string | null;
   elapsedSeconds: number;
   remainingSeconds: number;
   cycleProgress: number;
@@ -25,8 +28,10 @@ export interface FocusState {
 const initialState: FocusState = {
   settings: null,
   session: null,
+  allTasks: [],
   tasks: [],
   selectedTask: null,
+  projectFilterId: null,
   elapsedSeconds: 0,
   remainingSeconds: 0,
   cycleProgress: 0,
@@ -63,7 +68,11 @@ export class FocusFacade implements OnDestroy {
   }
 
   init(taskId?: string | null): void {
-    this.userId = JSON.parse(localStorage.getItem('idUser') as string);
+    this.userId = getStoredUserId();
+    if (!this.userId) {
+      this.patchState({ loading: false });
+      return;
+    }
     this.patchState({ loading: true });
 
     forkJoin({
@@ -85,9 +94,11 @@ export class FocusFacade implements OnDestroy {
         next: ({ items, settings, session }) => {
           try {
             const safeItems = Array.isArray(items) ? items : [];
-            const tasks = safeItems.filter(
+            const allTasks = safeItems.filter(
               (item) => item.type === 'task' && !item.finished && !item.canceled
             );
+            const projectFilterId = this.stateSubject.value.projectFilterId;
+            const tasks = this.applyProjectFilter(allTasks, projectFilterId);
             const selectedTask =
               tasks.find((task) => task.id === taskId) ??
               (session ? tasks.find((task) => task.id === session.item_id) : null) ??
@@ -95,7 +106,7 @@ export class FocusFacade implements OnDestroy {
               null;
 
             this.itemsStore.setItems(safeItems);
-            this.patchState({ tasks, selectedTask, settings });
+            this.patchState({ allTasks, tasks, selectedTask, settings });
 
             if (settings) {
               this.applyAmbientSound(settings);
@@ -109,7 +120,7 @@ export class FocusFacade implements OnDestroy {
             this.messageService.add({
               key: 'notification',
               severity: 'error',
-              detail: 'Failed to load focus mode.',
+              detail: 'Não foi possível carregar o modo foco.',
             });
           }
         },
@@ -127,6 +138,15 @@ export class FocusFacade implements OnDestroy {
     this.patchState({ selectedTask: task });
   }
 
+  setProjectFilter(projectId: string | null): void {
+    const allTasks = this.stateSubject.value.allTasks;
+    const tasks = this.applyProjectFilter(allTasks, projectId);
+    const currentId = this.stateSubject.value.selectedTask?.id;
+    const selectedTask =
+      tasks.find((task) => task.id === currentId) ?? tasks[0] ?? null;
+    this.patchState({ projectFilterId: projectId, tasks, selectedTask });
+  }
+
   startSession(): void {
     const { selectedTask, session, isRunning } = this.stateSubject.value;
     if (!selectedTask?.id || isRunning) {
@@ -137,7 +157,7 @@ export class FocusFacade implements OnDestroy {
       this.messageService.add({
         key: 'notification',
         severity: 'warn',
-        detail: 'Finish or abandon the current session before starting another.',
+        detail: 'Encerre ou abandone a sessão atual antes de iniciar outra.',
       });
       return;
     }
@@ -151,7 +171,7 @@ export class FocusFacade implements OnDestroy {
         this.messageService.add({
           key: 'notification',
           severity: 'success',
-          detail: 'Focus session started.',
+          detail: 'Sessão de foco iniciada.',
         });
       },
       error: () => this.patchState({ loading: false }),
@@ -216,7 +236,7 @@ export class FocusFacade implements OnDestroy {
         this.messageService.add({
             key: 'notification',
             severity: 'success',
-            detail: 'Pomodoro completed!',
+            detail: 'Pomodoro concluído!',
           });
         },
         error: () => this.patchState({ loading: false }),
@@ -253,10 +273,15 @@ export class FocusFacade implements OnDestroy {
     return this.itemsService.editItem(this.userId, task.id!, task).pipe(
       tap((updatedTask) => {
         this.itemsStore.replacetItem(updatedTask);
-        const tasks = this.stateSubject.value.tasks.map((current) =>
+        const allTasks = this.stateSubject.value.allTasks.map((current) =>
           current.id === updatedTask.id ? updatedTask : current
         );
+        const tasks = this.applyProjectFilter(
+          allTasks,
+          this.stateSubject.value.projectFilterId
+        );
         this.patchState({
+          allTasks,
           tasks,
           selectedTask:
             this.stateSubject.value.selectedTask?.id === updatedTask.id
@@ -276,7 +301,7 @@ export class FocusFacade implements OnDestroy {
           this.messageService.add({
             key: 'notification',
             severity: 'success',
-            detail: 'Focus settings updated.',
+            detail: 'Configurações de foco atualizadas.',
           });
         }
       },
@@ -284,7 +309,7 @@ export class FocusFacade implements OnDestroy {
         this.messageService.add({
           key: 'notification',
           severity: 'error',
-          detail: 'Failed to update focus settings.',
+          detail: 'Não foi possível atualizar as configurações de foco.',
         });
       },
     });
@@ -361,7 +386,7 @@ export class FocusFacade implements OnDestroy {
   }
 
   private updateItemFromSession(session: PomodoroSession): void {
-    const tasks = this.stateSubject.value.tasks.map((task) => {
+    const allTasks = this.stateSubject.value.allTasks.map((task) => {
       if (task.id !== session.item_id) {
         return task;
       }
@@ -381,8 +406,12 @@ export class FocusFacade implements OnDestroy {
       };
     });
 
+    const tasks = this.applyProjectFilter(
+      allTasks,
+      this.stateSubject.value.projectFilterId
+    );
     const selectedTask = tasks.find((task) => task.id === session.item_id) ?? null;
-    this.patchState({ tasks, selectedTask });
+    this.patchState({ allTasks, tasks, selectedTask });
 
     if (selectedTask) {
       this.itemsStore.replacetItem(selectedTask);
@@ -463,6 +492,13 @@ export class FocusFacade implements OnDestroy {
     }
   }
 
+  private applyProjectFilter(tasks: Item[], projectId: string | null): Item[] {
+    if (!projectId) {
+      return tasks;
+    }
+    return tasks.filter((task) => task.project_id === projectId);
+  }
+
   private patchState(partial: Partial<FocusState>): void {
     this.stateSubject.next({
       ...this.stateSubject.value,
@@ -477,8 +513,8 @@ export class FocusFacade implements OnDestroy {
     }
 
     if (Notification.permission === 'granted') {
-      new Notification('Pomodoro completed!', {
-        body: 'Great job. Time for a break.',
+      new Notification('Pomodoro concluído!', {
+        body: 'Bom trabalho. Hora de uma pausa.',
       });
       return;
     }
@@ -486,8 +522,8 @@ export class FocusFacade implements OnDestroy {
     if (Notification.permission !== 'denied') {
       Notification.requestPermission().then((permission) => {
         if (permission === 'granted') {
-          new Notification('Pomodoro completed!', {
-            body: 'Great job. Time for a break.',
+          new Notification('Pomodoro concluído!', {
+            body: 'Bom trabalho. Hora de uma pausa.',
           });
         }
       });

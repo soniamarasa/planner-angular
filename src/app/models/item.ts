@@ -16,4 +16,8 @@ export interface Item {
   pomodoros_completed?: number;
   task_focus_progress?: number;
   is_overdue?: boolean;
+  project_id?: string | null;
+  project_name?: string | null;
+  project_icon?: string | null;
+  project_color?: string | null;
 }
