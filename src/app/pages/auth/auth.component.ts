@@ -9,6 +9,7 @@ import { finalize } from 'rxjs';
 import { UserFacade } from 'src/app/facades/user.facades';
 import { User } from 'src/app/models/user';
 import { RecoverDialogComponent } from './recover-dialog/recover-dialog.component';
+import { plannerDialogConfig } from 'src/app/utils/planner-dialog.util';
 import { ThemeService } from 'src/app/services/theme.service';
 
 @Component({
@@ -54,16 +55,16 @@ export class AuthComponent implements OnInit {
   }
 
   openDialogRecover() {
-    const ref = this._dialogService.open(RecoverDialogComponent, {
-      header: 'Forgot your password?',
-      width: '560px',
-      breakpoints: {
-        '960px': '90vw',
-      },
-      closable: true,
-      closeOnEscape: true,
-      styleClass: this.themeService.theme + ' modal',
-    });
+    const ref = this._dialogService.open(
+      RecoverDialogComponent,
+      plannerDialogConfig(this.themeService.theme, {
+        header: 'Forgot your password?',
+        width: '560px',
+        breakpoints: {
+          '960px': '90vw',
+        },
+      })
+    );
 
     this.subs.add(
       (ref as DynamicDialogRef).onClose.subscribe((email) => {

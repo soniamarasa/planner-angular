@@ -1,4 +1,4 @@
-<div class="focus-page" *ngIf="state && !state.loading">
+<div class="focus-page" [ngClass]="themeService.theme" *ngIf="state && !state.loading">
   <p-toast key="notification" position="top-right"></p-toast>
   <div class="focus-bg" [ngStyle]="backgroundStyle"></div>
   <div class="focus-overlay"></div>
@@ -53,7 +53,7 @@
     <section class="timer-panel">
       <div
         class="timer-ring"
-        [style.background]="'conic-gradient(#ff9a3d ' + progressDegrees + 'deg, rgba(255,255,255,0.12) 0deg)'"
+        [style.--progress-deg]="progressDegrees + 'deg'"
       >
         <div class="timer-ring__inner">
           <span class="timer-label">Remaining</span>
@@ -154,9 +154,13 @@
     header="Focus settings"
     [(visible)]="settingsVisible"
     [modal]="true"
-    [style]="{ width: '520px' }"
+    [appendTo]="'body'"
+    [draggable]="false"
+    [dismissableMask]="true"
+    [style]="{ width: 'min(520px, calc(100vw - 2rem))' }"
     [breakpoints]="{ '960px': '92vw' }"
-    styleClass="focus-settings-dialog"
+    [styleClass]="settingsDialogStyleClass"
+    [maskStyleClass]="'planner-dialog-mask'"
   >
     <form [formGroup]="settingsForm" class="settings-form">
       <div class="settings-grid">
@@ -198,6 +202,7 @@
         optionLabel="name"
         optionValue="code"
         formControlName="ambient_sound"
+        appendTo="body"
         (onChange)="onSoundChange()"
       ></p-select>
 
@@ -215,6 +220,6 @@
   </p-dialog>
 </div>
 
-<div class="focus-loading" *ngIf="!state || state.loading">
+<div class="focus-loading" [ngClass]="themeService.theme" *ngIf="!state || state.loading">
   <i class="pi pi-spin pi-spinner"></i>
 </div>

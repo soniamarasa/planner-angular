@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { filter, map, Observable } from 'rxjs';
 import { DialogService } from 'primeng/dynamicdialog';
 
+import { plannerDialogConfig } from 'src/app/utils/planner-dialog.util';
 import { ThemeService } from '../../services/theme.service';
 import { WeekService, PlannerDayColumn } from 'src/app/services/week.service';
 import { ItemsFacade } from 'src/app/facades/items.facade';
@@ -56,16 +57,16 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   newItem() {
-    const ref = this._dialogService.open(FormDialogComponent, {
-      header: 'New Item',
-      width: '640px',
-      breakpoints: {
-        '960px': '90vw',
-      },
-      closable: true,
-      closeOnEscape: true,
-      styleClass: this.themeService.theme + ' modal',
-    });
+    this._dialogService.open(
+      FormDialogComponent,
+      plannerDialogConfig(this.themeService.theme, {
+        header: 'New Item',
+        width: '640px',
+        breakpoints: {
+          '960px': '90vw',
+        },
+      })
+    );
   }
 
   isTodayColumn(columnDateKey: string, todayKey: string | null): boolean {

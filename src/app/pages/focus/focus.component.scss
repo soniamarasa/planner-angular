@@ -1,7 +1,7 @@
 .focus-page {
   position: relative;
   min-height: 100vh;
-  color: #f5f7fb;
+  color: var(--text-main);
   overflow: hidden;
 }
 
@@ -15,9 +15,17 @@
 .focus-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(8, 12, 22, 0.18);
   z-index: 1;
   pointer-events: none;
+  transition: background 0.3s ease;
+}
+
+.focus-page.theme-light .focus-overlay {
+  background: color-mix(in srgb, var(--bg) 28%, transparent);
+}
+
+.focus-page.theme-dark .focus-overlay {
+  background: rgba(8, 12, 22, 0.16);
 }
 
 .focus-header,
@@ -36,8 +44,16 @@
   text-align: center;
   font-size: 0.62rem;
   line-height: 1.3;
-  color: rgba(255, 255, 255, 0.45);
   pointer-events: none;
+}
+
+.focus-page.theme-light .focus-credit {
+  color: color-mix(in srgb, var(--text-muted) 88%, transparent);
+  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.65);
+}
+
+.focus-page.theme-dark .focus-credit {
+  color: rgba(255, 255, 255, 0.45);
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.65);
 }
 
@@ -53,7 +69,7 @@
 
   h1 {
     margin: 0.35rem 0 0;
-    color: #fff;
+    color: var(--title-color);
     font-size: 1.8rem;
   }
 }
@@ -62,14 +78,14 @@
   display: inline-block;
   padding: 0.25rem 0.75rem;
   border-radius: 999px;
-  background: rgba(255, 154, 61, 0.18);
-  color: #ffc285;
+  background: color-mix(in srgb, var(--accent) 18%, transparent);
+  color: color-mix(in srgb, var(--accent) 72%, var(--title-color));
   font-size: 0.85rem;
 }
 
 .back-btn,
 .settings-btn {
-  color: #fff !important;
+  color: var(--title-color) !important;
 }
 
 .settings-btn {
@@ -88,10 +104,11 @@
 .edit-panel,
 .timer-panel {
   backdrop-filter: blur(16px);
-  background: rgba(15, 23, 40, 0.72);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  -webkit-backdrop-filter: blur(16px);
+  background: color-mix(in srgb, var(--surface-strong) 62%, transparent);
+  border: 1px solid color-mix(in srgb, var(--surface-border) 75%, transparent);
   border-radius: 24px;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+  box-shadow: var(--shadow-soft);
 }
 
 .panel-head {
@@ -99,16 +116,16 @@
   justify-content: space-between;
   align-items: center;
   padding: 1.25rem 1.25rem 0.75rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  border-bottom: 1px solid var(--surface-border);
 
   h2 {
     margin: 0;
-    color: #fff;
+    color: var(--title-color);
     font-size: 1.2rem;
   }
 
   span {
-    color: rgba(255, 255, 255, 0.55);
+    color: var(--text-muted);
     font-size: 0.85rem;
   }
 }
@@ -125,26 +142,30 @@
 .task-card {
   width: 100%;
   text-align: left;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid color-mix(in srgb, var(--surface-border) 75%, transparent);
+  background: color-mix(in srgb, var(--surface) 48%, transparent);
   border-radius: 16px;
   padding: 0.9rem 1rem;
   color: inherit;
   cursor: pointer;
   transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease;
 
+  small {
+    color: var(--text-muted);
+  }
+
   &:hover {
     transform: translateY(-2px);
-    border-color: rgba(255, 154, 61, 0.35);
+    border-color: color-mix(in srgb, var(--accent) 35%, var(--surface-border));
   }
 
   &--active {
-    border-color: rgba(255, 154, 61, 0.8);
-    background: rgba(255, 154, 61, 0.12);
+    border-color: color-mix(in srgb, var(--accent) 70%, var(--surface-border));
+    background: color-mix(in srgb, var(--accent) 10%, transparent);
   }
 
   &--running {
-    box-shadow: 0 0 0 1px rgba(255, 154, 61, 0.35);
+    box-shadow: 0 0 0 1px color-mix(in srgb, var(--accent) 35%, transparent);
   }
 }
 
@@ -152,10 +173,14 @@
   display: flex;
   justify-content: space-between;
   gap: 0.5rem;
+
+  strong {
+    color: var(--title-color);
+  }
 }
 
 .task-card__flag {
-  color: #ff7a7a;
+  color: var(--tertiary-color);
 }
 
 .task-card__progress {
@@ -165,14 +190,18 @@
 .task-card__bar {
   height: 6px;
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.08);
+  background: color-mix(in srgb, var(--text-main) 10%, transparent);
   overflow: hidden;
   margin-bottom: 0.35rem;
 
   span {
     display: block;
     height: 100%;
-    background: linear-gradient(90deg, #ff9a3d, #ffc285);
+    background: linear-gradient(
+      90deg,
+      var(--accent),
+      color-mix(in srgb, var(--accent) 70%, #ffc285)
+    );
   }
 }
 
@@ -192,14 +221,19 @@
   display: grid;
   place-items: center;
   padding: 14px;
-  box-shadow: 0 0 40px rgba(255, 154, 61, 0.15);
+  box-shadow: 0 0 40px color-mix(in srgb, var(--accent) 18%, transparent);
+  background: conic-gradient(
+    var(--accent) var(--progress-deg, 0deg),
+    color-mix(in srgb, var(--text-main) 12%, transparent) 0deg
+  );
 }
 
 .timer-ring__inner {
   width: 100%;
   height: 100%;
   border-radius: 50%;
-  background: rgba(8, 12, 22, 0.88);
+  background: color-mix(in srgb, var(--surface-strong) 72%, transparent);
+  border: 1px solid color-mix(in srgb, var(--surface-border) 75%, transparent);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -208,7 +242,7 @@
 }
 
 .timer-label {
-  color: rgba(255, 255, 255, 0.55);
+  color: var(--text-muted);
   text-transform: uppercase;
   letter-spacing: 0.08em;
   font-size: 0.8rem;
@@ -217,7 +251,11 @@
 .timer-value {
   font-size: clamp(3rem, 8vw, 4.5rem);
   line-height: 1;
-  color: #fff;
+  color: var(--title-color);
+}
+
+.timer-ring__inner small {
+  color: var(--text-muted);
 }
 
 .timer-actions {
@@ -228,7 +266,7 @@
 }
 
 .abandon-btn {
-  color: rgba(255, 255, 255, 0.75) !important;
+  color: var(--text-muted) !important;
 }
 
 .edit-panel form {
@@ -238,7 +276,7 @@
   padding: 1.25rem;
 
   label {
-    color: rgba(255, 255, 255, 0.75);
+    color: var(--text-muted);
     font-size: 0.9rem;
   }
 
@@ -285,8 +323,8 @@
   padding: 0;
   overflow: hidden;
   cursor: pointer;
-  background: rgba(255, 255, 255, 0.04);
-  color: inherit;
+  background: color-mix(in srgb, var(--surface) 80%, transparent);
+  color: var(--text-main);
   transition: border-color 0.2s ease, transform 0.2s ease;
 
   img {
@@ -308,23 +346,23 @@
   }
 
   &--active {
-    border-color: #ff9a3d;
-    box-shadow: 0 0 0 1px rgba(255, 154, 61, 0.35);
+    border-color: var(--accent);
+    box-shadow: 0 0 0 1px color-mix(in srgb, var(--accent) 35%, transparent);
   }
 }
 
 .empty-state {
   padding: 2rem 1.25rem;
   text-align: center;
-  color: rgba(255, 255, 255, 0.7);
+  color: var(--text-muted);
 }
 
 .focus-loading {
   min-height: 100vh;
   display: grid;
   place-items: center;
-  background: #101827;
-  color: #fff;
+  background: var(--bg);
+  color: var(--text-main);
   font-size: 2rem;
 }
 

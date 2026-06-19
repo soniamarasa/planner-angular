@@ -72,24 +72,37 @@
 </header>
 
 <p-dialog
-  header="Choose theme"
+  header="Theme"
   [(visible)]="themeVisible"
-  [style]="{ width: 'max-content', height: 'max-content' }"
   [modal]="true"
   [appendTo]="'body'"
-  [styleClass]="themeService.theme + ' modal'"
+  [draggable]="false"
+  [dismissableMask]="true"
+  [style]="{ width: 'min(420px, calc(100vw - 2rem))' }"
+  [styleClass]="dialogStyleClass"
+  [maskStyleClass]="'planner-dialog-mask'"
 >
-  <p-select
-    [options]="themes"
-    [(ngModel)]="themeService.theme"
-    placeholder="Select"
-    optionLabel="name"
-    optionValue="code"
-    (ngModelChange)="changeTheme($event)"
-  ></p-select>
+  <p class="theme-picker__hint">Choose how the planner looks on this device.</p>
+  <div class="theme-picker">
+    <button
+      type="button"
+      class="theme-picker__option"
+      *ngFor="let themeOption of themes"
+      [class.theme-picker__option--active]="themeService.theme === themeOption.code"
+      (click)="changeTheme(themeOption.code)"
+    >
+      <span
+        class="theme-picker__preview"
+        [attr.data-theme]="themeOption.code"
+        aria-hidden="true"
+      ></span>
+      <span class="theme-picker__label">{{ themeOption.name }}</span>
+    </button>
+  </div>
 </p-dialog>
 
 <p-confirmDialog
   [appendTo]="'body'"
-  [styleClass]="themeService.theme + ' modal'"
+  [styleClass]="dialogStyleClass"
+  [maskStyleClass]="'planner-dialog-mask'"
 ></p-confirmDialog>

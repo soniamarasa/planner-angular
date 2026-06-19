@@ -28,6 +28,6 @@ export class AppComponent {
     const isAuthRoute = currentPath === '/auth';
     const storedTheme = this.themeService.getTheme();
 
-    this.themeService.theme = isAuthRoute ? 'theme-light' : storedTheme;
+    this.themeService.applyTheme(isAuthRoute ? 'theme-light' : storedTheme);
   }
 }

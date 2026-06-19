@@ -6,6 +6,8 @@ import { Dropdown } from 'src/app/models/dropdown';
 import { FocusSettingsUpdate } from 'src/app/models/focus';
 import { Item } from 'src/app/models/item';
 import { FocusFacade, FocusState } from 'src/app/facades/focus.facade';
+import { ThemeService } from 'src/app/services/theme.service';
+import { plannerDialogStyleClass } from 'src/app/utils/planner-dialog.util';
 import {
   FOCUS_BACKGROUNDS,
   FocusBackground,
@@ -36,6 +38,7 @@ export class FocusComponent implements OnInit, OnDestroy {
 
   constructor(
     public focusFacade: FocusFacade,
+    public themeService: ThemeService,
     private route: ActivatedRoute,
     private router: Router,
     private formBuilder: FormBuilder,
@@ -60,6 +63,10 @@ export class FocusComponent implements OnInit, OnDestroy {
       auto_start_focus: [false],
       notify_on_complete: [true],
     });
+  }
+
+  get settingsDialogStyleClass(): string {
+    return plannerDialogStyleClass(this.themeService.theme);
   }
 
   ngOnInit(): void {
@@ -91,8 +98,13 @@ export class FocusComponent implements OnInit, OnDestroy {
 
   get backgroundStyle(): Record<string, string> {
     const background = getFocusBackgroundById(this.state?.settings?.background_id);
+    const isDark = this.themeService.theme === 'theme-dark';
+    const overlay = isDark
+      ? 'linear-gradient(rgba(8, 12, 22, 0.42), rgba(8, 12, 22, 0.52))'
+      : 'linear-gradient(rgba(255, 255, 255, 0.1), rgba(244, 247, 251, 0.55))';
+
     return {
-      backgroundImage: `linear-gradient(rgba(8, 12, 22, 0.45), rgba(8, 12, 22, 0.55)), url('${background.imageUrl}')`,
+      backgroundImage: `${overlay}, url('${background.imageUrl}')`,
       backgroundSize: 'cover',
       backgroundPosition: 'center',
       backgroundRepeat: 'no-repeat',

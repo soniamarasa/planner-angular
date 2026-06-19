@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ConfirmationService } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
+import { plannerDialogConfig } from 'src/app/utils/planner-dialog.util';
 import { ThemeService } from 'src/app/services/theme.service';
 import { ItemsService } from 'src/app/services/items.service';
 import { ItemsFacade } from 'src/app/facades/items.facade';
@@ -32,17 +33,17 @@ export class ActionsItemComponent implements OnInit {
 
     let dialog = { component: EditFormComponent, title: 'Edit Item' };
 
-    const ref = this.dialogService.open(dialog.component, {
-      header: dialog.title,
-      width: '640px',
-      breakpoints: {
-        '960px': '90vw',
-      },
-      closable: true,
-      closeOnEscape: true,
-      styleClass: this.themeService.theme + ' modal',
-      data: initialState,
-    });
+    this.dialogService.open(
+      dialog.component,
+      plannerDialogConfig(this.themeService.theme, {
+        header: dialog.title,
+        width: '640px',
+        breakpoints: {
+          '960px': '90vw',
+        },
+        data: initialState,
+      })
+    );
   }
 
   openFocusMode() {

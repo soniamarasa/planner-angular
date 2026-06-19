@@ -9,6 +9,7 @@ import { UserFacade } from 'src/app/facades/user.facades';
 import { ItemsFacade } from 'src/app/facades/items.facade';
 import { DateService } from 'src/app/services/date.service';
 import { ThemeService } from 'src/app/services/theme.service';
+import { plannerDialogConfig, plannerDialogStyleClass } from 'src/app/utils/planner-dialog.util';
 import { UserService } from '../../services/user.service';
 import { getGravatarUrl } from 'src/app/utils/gravatar.util';
 import { ChartComponent } from '../chart/chart.component';
@@ -34,6 +35,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
   ];
   userMenuItems: MenuItem[] = [];
   private readonly subs = new SubSink();
+
+  get dialogStyleClass(): string {
+    return plannerDialogStyleClass(this.themeService.theme);
+  }
 
   constructor(
     private dateService: DateService,
@@ -102,16 +107,16 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   openStats(): void {
-    this.dialogService.open(ChartComponent, {
-      header: 'Statistics - Tasks',
-      width: '640px',
-      breakpoints: {
-        '960px': '90vw',
-      },
-      closable: true,
-      closeOnEscape: true,
-      styleClass: this.themeService.theme + ' modal',
-    });
+    this.dialogService.open(
+      ChartComponent,
+      plannerDialogConfig(this.themeService.theme, {
+        header: 'Statistics - Tasks',
+        width: '640px',
+        breakpoints: {
+          '960px': '90vw',
+        },
+      })
+    );
   }
 
   confirmClearWeek(): void {
@@ -126,14 +131,13 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   changeTheme(theme: string): void {
-    this.themeService.theme = theme;
     this.themeService.setTheme(theme);
   }
 
   logout(): void {
     this.subs.sink = this.userFacade.logout().subscribe({
       next: () => {
-        this.themeService.theme = 'theme-light';
+        this.themeService.applyTheme('theme-light');
         this.router.navigate(['/auth']);
       },
       error: () =>

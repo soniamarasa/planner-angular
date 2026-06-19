@@ -11,9 +11,9 @@ export class PagesComponent {
   title = 'planner-angular';
 
   constructor(public themeService: ThemeService) {
-    window.location.pathname === '/auth';
     const storedTheme = this.themeService.getTheme();
-    this.themeService.theme =
-      window.location.pathname === '/auth' ? 'theme-light' : storedTheme;
+    this.themeService.applyTheme(
+      window.location.pathname === '/auth' ? 'theme-light' : storedTheme
+    );
   }
 }
