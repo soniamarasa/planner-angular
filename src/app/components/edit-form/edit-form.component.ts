@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { DynamicDialogRef } from 'primeng/dynamicdialog';
 import { DynamicDialogConfig } from 'primeng/dynamicdialog';
 import { MessageService } from 'primeng/api';
@@ -7,7 +7,10 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { SubSink } from 'subsink';
 import { ItemsFacade } from 'src/app/facades/items.facade';
 import { WeekService } from 'src/app/services/week.service';
+import { ProjectsService } from 'src/app/services/projects.service';
 import { Item } from 'src/app/models/item';
+import { Project } from 'src/app/models/project';
+import { getStoredUserId } from 'src/app/utils/stored-user.util';
 
 @Component({
   selector: 'app-edit-form',
@@ -18,6 +21,7 @@ import { Item } from 'src/app/models/item';
 export class EditFormComponent implements OnInit, OnDestroy {
   form!: FormGroup;
   type: Dropdown[];
+  projectOptions: Dropdown[] = [{ name: 'No project', code: '' }];
   private readonly subs = new SubSink();
 
   constructor(
@@ -26,7 +30,9 @@ export class EditFormComponent implements OnInit, OnDestroy {
     public config: DynamicDialogConfig,
     private facade: ItemsFacade,
     private messageService: MessageService,
-    private weekService: WeekService
+    private weekService: WeekService,
+    private projectsService: ProjectsService,
+    private cdr: ChangeDetectorRef
   ) {
     this.type = [
       { name: 'Task', code: 'task' },
@@ -61,6 +67,7 @@ export class EditFormComponent implements OnInit, OnDestroy {
     });
 
     this.syncPlacementControls();
+    this.loadProjects();
   }
 
   ngOnDestroy(): void {
@@ -81,7 +88,26 @@ export class EditFormComponent implements OnInit, OnDestroy {
       scheduledDate: [scheduledDate],
       notes: [isNotes],
       todo: [isTodo],
+      projectId: [data.project_id ?? ''],
     });
+  }
+
+  private loadProjects(): void {
+    const userId = getStoredUserId();
+    if (!userId) {
+      return;
+    }
+    this.subs.add(
+      this.projectsService.getProjects(userId).subscribe({
+        next: (projects) => {
+          this.projectOptions = [
+            { name: 'No project', code: '' },
+            ...projects.map((project: Project) => ({ name: project.name, code: project.id! })),
+          ];
+          setTimeout(() => this.cdr.detectChanges());
+        },
+      })
+    );
   }
 
   private syncPlacementControls(): void {
@@ -149,6 +175,7 @@ export class EditFormComponent implements OnInit, OnDestroy {
         finished: this.config.data.finished,
         important: this.config.data.important,
         canceled: this.config.data.canceled,
+        project_id: value.projectId || null,
       };
     }
 
@@ -163,6 +190,7 @@ export class EditFormComponent implements OnInit, OnDestroy {
         finished: this.config.data.finished,
         important: this.config.data.important,
         canceled: this.config.data.canceled,
+        project_id: value.projectId || null,
       };
     }
 
@@ -176,6 +204,7 @@ export class EditFormComponent implements OnInit, OnDestroy {
       finished: this.config.data.finished,
       important: this.config.data.important,
       canceled: this.config.data.canceled,
+      project_id: value.projectId || null,
     };
   }
 

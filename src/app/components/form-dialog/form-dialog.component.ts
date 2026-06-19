@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { DynamicDialogRef } from 'primeng/dynamicdialog';
 import { DynamicDialogConfig } from 'primeng/dynamicdialog';
 import { Dropdown } from 'src/app/models/dropdown';
@@ -7,7 +7,10 @@ import { MessageService } from 'primeng/api';
 import { SubSink } from 'subsink';
 import { ItemsFacade } from 'src/app/facades/items.facade';
 import { WeekService } from 'src/app/services/week.service';
+import { ProjectsService } from 'src/app/services/projects.service';
 import { Item } from 'src/app/models/item';
+import { Project } from 'src/app/models/project';
+import { getStoredUserId } from 'src/app/utils/stored-user.util';
 
 @Component({
   selector: 'app-form-dialog',
@@ -19,6 +22,7 @@ import { Item } from 'src/app/models/item';
 export class FormDialogComponent implements OnInit, OnDestroy {
   form!: FormGroup;
   type: Dropdown[];
+  projectOptions: Dropdown[] = [{ name: 'Sem projeto', code: '' }];
   private readonly subs = new SubSink();
 
   constructor(
@@ -27,14 +31,16 @@ export class FormDialogComponent implements OnInit, OnDestroy {
     public _config: DynamicDialogConfig,
     private _messageService: MessageService,
     private facade: ItemsFacade,
-    private weekService: WeekService
+    private weekService: WeekService,
+    private projectsService: ProjectsService,
+    private cdr: ChangeDetectorRef
   ) {
     this.type = [
-      { name: 'Task', code: 'task' },
-      { name: 'Event', code: 'event' },
-      { name: 'Appointment', code: 'appointment' },
-      { name: 'Note', code: 'note' },
-      { name: 'Entertainment', code: 'tv' },
+      { name: 'Tarefa', code: 'task' },
+      { name: 'Evento', code: 'event' },
+      { name: 'Compromisso', code: 'appointment' },
+      { name: 'Nota', code: 'note' },
+      { name: 'Entretenimento', code: 'tv' },
     ];
     this.createForm();
   }
@@ -62,6 +68,7 @@ export class FormDialogComponent implements OnInit, OnDestroy {
     });
 
     this.syncPlacementControls();
+    this.loadProjects();
   }
 
   ngOnDestroy(): void {
@@ -76,6 +83,8 @@ export class FormDialogComponent implements OnInit, OnDestroy {
         : this.weekService.parseDateKey(presetDate)
       : null;
 
+    const presetProjectId = (this._config.data?.projectId as string) ?? '';
+
     this.form = this._formBuilder.group({
       type: ['', Validators.required],
       description: ['', Validators.required],
@@ -83,7 +92,30 @@ export class FormDialogComponent implements OnInit, OnDestroy {
       scheduledDate: [initialDate],
       notes: [false],
       todo: [false],
+      projectId: [presetProjectId],
     });
+  }
+
+  private loadProjects(): void {
+    const userId = getStoredUserId();
+    if (!userId) {
+      return;
+    }
+    this.subs.add(
+      this.projectsService.getProjects(userId).subscribe({
+        next: (projects) => {
+          this.projectOptions = [
+            { name: 'Sem projeto', code: '' },
+            ...projects.map((project: Project) => ({ name: project.name, code: project.id! })),
+          ];
+          const preset = this._config.data?.projectId as string | undefined;
+          if (preset) {
+            this.form.patchValue({ projectId: preset }, { emitEvent: false });
+          }
+          setTimeout(() => this.cdr.detectChanges());
+        },
+      })
+    );
   }
 
   private syncPlacementControls(): void {
@@ -118,8 +150,8 @@ export class FormDialogComponent implements OnInit, OnDestroy {
     if (!value.type || !value.description?.trim()) {
       this._messageService.add({
         severity: 'warn',
-        summary: 'Empty fields!',
-        detail: 'Type and description are required.',
+        summary: 'Campos vazios!',
+        detail: 'Tipo e descrição são obrigatórios.',
       });
       return false;
     }
@@ -127,8 +159,8 @@ export class FormDialogComponent implements OnInit, OnDestroy {
     if (!value.scheduledDate && !value.notes && !value.todo) {
       this._messageService.add({
         severity: 'warn',
-        summary: 'Choose a destination',
-        detail: 'Select a date, Notes, or To Do.',
+        summary: 'Escolha um destino',
+        detail: 'Selecione uma data, Notas ou A fazer.',
       });
       return false;
     }
@@ -151,6 +183,7 @@ export class FormDialogComponent implements OnInit, OnDestroy {
         finished: false,
         important: false,
         canceled: false,
+        project_id: value.projectId || null,
       };
     }
 
@@ -165,6 +198,7 @@ export class FormDialogComponent implements OnInit, OnDestroy {
         finished: false,
         important: false,
         canceled: false,
+        project_id: value.projectId || null,
       };
     }
 
@@ -179,6 +213,7 @@ export class FormDialogComponent implements OnInit, OnDestroy {
         finished: false,
         important: false,
         canceled: false,
+        project_id: value.projectId || null,
       };
     }
 
@@ -195,7 +230,14 @@ export class FormDialogComponent implements OnInit, OnDestroy {
       return;
     }
 
-    this.facade.create(payload);
-    this._ref.close();
+    this.subs.add(
+      this.facade.create(payload).subscribe({
+        next: (success) => {
+          if (success) {
+            this._ref.close(true);
+          }
+        },
+      })
+    );
   }
 }

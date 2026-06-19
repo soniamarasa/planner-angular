@@ -27,6 +27,17 @@
     placeholder="Observation"
   />
 
+  <div class="field">
+    <p-select
+      [options]="projectOptions"
+      placeholder="Project (optional)"
+      optionLabel="name"
+      optionValue="code"
+      formControlName="projectId"
+      appendTo="body"
+    ></p-select>
+  </div>
+
   <div class="field placement-field">
     <label for="editScheduledDate" class="placement-label">Date</label>
     <p-datepicker

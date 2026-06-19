@@ -28,6 +28,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
   gravatarUrl = '';
   isPlannerHome = true;
   isAccount = false;
+  isProjects = false;
+  isFocus = false;
   themeVisible = false;
   themes: Dropdown[] = [
     { name: 'Claro', code: 'theme-light' },
@@ -72,20 +74,26 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   get pageTitle(): string {
     if (this.isAccount) {
-      return 'My Account';
+      return 'Minha conta';
     }
-    return 'Weekly Planner';
+    if (this.isProjects) {
+      return 'Projetos';
+    }
+    if (this.isFocus) {
+      return 'Modo Foco';
+    }
+    return 'Planner Semanal';
   }
 
   private buildUserMenu(): void {
     this.userMenuItems = [
       {
-        label: 'My Account',
+        label: 'Minha conta',
         icon: 'pi pi-user',
         command: () => this.router.navigate(['/account']),
       },
       {
-        label: 'Theme',
+        label: 'Tema',
         icon: 'pi pi-palette',
         command: () => {
           this.themeVisible = true;
@@ -93,7 +101,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
       },
       { separator: true },
       {
-        label: 'Logout',
+        label: 'Sair',
         icon: 'pi pi-sign-out',
         command: () => this.logout(),
       },
@@ -104,13 +112,15 @@ export class HeaderComponent implements OnInit, OnDestroy {
     const url = this.router.url.split('?')[0];
     this.isPlannerHome = url === '/' || url === '';
     this.isAccount = url.startsWith('/account');
+    this.isProjects = url.startsWith('/projects');
+    this.isFocus = url.startsWith('/focus');
   }
 
   openStats(): void {
     this.dialogService.open(
       ChartComponent,
       plannerDialogConfig(this.themeService.theme, {
-        header: 'Statistics - Tasks',
+        header: 'Estatísticas — Tarefas',
         width: '640px',
         breakpoints: {
           '960px': '90vw',
@@ -121,8 +131,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   confirmClearWeek(): void {
     this.confirmationService.confirm({
-      message: 'Clear all scheduled items from this week? Notes and To Do will stay.',
-      header: 'Clear this week?',
+      message: 'Limpar todos os itens agendados desta semana? Notas e A fazer permanecem.',
+      header: 'Limpar esta semana?',
       icon: 'pi pi-exclamation-triangle',
       acceptButtonStyleClass: 'p-button-success',
       rejectButtonStyleClass: 'p-button-danger',
@@ -144,7 +154,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
         this.messageService.add({
           key: 'notification',
           severity: 'error',
-          detail: 'Unable to log out of your account.',
+          detail: 'Não foi possível sair da conta.',
         }),
     });
   }

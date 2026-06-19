@@ -1,0 +1,55 @@
+<form [formGroup]="form" class="project-form">
+  <div class="field">
+    <input
+      type="text"
+      pInputText
+      formControlName="name"
+      placeholder="Project name"
+      class="p-inputtext p-inputtext-md"
+      maxlength="120"
+    />
+  </div>
+
+  <div class="field">
+    <span class="field-label">Icon</span>
+    <div class="icon-grid">
+      <button
+        type="button"
+        class="icon-grid__btn"
+        *ngFor="let icon of icons"
+        [class.icon-grid__btn--active]="form.value.icon === icon"
+        (click)="selectIcon(icon)"
+        [attr.aria-label]="icon"
+      >
+        <i [class]="iconClass(icon)" [style.color]="form.value.color"></i>
+      </button>
+    </div>
+  </div>
+
+  <div class="field">
+    <span class="field-label">Color</span>
+    <div class="color-grid">
+      <button
+        type="button"
+        class="color-grid__btn"
+        *ngFor="let color of colors"
+        [class.color-grid__btn--active]="form.value.color === color"
+        [style.background]="color"
+        (click)="selectColor(color)"
+        [attr.aria-label]="color"
+      ></button>
+    </div>
+  </div>
+
+  <div class="project-form__actions">
+    <button pButton pRipple type="button" label="Cancel" class="p-button-text" (click)="cancel()"></button>
+    <button
+      pButton
+      pRipple
+      type="button"
+      [label]="isEdit ? 'Save' : 'Create'"
+      class="p-button-success"
+      (click)="save()"
+    ></button>
+  </div>
+</form>

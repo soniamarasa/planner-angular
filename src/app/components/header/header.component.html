@@ -16,12 +16,23 @@
       <a
         pButton
         pRipple
+        routerLink="/projects"
+        icon="pi pi-folder"
+        class="p-button-rounded p-button-text header-toolbar__btn"
+        [class.header-toolbar__btn--active]="isProjects"
+        pTooltip="Projetos"
+        tooltipPosition="bottom"
+        aria-label="Projetos"
+      ></a>
+      <a
+        pButton
+        pRipple
         routerLink="/focus"
         icon="pi pi-clock"
         class="p-button-rounded p-button-text header-toolbar__btn"
-        pTooltip="Focus Mode"
+        pTooltip="Modo Foco"
         tooltipPosition="bottom"
-        aria-label="Focus Mode"
+        aria-label="Modo Foco"
       ></a>
       <button
         pButton
@@ -29,9 +40,9 @@
         type="button"
         icon="pi pi-chart-bar"
         class="p-button-rounded p-button-text header-toolbar__btn"
-        pTooltip="Statistics"
+        pTooltip="Estatísticas"
         tooltipPosition="bottom"
-        aria-label="Statistics"
+        aria-label="Estatísticas"
         (click)="openStats()"
       ></button>
       <button
@@ -41,9 +52,9 @@
         type="button"
         icon="pi pi-refresh"
         class="p-button-rounded p-button-text header-toolbar__btn"
-        pTooltip="Clear this week"
+        pTooltip="Limpar esta semana"
         tooltipPosition="bottom"
-        aria-label="Clear this week"
+        aria-label="Limpar esta semana"
         (click)="confirmClearWeek()"
       ></button>
     </nav>
@@ -65,14 +76,14 @@
   </div>
 
   <div class="header-brand">
-    <h1>{{ isPlannerHome ? 'Weekly Planner' : pageTitle }}</h1>
+    <h1>{{ isPlannerHome ? 'Planner Semanal' : pageTitle }}</h1>
     <p class="header-date" *ngIf="isPlannerHome">{{ todayIs }}</p>
-    <p class="header-greeting" *ngIf="isPlannerHome && userFirstName">Hello, {{ userFirstName }}</p>
+    <p class="header-greeting" *ngIf="isPlannerHome && userFirstName">Olá, {{ userFirstName }}</p>
   </div>
 </header>
 
 <p-dialog
-  header="Theme"
+  header="Tema"
   [(visible)]="themeVisible"
   [modal]="true"
   [appendTo]="'body'"
@@ -82,7 +93,7 @@
   [styleClass]="dialogStyleClass"
   [maskStyleClass]="'planner-dialog-mask'"
 >
-  <p class="theme-picker__hint">Choose how the planner looks on this device.</p>
+  <p class="theme-picker__hint">Escolha como o planner aparece neste dispositivo.</p>
   <div class="theme-picker">
     <button
       type="button"
