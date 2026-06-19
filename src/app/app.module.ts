@@ -27,6 +27,9 @@ import { TokenInterceptor } from '../app/interceptors/token.interceptor';
       theme: {
         preset: Aura,
       },
+      translation: {
+        firstDayOfWeek: 1,
+      },
     }),
     ThemeService,
     {

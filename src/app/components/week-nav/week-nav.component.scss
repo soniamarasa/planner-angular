@@ -5,7 +5,7 @@
   grid-template-columns: auto 1fr auto;
   align-items: center;
   gap: 0.75rem;
-  margin: 0 2.6rem 0.85rem;
+  margin-bottom: 0.85rem;
   padding: 0.65rem 1rem;
   border-radius: 16px;
   background: var(--surface);
@@ -58,6 +58,6 @@
 
 @media (max-width: 768px) {
   .week-nav {
-    margin: 0 0.7rem 0.75rem;
+    margin-bottom: 0.75rem;
   }
 }

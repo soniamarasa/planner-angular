@@ -5,13 +5,20 @@
     .new-item {
       display: flex;
       justify-content: flex-end;
-      padding: 0.75rem 3.5rem 0.25rem;
+      width: calc(100% - (var(--planner-gutter) * 2));
+      max-width: var(--planner-max-width);
+      margin: 0 auto;
+      padding: 0.75rem 0 0.25rem;
+      box-sizing: border-box;
     }
 
     .container-cards {
-      margin: 0.25rem 2.6rem 2.2rem;
+      width: calc(100% - (var(--planner-gutter) * 2));
+      max-width: var(--planner-max-width);
+      margin: 0.25rem auto 2.2rem;
       min-height: calc(100vh - 186px);
       height: max-content;
+      box-sizing: border-box;
     }
 
     .cards-days {
@@ -48,7 +55,7 @@
 
     @media (max-width: 768px) {
       .container-cards {
-        margin: 0 0.7rem 1rem;
+        margin-bottom: 1rem;
       }
 
       .col-calend {
@@ -58,7 +65,7 @@
       }
 
       .new-item {
-        padding: 0.65rem 1rem 0.15rem;
+        padding-top: 0.65rem;
       }
     }
 
@@ -67,17 +74,6 @@
         display: flex;
         flex-direction: column;
         margin-top: 0;
-      }
-    }
-
-    @media (min-width: 2000px) {
-      .container-cards {
-        max-width: 1500px;
-        margin: 0 auto 2.5rem;
-      }
-      .new-item {
-        max-width: 1500px;
-        margin: 0 auto;
       }
     }
   }

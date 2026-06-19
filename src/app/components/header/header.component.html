@@ -1,71 +1,75 @@
-<div class="header-shell">
+<header class="header">
+  <div class="header-actions-bar">
+    <div class="header-actions planner-shell">
+      <nav class="header-toolbar" aria-label="Planner navigation">
+      <a
+        pButton
+        pRipple
+        routerLink="/"
+        icon="pi pi-calendar"
+        class="p-button-rounded p-button-text header-toolbar__btn"
+        [class.header-toolbar__btn--active]="isPlannerHome"
+        pTooltip="Planner"
+        tooltipPosition="bottom"
+        aria-label="Planner"
+      ></a>
+      <a
+        pButton
+        pRipple
+        routerLink="/focus"
+        icon="pi pi-clock"
+        class="p-button-rounded p-button-text header-toolbar__btn"
+        pTooltip="Focus Mode"
+        tooltipPosition="bottom"
+        aria-label="Focus Mode"
+      ></a>
+      <button
+        pButton
+        pRipple
+        type="button"
+        icon="pi pi-chart-bar"
+        class="p-button-rounded p-button-text header-toolbar__btn"
+        pTooltip="Statistics"
+        tooltipPosition="bottom"
+        aria-label="Statistics"
+        (click)="openStats()"
+      ></button>
+      <button
+        *ngIf="isPlannerHome"
+        pButton
+        pRipple
+        type="button"
+        icon="pi pi-refresh"
+        class="p-button-rounded p-button-text header-toolbar__btn"
+        pTooltip="Clear this week"
+        tooltipPosition="bottom"
+        aria-label="Clear this week"
+        (click)="confirmClearWeek()"
+      ></button>
+    </nav>
+
+    <div class="header-user">
+      <button
+        type="button"
+        class="header-user__trigger"
+        (click)="userMenu.toggle($event)"
+        aria-label="User menu"
+      >
+        <img [src]="gravatarUrl" alt="" class="header-user__avatar" width="36" height="36" />
+        <span class="header-user__name">{{ userFirstName }}</span>
+        <i class="pi pi-chevron-down header-user__chevron"></i>
+      </button>
+      <p-menu #userMenu [model]="userMenuItems" [popup]="true" appendTo="body"></p-menu>
+    </div>
+    </div>
+  </div>
+
   <div class="header-brand">
     <h1>{{ isPlannerHome ? 'Weekly Planner' : pageTitle }}</h1>
     <p class="header-date" *ngIf="isPlannerHome">{{ todayIs }}</p>
     <p class="header-greeting" *ngIf="isPlannerHome && userFirstName">Hello, {{ userFirstName }}</p>
   </div>
-
-  <nav class="header-toolbar" aria-label="Planner navigation">
-    <a
-      pButton
-      pRipple
-      routerLink="/"
-      icon="pi pi-calendar"
-      class="p-button-rounded p-button-text header-toolbar__btn"
-      [class.header-toolbar__btn--active]="isPlannerHome"
-      pTooltip="Planner"
-      tooltipPosition="bottom"
-      aria-label="Planner"
-    ></a>
-    <a
-      pButton
-      pRipple
-      routerLink="/focus"
-      icon="pi pi-clock"
-      class="p-button-rounded p-button-text header-toolbar__btn"
-      pTooltip="Focus Mode"
-      tooltipPosition="bottom"
-      aria-label="Focus Mode"
-    ></a>
-    <button
-      pButton
-      pRipple
-      type="button"
-      icon="pi pi-chart-bar"
-      class="p-button-rounded p-button-text header-toolbar__btn"
-      pTooltip="Statistics"
-      tooltipPosition="bottom"
-      aria-label="Statistics"
-      (click)="openStats()"
-    ></button>
-    <button
-      *ngIf="isPlannerHome"
-      pButton
-      pRipple
-      type="button"
-      icon="pi pi-refresh"
-      class="p-button-rounded p-button-text header-toolbar__btn"
-      pTooltip="Clear this week"
-      tooltipPosition="bottom"
-      aria-label="Clear this week"
-      (click)="confirmClearWeek()"
-    ></button>
-  </nav>
-
-  <div class="header-user">
-    <button
-      type="button"
-      class="header-user__trigger"
-      (click)="userMenu.toggle($event)"
-      aria-label="User menu"
-    >
-      <img [src]="gravatarUrl" alt="" class="header-user__avatar" width="40" height="40" />
-      <span class="header-user__name">{{ userFirstName }}</span>
-      <i class="pi pi-chevron-down header-user__chevron"></i>
-    </button>
-    <p-menu #userMenu [model]="userMenuItems" [popup]="true" appendTo="body"></p-menu>
-  </div>
-</div>
+</header>
 
 <p-dialog
   header="Choose theme"

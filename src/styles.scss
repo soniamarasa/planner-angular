@@ -19,6 +19,21 @@
   --shadow-soft: 0 1px 2px rgba(28, 45, 78, 0.04), 0 6px 18px rgba(28, 45, 78, 0.05);
   --shadow-lift: 0 10px 28px rgba(28, 45, 78, 0.08);
   --today-border: rgba(255, 154, 61, 0.35);
+  --planner-gutter: 2.6rem;
+  --planner-max-width: 1500px;
+}
+
+.planner-shell {
+  width: calc(100% - (var(--planner-gutter) * 2));
+  max-width: var(--planner-max-width);
+  margin-inline: auto;
+  box-sizing: border-box;
+}
+
+@media (max-width: 768px) {
+  :root {
+    --planner-gutter: 0.7rem;
+  }
 }
 
 *::-webkit-scrollbar {
