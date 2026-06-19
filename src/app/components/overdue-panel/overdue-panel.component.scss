@@ -1,0 +1,69 @@
+.overdue-panel {
+  margin-bottom: 0.85rem;
+  padding: 0.85rem;
+  border-radius: 16px;
+  border: 1px solid rgba(248, 87, 87, 0.28);
+  background: rgba(248, 87, 87, 0.08);
+}
+
+.overdue-panel__head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.65rem;
+}
+
+.overdue-panel__title {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-weight: 700;
+  color: #d94848;
+}
+
+.overdue-panel__count {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.overdue-panel__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+
+.overdue-item {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0.35rem;
+  align-items: center;
+  padding: 0.55rem 0.65rem;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.55);
+  cursor: pointer;
+}
+
+.overdue-item__content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+
+  strong {
+    font-size: 0.92rem;
+  }
+
+  small {
+    color: var(--text-muted);
+    font-size: 0.75rem;
+  }
+}
+
+:host-context(.theme-dark) {
+  .overdue-item {
+    background: rgba(255, 255, 255, 0.05);
+  }
+}

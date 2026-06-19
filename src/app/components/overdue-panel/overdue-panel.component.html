@@ -1,0 +1,33 @@
+<div class="overdue-panel" *ngIf="(overdueItems$ | async)?.length as overdueCount">
+  <div class="overdue-panel__head">
+    <span class="overdue-panel__title">
+      <i class="pi pi-exclamation-circle"></i>
+      Overdue
+    </span>
+    <span class="overdue-panel__count">{{ overdueCount }}</span>
+  </div>
+
+  <ul class="overdue-panel__list">
+    <li
+      *ngFor="let item of overdueItems$ | async"
+      class="overdue-item"
+      (click)="openActions(item)"
+    >
+      <div class="overdue-item__content">
+        <strong>{{ item.description }}</strong>
+        <small>from {{ formatOriginalDate(item) }}</small>
+      </div>
+      <button
+        pButton
+        type="button"
+        icon="pi pi-arrow-right"
+        class="p-button-rounded p-button-text p-button-sm"
+        pTooltip="Move to today"
+        tooltipPosition="left"
+        (click)="moveToToday(item, $event)"
+      ></button>
+
+      <app-actions-item *ngIf="item.id === facade.currentId" [item]="item"></app-actions-item>
+    </li>
+  </ul>
+</div>
