@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from '../guards/auth.guard';
 import { AccountComponent } from './account/account.component';
 import { AuthComponent } from './auth/auth.component';
+import { FocusComponent } from './focus/focus.component';
 import { HomeComponent } from './home/home.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { PagesComponent } from './pages.component';
@@ -10,6 +11,12 @@ import { PasswordRecoverComponent } from './password-recover/password-recover.co
 import { RegistrationComponent } from './registration/registration.component';
 
 const routes: Routes = [
+  {
+    path: 'focus',
+    component: FocusComponent,
+    canActivate: [AuthGuard],
+    title: 'Weekly Planner | Focus',
+  },
   {
     path: '',
     component: PagesComponent,

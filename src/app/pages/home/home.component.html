@@ -11,68 +11,59 @@
   ></button>
 </div>
 
-<div class="grid container-cards">
-  <div class="col-12 sm:col-12 md:col-8 lg:col-9">
-    <div class="grid cards-days">
-      <div
-        class="col-12 sm:col-6 md:col-6 lg:col-3"
-        [ngClass]="{ 'today-is': weekDay === 'monday' }"
-      >
-        <app-card [items]="(items$ | async) || []" box="mon" day="Monday"></app-card>
+<app-week-nav></app-week-nav>
+
+<ng-container *ngIf="weekView$ | async as weekView">
+  <div class="grid container-cards">
+    <div class="col-12 sm:col-12 md:col-8 lg:col-9">
+      <div class="grid cards-days">
+        <div
+          class="col-12 sm:col-6 md:col-6 lg:col-3"
+          *ngFor="let column of weekView.dayColumns | slice:0:4"
+          [ngClass]="{ 'today-is': isTodayColumn(column.dateKey, weekView.todayKey) }"
+        >
+          <app-card
+            [items]="(items$ | async) || []"
+            [box]="column.box"
+            [day]="column.day"
+            [columnDateKey]="column.dateKey"
+            [columnDateLabel]="column.dateLabel"
+            [isTodayColumn]="isTodayColumn(column.dateKey, weekView.todayKey)"
+          ></app-card>
+        </div>
       </div>
-      <div
-        class="col-12 sm:col-6 md:col-6 lg:col-3"
-        [ngClass]="{ 'today-is': weekDay === 'Tuesday' }"
-      >
-        <app-card [items]="(items$ | async) || []" box="tue" day="Tuesday"></app-card>
-      </div>
-      <div
-        class="col-12 sm:col-6 md:col-6 lg:col-3"
-        [ngClass]="{ 'today-is': weekDay === 'wednesday' }"
-      >
-        <app-card [items]="(items$ | async) || []" box="wed" day="Wednesday"></app-card>
-      </div>
-      <div
-        class="col-12 sm:col-6 md:col-6 lg:col-3"
-        [ngClass]="{ 'today-is': weekDay === 'thursday' }"
-      >
-        <app-card [items]="(items$ | async) || []" box="thu" day="Thursday"></app-card>
+
+      <div class="grid cards-days">
+        <div
+          class="col-12 sm:col-6 md:col-6 lg:col-3"
+          *ngFor="let column of weekView.dayColumns | slice:4:7"
+          [ngClass]="{ 'today-is': isTodayColumn(column.dateKey, weekView.todayKey) }"
+        >
+          <app-card
+            [items]="(items$ | async) || []"
+            [box]="column.box"
+            [day]="column.day"
+            [columnDateKey]="column.dateKey"
+            [columnDateLabel]="column.dateLabel"
+            [isTodayColumn]="isTodayColumn(column.dateKey, weekView.todayKey)"
+          ></app-card>
+        </div>
+        <div class="col-12 sm:col-6 md:col-6 lg:col-3">
+          <app-card [items]="(items$ | async) || []" box="notes" titleBox="Notes"></app-card>
+        </div>
       </div>
     </div>
 
-    <div class="grid cards-days">
-      <div
-        class="col-12 sm:col-6 md:col-6 lg:col-3"
-        [ngClass]="{ 'today-is': weekDay === 'friday' }"
-      >
-        <app-card [items]="(items$ | async) || []" box="fri" day="Friday"></app-card>
-      </div>
-      <div
-        class="col-12 sm:col-6 md:col-6 lg:col-3"
-        [ngClass]="{ 'today-is': weekDay === 'saturday' }"
-      >
-        <app-card [items]="(items$ | async) || []" box="sat" day="Saturday"></app-card>
-      </div>
-      <div
-        class="col-12 sm:col-6 md:col-6 lg:col-3"
-        [ngClass]="{ 'today-is': weekDay === 'sunday' }"
-      >
-        <app-card [items]="(items$ | async) || []" box="sun" day="Sunday"></app-card>
-      </div>
-      <div class="col-12 sm:col-6 md:col-6 lg:col-3">
-        <app-card [items]="(items$ | async) || []" box="notes" titleBox="Notes"></app-card>
+    <div class="col-12 sm:col-12 md:col-4 lg:col-3">
+      <div class="grid col-calend">
+        <div class="col-12 md:col-12">
+          <app-card titleBox="Calendar"></app-card>
+        </div>
+        <div class="col-12 md:col-12">
+          <app-overdue-panel *ngIf="weekView.isCurrentWeek"></app-overdue-panel>
+          <app-card [items]="(items$ | async) || []" box="todo" titleBox="To Do"></app-card>
+        </div>
       </div>
     </div>
   </div>
-
-  <div class="col-12 sm:col-12 md:col-4 lg:col-3">
-    <div class="grid col-calend">
-      <div class="col-12 md:col-12">
-        <app-card titleBox="Calendar"></app-card>
-      </div>
-      <div class="col-12 md:col-12">
-        <app-card [items]="(items$ | async) || []" box="todo" titleBox="To Do"></app-card>
-      </div>
-    </div>
-  </div>
-</div>
+</ng-container>

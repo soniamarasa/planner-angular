@@ -6,7 +6,7 @@ import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 import { DatePickerModule } from 'primeng/datepicker';
 import { DividerModule } from 'primeng/divider';
-import { SpeedDialModule } from 'primeng/speeddial';
+import { MenuModule } from 'primeng/menu';
 import { TooltipModule } from 'primeng/tooltip';
 import { DialogModule } from 'primeng/dialog';
 import { DialogService, DynamicDialogModule } from 'primeng/dynamicdialog';
@@ -20,9 +20,13 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
 import { MessageModule } from 'primeng/message';
 import { ChartModule } from 'primeng/chart';
+import { SliderModule } from 'primeng/slider';
+import { InputNumberModule } from 'primeng/inputnumber';
 
 import { ItemsService } from '../services/items.service';
 import { DateService } from '../services/date.service';
+import { FocusService } from '../services/focus.service';
+import { FocusFacade } from '../facades/focus.facade';
 import { ItemsFacade } from '../facades/items.facade';
 import { LoadingFacade } from '../facades/loading.facade';
 import { UserFacade } from '../facades/user.facades';
@@ -37,6 +41,7 @@ import { RegistrationComponent } from './registration/registration.component';
 import { PasswordRecoverComponent } from './password-recover/password-recover.component';
 import { HomeComponent } from './home/home.component';
 import { AccountComponent } from './account/account.component';
+import { FocusComponent } from './focus/focus.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 
 import { HeaderComponent } from '../components/header/header.component';
@@ -45,11 +50,13 @@ import { FooterComponent } from '../components/footer/footer.component';
 import { CardComponent } from '../components/card/card.component';
 import { ChartComponent } from '../components/chart/chart.component';
 import { UserImgComponent } from '../components/user-img/user-img.component';
-import { ActionsPlannerComponent } from '../components/actions-planner/actions-planner.component';
 import { ActionsItemComponent } from '../components/actions-item/actions-item.component';
 import { FormDialogComponent } from '../components/form-dialog/form-dialog.component';
 import { EditFormComponent } from '../components/edit-form/edit-form.component';
+import { WeekNavComponent } from '../components/week-nav/week-nav.component';
+import { OverduePanelComponent } from '../components/overdue-panel/overdue-panel.component';
 import { RecoverDialogComponent } from './auth/recover-dialog/recover-dialog.component';
+import { WeekStore } from '../stores/week.store';
 
 @NgModule({
   declarations: [
@@ -60,6 +67,7 @@ import { RecoverDialogComponent } from './auth/recover-dialog/recover-dialog.com
     PasswordRecoverComponent,
     AccountComponent,
     HomeComponent,
+    FocusComponent,
     NotFoundComponent,
 
     HeaderComponent,
@@ -68,10 +76,11 @@ import { RecoverDialogComponent } from './auth/recover-dialog/recover-dialog.com
     CardComponent,
     ChartComponent,
     UserImgComponent,
-    ActionsPlannerComponent,
     ActionsItemComponent,
     FormDialogComponent,
     EditFormComponent,
+    WeekNavComponent,
+    OverduePanelComponent,
   ],
   imports: [
     CommonModule,
@@ -81,7 +90,7 @@ import { RecoverDialogComponent } from './auth/recover-dialog/recover-dialog.com
     CardModule,
     DatePickerModule,
     DividerModule,
-    SpeedDialModule,
+    MenuModule,
     TooltipModule,
     DialogModule,
     DynamicDialogModule,
@@ -94,6 +103,8 @@ import { RecoverDialogComponent } from './auth/recover-dialog/recover-dialog.com
     ToastModule,
     MessageModule,
     ChartModule,
+    SliderModule,
+    InputNumberModule,
 
     // --- Pages Routing ---
     PagesRoutingModule,
@@ -101,16 +112,18 @@ import { RecoverDialogComponent } from './auth/recover-dialog/recover-dialog.com
   providers: [
     ItemsStore,
     ItemSearchStore,
+    WeekStore,
     ItemsService,
+    FocusService,
     DateService,
 
     DialogService,
     ConfirmationService,
     MessageService,
     ItemsFacade,
+    FocusFacade,
     UserFacade,
     LoadingFacade,
   ],
-  bootstrap: [PagesComponent],
 })
 export class PagesModule {}

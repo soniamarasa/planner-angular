@@ -5,10 +5,18 @@
       // color: #a78120;
     }
 
-    img {
+    img,
+    .user-img__gravatar {
       padding: 1rem;
       min-width: 6rem;
       -moz-box-sizing: content-box;
+    }
+
+    .user-img__gravatar {
+      border-radius: 50%;
+      object-fit: cover;
+      padding: 0;
+      min-width: unset;
     }
 
     i {

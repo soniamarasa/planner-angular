@@ -76,28 +76,19 @@ export class TokenInterceptor implements HttpInterceptor {
     request: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    return new Observable((observer) => {
-      const { token } = this.tokens;
-
-      setTimeout(() => {
-        if (token) request = this.addTokenToHeader(request, token);
-
-        next.handle(request).subscribe({
-          next: (event) => observer.next(event),
-          error: (error) => {
-            if (error instanceof HttpErrorResponse) {
-              if (error.status === 401) {
-                this.facade.logout();
-                this._router.navigate(['/auth']);
-              }
-            }
-
-            return observer.error(error);
-          },
-          complete: () => observer.complete(),
-        });
-      });
-    });
+    const { token } = this.tokens;
+    if (token) request = this.addTokenToHeader(request, token);
+    return next.handle(request).pipe(
+      catchError((error: any) => {
+        if (error instanceof HttpErrorResponse) {
+          if (error.status === 401) {
+            this.facade.logout();
+            this._router.navigate(['/auth']);
+          }
+        }
+        return throwError(() => error);
+      })
+    );
   }
 
   addTokenToHeader(request: HttpRequest<any>, token: Tokens['token']) {

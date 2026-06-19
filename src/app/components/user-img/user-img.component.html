@@ -1,5 +1,6 @@
-<div>
-  <img *ngIf="gender == 'female'" src="assets/woman-hair-svg.svg" />
-  <img *ngIf="gender == 'male'" src="assets/man-hair-svg.svg" />
-  <i *ngIf="gender === ''" class="fa-solid fa-user"></i>
+<div class="user-img">
+  <img *ngIf="email" [src]="gravatarUrl" alt="" class="user-img__gravatar" [style.width.px]="size" [style.height.px]="size" />
+  <img *ngIf="!email && gender == 'female'" src="assets/woman-hair-svg.svg" alt="" />
+  <img *ngIf="!email && gender == 'male'" src="assets/man-hair-svg.svg" alt="" />
+  <i *ngIf="!email && gender === ''" class="fa-solid fa-user"></i>
 </div>

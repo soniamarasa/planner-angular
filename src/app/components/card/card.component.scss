@@ -1,20 +1,19 @@
 li {
   list-style-type: none;
   cursor: pointer;
-  padding: 0.45rem 0.45rem 0.45rem 0.2rem;
-  margin-bottom: 0.25rem;
+  padding: 0.4rem 0.35rem 0.4rem 0.15rem;
+  margin-bottom: 0.15rem;
   word-break: break-word;
-  border-radius: 12px;
-  transition: background-color 0.2s ease, transform 0.2s ease;
+  border-radius: 10px;
+  transition: background-color 0.15s ease;
 
   &:hover {
-    background: color-mix(in srgb, var(--surface-strong) 86%, transparent);
-    transform: translateX(2px);
+    background: color-mix(in srgb, var(--surface-strong) 55%, transparent);
   }
 
   p {
-    margin: 0.1rem 0 0 1.45rem;
-    font-size: 0.9rem;
+    margin: 0.08rem 0 0 1.35rem;
+    font-size: 0.86rem;
     color: var(--text-muted);
 
     i {
@@ -24,8 +23,8 @@ li {
 }
 
 ul {
-  padding-left: 5px;
-  margin: 0.3rem 0 0;
+  padding-left: 4px;
+  margin: 0.15rem 0 0;
 }
 
 .item .pi {
@@ -64,42 +63,60 @@ ul {
   color: var(--pink-600);
 }
 
-
 img {
-  width: 30px;
+  width: 22px;
   float: right;
-  margin: -18px -12px 0 0;
-  opacity: 0.85;
+  margin: -2px 0 0 0;
+  opacity: 0.45;
 }
 
 h2 {
   text-transform: capitalize;
-  margin-top: 0.2rem;
-  font-size: 1.3rem;
+  margin: 0 0 0.05rem;
+  font-size: 1.12rem;
+  font-weight: 400;
+  letter-spacing: 0.01em;
 }
 
 .column-date {
-  margin: -0.15rem 0 0.35rem;
-  font-size: 0.82rem;
+  margin: 0 0 0.45rem;
+  font-size: 0.78rem;
   color: var(--text-muted);
 }
 
 .carried-from {
-  margin: 0.15rem 0 0 1.45rem !important;
-  font-size: 0.78rem !important;
-  color: var(--accent) !important;
+  margin: 0.12rem 0 0 1.35rem !important;
+  font-size: 0.76rem !important;
+  color: color-mix(in srgb, var(--accent) 75%, var(--text-muted)) !important;
 }
 
 .overdue {
-  border-left: 3px solid #f85757;
+  border-left: 2px solid color-mix(in srgb, var(--tertiary-color) 70%, transparent);
   padding-left: 0.35rem;
-  background: rgba(248, 87, 87, 0.08);
+  background: color-mix(in srgb, var(--tertiary-color) 6%, transparent);
 }
 
 h3 {
-  font-size: 1.2rem;
+  font-size: 1.05rem;
+  font-weight: 400;
+  margin: 0 0 0.35rem;
+}
+
+:host {
+  display: block;
+  height: 100%;
+}
+
+.container-card,
+:host ::ng-deep .p-card {
+  height: 100%;
+  min-height: 10.5rem;
 }
 
 .container-card {
   position: relative;
+}
+
+:host ::ng-deep .p-card-body {
+  padding-top: 0.15rem !important;
 }

@@ -3,7 +3,8 @@
 
   <div class="grid container-grid" *ngIf="isLoaded">
     <div class="sm:col-2 md:col-3 lg:col-3 user">
-      <app-user-img [gender]="formControl.gender.value"> </app-user-img>
+      <app-user-img [gender]="formControl.gender.value" [email]="formControl.email.value" [size]="96">
+      </app-user-img>
     </div>
 
     <p-card class="sm:col-12 md:col-9 lg:col-9">

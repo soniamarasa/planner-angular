@@ -1,5 +1,11 @@
 :host {
+  display: block;
+
   & ::ng-deep {
     min-width: 500px;
+
+    router-outlet + * {
+      display: block;
+    }
   }
 }
