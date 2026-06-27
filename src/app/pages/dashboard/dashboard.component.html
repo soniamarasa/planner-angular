@@ -1,0 +1,160 @@
+<section class="dashboard planner-shell">
+  <header class="dashboard__head">
+    <div class="dashboard__title">
+      <h2>Dashboard</h2>
+      <p class="dashboard__subtitle">Overview of your tasks, projects and focus.</p>
+    </div>
+  </header>
+
+  <p *ngIf="loading" class="dashboard__status">Loading metrics…</p>
+
+  <div
+    *ngIf="!loading && !hasData"
+    class="dashboard__empty"
+  >
+    <span class="dashboard__empty-icon" aria-hidden="true">
+      <i class="pi pi-chart-bar"></i>
+    </span>
+    <h3>No data yet</h3>
+    <p>Create tasks and projects to see your stats here.</p>
+  </div>
+
+  <ng-container *ngIf="!loading && hasData">
+    <div class="kpi-grid">
+      <article class="kpi-card" *ngFor="let kpi of kpis" [attr.data-tone]="kpi.tone">
+        <span class="kpi-card__icon" aria-hidden="true">
+          <i [class]="kpi.icon"></i>
+        </span>
+        <div class="kpi-card__body">
+          <span class="kpi-card__value">{{ kpi.value }}</span>
+          <span class="kpi-card__label">{{ kpi.label }}</span>
+          <span class="kpi-card__hint">{{ kpi.hint }}</span>
+        </div>
+      </article>
+    </div>
+
+    <div class="widget-grid">
+      <article class="widget widget--focus">
+        <header class="widget__head">
+          <div>
+            <h3>Focus per day</h3>
+            <p class="widget__sub">Credited focus minutes</p>
+          </div>
+          <p-select
+            class="widget__filter"
+            [options]="focusRangeOptions"
+            optionLabel="name"
+            optionValue="code"
+            [(ngModel)]="focusRange"
+            (ngModelChange)="onFocusRangeChange($event)"
+            appendTo="body"
+          ></p-select>
+        </header>
+        <div class="widget__chart widget__chart--tall">
+          <p-chart type="line" [data]="focusByDayData" [options]="lineOptions"></p-chart>
+        </div>
+      </article>
+
+      <article class="widget">
+        <header class="widget__head">
+          <div>
+            <h3>Task status</h3>
+            <p class="widget__sub">Current distribution</p>
+          </div>
+        </header>
+        <div class="widget__chart">
+          <p-chart type="doughnut" [data]="statusData" [options]="donutOptions"></p-chart>
+        </div>
+      </article>
+
+      <article class="widget">
+        <header class="widget__head">
+          <div>
+            <h3>By type</h3>
+            <p class="widget__sub">Tasks, events, notes…</p>
+          </div>
+        </header>
+        <div class="widget__chart">
+          <p-chart type="doughnut" [data]="typeData" [options]="donutOptions"></p-chart>
+        </div>
+      </article>
+
+      <article class="widget widget--wide">
+        <header class="widget__head">
+          <div>
+            <h3>Open tasks by project</h3>
+            <p class="widget__sub">Where the pending work is</p>
+          </div>
+        </header>
+        <div class="widget__chart">
+          <p-chart type="bar" [data]="projectTasksData" [options]="barOptions"></p-chart>
+        </div>
+      </article>
+
+      <article class="widget">
+        <header class="widget__head">
+          <div>
+            <h3>Completion by project</h3>
+            <p class="widget__sub">Progress of each project</p>
+          </div>
+        </header>
+
+        <div class="completion" *ngIf="projectCompletion.length; else noCompletion">
+          <div class="completion__row" *ngFor="let project of projectCompletion">
+            <div class="completion__top">
+              <span class="completion__name" [style.color]="project.color">
+                <i [class]="iconClass(project.icon)" aria-hidden="true"></i>
+                {{ project.name }}
+              </span>
+              <span class="completion__value">{{ project.percent }}%</span>
+            </div>
+            <div class="completion__bar">
+              <span
+                class="completion__fill"
+                [style.width.%]="project.percent"
+                [style.background]="project.color"
+              ></span>
+            </div>
+            <small class="completion__meta">{{ project.finished }} of {{ project.total }} completed</small>
+          </div>
+        </div>
+
+        <ng-template #noCompletion>
+          <p class="widget__empty">No project with tasks yet.</p>
+        </ng-template>
+      </article>
+
+      <article class="widget widget--insights">
+        <header class="widget__head">
+          <div>
+            <h3>Insights</h3>
+            <p class="widget__sub">Quick signals</p>
+          </div>
+        </header>
+
+        <ul class="insights">
+          <li class="insights__row">
+            <span class="insights__icon insights__icon--info"><i class="pi pi-replay"></i></span>
+            <span class="insights__text">Rescheduled tasks</span>
+            <strong class="insights__value">{{ rescheduledCount }}</strong>
+          </li>
+          <li class="insights__row">
+            <span class="insights__icon insights__icon--danger"><i class="pi pi-flag"></i></span>
+            <span class="insights__text">Important open</span>
+            <strong class="insights__value">{{ importantOpenCount }}</strong>
+          </li>
+          <li class="insights__row">
+            <span class="insights__icon insights__icon--neutral"><i class="pi pi-inbox"></i></span>
+            <span class="insights__text">Tasks without project</span>
+            <strong class="insights__value">{{ unassignedCount }}</strong>
+          </li>
+          <li class="insights__row">
+            <span class="insights__icon insights__icon--accent"><i class="pi pi-clock"></i></span>
+            <span class="insights__text">Average focus per task</span>
+            <strong class="insights__value">{{ avgFocusPerTaskLabel }}</strong>
+          </li>
+        </ul>
+      </article>
+    </div>
+  </ng-container>
+</section>

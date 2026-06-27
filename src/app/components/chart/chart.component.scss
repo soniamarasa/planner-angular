@@ -8,8 +8,53 @@
   width: 500px;
 }
 
+.project-stats {
+  margin-top: 1.5rem;
+
+  h3 {
+    margin: 0 0 0.75rem;
+    font-size: 1rem;
+    font-weight: 500;
+    text-align: center;
+  }
+}
+
+.project-stats__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+}
+
+.project-stats__row {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  gap: 0.5rem;
+  align-items: center;
+  font-size: 0.9rem;
+}
+
+.project-stats__name {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  min-width: 0;
+}
+
+.project-stats__meta {
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
 @media (max-width: 600px) {
   .chart-content {
     width: 70vw;
+  }
+
+  .project-stats__row {
+    grid-template-columns: 1fr;
+    gap: 0.15rem;
   }
 }
