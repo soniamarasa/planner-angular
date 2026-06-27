@@ -7,6 +7,7 @@ import {
 } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
+import { TranslateService } from '@ngx-translate/core';
 import { SubSink } from 'subsink';
 
 import { CustomvalidationService } from 'src/app/services/customvalidation.service';
@@ -29,7 +30,8 @@ export class PasswordRecoverComponent implements OnInit {
     public _formBuilder: UntypedFormBuilder,
     private _messageService: MessageService,
     private customValidator: CustomvalidationService,
-    private facade: UserFacade
+    private facade: UserFacade,
+    private translate: TranslateService
   ) {
     this.subs.add(
       this.facade.authState$.subscribe(
@@ -76,7 +78,7 @@ export class PasswordRecoverComponent implements OnInit {
             this._messageService.add({
               key: 'notification',
               severity: 'success',
-              summary: 'Success!',
+              summary: this.translate.instant('common.successTitle'),
               detail: res.message,
               icon: 'fa-solid fa-check',
             });
@@ -88,7 +90,7 @@ export class PasswordRecoverComponent implements OnInit {
             this._messageService.add({
               key: 'notification',
               severity: 'error',
-              summary: 'An error has occurred!',
+              summary: this.translate.instant('common.errorTitle'),
               detail: error.error.error,
               icon: 'fa-solid fa-check',
             });

@@ -154,18 +154,18 @@
       />
     </svg>
 
-    <h2>PAGE NOT FOUND</h2>
+    <h2>{{ 'notFound.title' | translate }}</h2>
 
-    <p>You may have mistyped the address or the page may have moved.</p>
+    <p>{{ 'notFound.text' | translate }}</p>
 
     <div class="back">
       <p-button mat-flat-button color="primary" (click)="back()">
-        <i class="fa-solid fa-arrow-left"></i> BACK
+        <i class="fa-solid fa-arrow-left"></i> {{ 'notFound.back' | translate }}
       </p-button>
     </div>
 
     <div class="logo" [routerLink]="['/']">
-      <h3>Weekly Planner</h3>
+      <h3>{{ 'header.weeklyPlanner' | translate }}</h3>
     </div>
   </div>
 </div>

@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { MessageService } from 'primeng/api';
+import { TranslateService } from '@ngx-translate/core';
 
 import { PROJECT_COLOR_OPTIONS, PROJECT_ICON_OPTIONS } from 'src/app/config/project-icons';
 import { Project } from 'src/app/models/project';
@@ -23,7 +24,8 @@ export class ProjectFormDialogComponent {
     private formBuilder: FormBuilder,
     private ref: DynamicDialogRef,
     private config: DynamicDialogConfig,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private translate: TranslateService
   ) {
     const project = this.config.data?.project as Project | undefined;
     this.isEdit = !!project?.id;
@@ -51,8 +53,8 @@ export class ProjectFormDialogComponent {
     if (this.form.invalid || !this.form.value.name?.trim()) {
       this.messageService.add({
         severity: 'warn',
-        summary: 'Name required',
-        detail: 'Give your project a name.',
+        summary: this.translate.instant('projectForm.nameRequired'),
+        detail: this.translate.instant('projectForm.nameRequiredDetail'),
       });
       return;
     }

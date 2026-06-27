@@ -1,6 +1,7 @@
 import { ChangeDetectorRef, Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 import { Observable, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { SubSink } from 'subsink';
@@ -29,17 +30,12 @@ export class FocusComponent implements OnInit, OnDestroy {
   taskForm!: FormGroup;
   settingsForm!: FormGroup;
   settingsVisible = false;
-  readonly defaultProjectFilter: Dropdown[] = [{ name: 'All projects', code: '' }];
-  projectFilterOptions$: Observable<Dropdown[]> = of(this.defaultProjectFilter);
+  readonly defaultProjectFilter: Dropdown[];
+  projectFilterOptions$: Observable<Dropdown[]>;
   selectedProjectId = '';
   readonly backgrounds: FocusBackground[] = FOCUS_BACKGROUNDS;
 
-  soundOptions: Dropdown[] = [
-    { name: 'Rain', code: 'rain' },
-    { name: 'White noise', code: 'white' },
-    { name: 'Cafe', code: 'cafe' },
-    { name: 'Silence', code: 'none' },
-  ];
+  soundOptions: Dropdown[];
 
   private subs = new SubSink();
 
@@ -50,8 +46,20 @@ export class FocusComponent implements OnInit, OnDestroy {
     private router: Router,
     private formBuilder: FormBuilder,
     private cdr: ChangeDetectorRef,
-    private projectsService: ProjectsService
+    private projectsService: ProjectsService,
+    private translate: TranslateService
   ) {
+    this.defaultProjectFilter = [
+      { name: this.translate.instant('planner.allProjects'), code: '' },
+    ];
+    this.projectFilterOptions$ = of(this.defaultProjectFilter);
+    this.soundOptions = [
+      { name: this.translate.instant('sound.rain'), code: 'rain' },
+      { name: this.translate.instant('sound.white'), code: 'white' },
+      { name: this.translate.instant('sound.cafe'), code: 'cafe' },
+      { name: this.translate.instant('sound.silence'), code: 'none' },
+    ];
+
     this.taskForm = this.formBuilder.group({
       description: ['', Validators.required],
       obs: [''],
@@ -142,15 +150,15 @@ export class FocusComponent implements OnInit, OnDestroy {
 
   get sessionStatusLabel(): string {
     if (!this.state?.session) {
-      return 'Ready to focus';
+      return 'focus.statusReady';
     }
     if (this.state.isRunning) {
-      return 'Focusing';
+      return 'focus.statusFocusing';
     }
     if (this.state.session.status === 'paused') {
-      return 'Paused';
+      return 'focus.statusPaused';
     }
-    return 'Ready to focus';
+    return 'focus.statusReady';
   }
 
   onProjectFilterChange(projectId: string): void {
@@ -236,7 +244,10 @@ export class FocusComponent implements OnInit, OnDestroy {
   taskProgressLabel(task: Item): string {
     const completed = task.pomodoros_completed ?? 0;
     const estimated = task.estimated_pomodoros ?? 1;
-    return `${completed.toFixed(1)} / ${estimated} pomodoros`;
+    return this.translate.instant('focus.pomodorosProgress', {
+      completed: completed.toFixed(1),
+      estimated,
+    });
   }
 
   taskProgressPercent(task: Item): number {

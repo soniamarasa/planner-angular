@@ -2,6 +2,7 @@ import { Injectable, OnDestroy } from '@angular/core';
 import { BehaviorSubject, Observable, Subject, forkJoin, interval, of } from 'rxjs';
 import { catchError, finalize, take, takeUntil, tap } from 'rxjs/operators';
 import { MessageService } from 'primeng/api';
+import { TranslateService } from '@ngx-translate/core';
 
 import { FocusService } from '../services/focus.service';
 import { AmbientSoundService } from '../services/ambient-sound.service';
@@ -57,7 +58,8 @@ export class FocusFacade implements OnDestroy {
     private ambientSound: AmbientSoundService,
     private itemsService: ItemsService,
     private itemsStore: ItemsStore,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private translate: TranslateService
   ) {}
 
   ngOnDestroy(): void {
@@ -120,7 +122,7 @@ export class FocusFacade implements OnDestroy {
             this.messageService.add({
               key: 'notification',
               severity: 'error',
-              detail: 'Could not load focus mode.',
+              detail: this.translate.instant('focus.loadError'),
             });
           }
         },
@@ -128,7 +130,7 @@ export class FocusFacade implements OnDestroy {
           this.messageService.add({
             key: 'notification',
             severity: 'error',
-            detail: 'Failed to load focus mode.',
+            detail: this.translate.instant('focus.loadError'),
           });
         },
       });
@@ -157,7 +159,7 @@ export class FocusFacade implements OnDestroy {
       this.messageService.add({
         key: 'notification',
         severity: 'warn',
-        detail: 'Finish or abandon the current session before starting a new one.',
+        detail: this.translate.instant('focus.finishFirst'),
       });
       return;
     }
@@ -171,7 +173,7 @@ export class FocusFacade implements OnDestroy {
         this.messageService.add({
           key: 'notification',
           severity: 'success',
-          detail: 'Focus session started.',
+          detail: this.translate.instant('focus.sessionStarted'),
         });
       },
       error: () => this.patchState({ loading: false }),
@@ -236,7 +238,7 @@ export class FocusFacade implements OnDestroy {
         this.messageService.add({
             key: 'notification',
             severity: 'success',
-            detail: 'Pomodoro completed!',
+            detail: this.translate.instant('focus.pomodoroCompleted'),
           });
         },
         error: () => this.patchState({ loading: false }),
@@ -301,7 +303,7 @@ export class FocusFacade implements OnDestroy {
           this.messageService.add({
             key: 'notification',
             severity: 'success',
-            detail: 'Focus settings updated.',
+            detail: this.translate.instant('focus.settingsUpdated'),
           });
         }
       },
@@ -309,7 +311,7 @@ export class FocusFacade implements OnDestroy {
         this.messageService.add({
           key: 'notification',
           severity: 'error',
-          detail: 'Could not update focus settings.',
+          detail: this.translate.instant('focus.settingsError'),
         });
       },
     });
@@ -512,19 +514,18 @@ export class FocusFacade implements OnDestroy {
       return;
     }
 
+    const title = this.translate.instant('focus.pomodoroCompleted');
+    const body = this.translate.instant('focus.notificationBody');
+
     if (Notification.permission === 'granted') {
-      new Notification('Pomodoro completed!', {
-        body: 'Great work. Time for a break.',
-      });
+      new Notification(title, { body });
       return;
     }
 
     if (Notification.permission !== 'denied') {
       Notification.requestPermission().then((permission) => {
         if (permission === 'granted') {
-          new Notification('Pomodoro completed!', {
-            body: 'Great work. Time for a break.',
-          });
+          new Notification(title, { body });
         }
       });
     }

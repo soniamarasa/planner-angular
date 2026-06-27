@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { ThemeService } from './services/theme.service';
+import { LanguageService } from './services/language.service';
 
 @Component({
   selector: 'app-root',
@@ -12,7 +13,11 @@ import { ThemeService } from './services/theme.service';
 export class AppComponent {
   title = 'planner-angular';
 
-  constructor(public themeService: ThemeService, private router: Router) {
+  constructor(
+    public themeService: ThemeService,
+    private router: Router,
+    private languageService: LanguageService,
+  ) {
     this.updateThemeByRoute(this.router.url);
 
     this.router.events

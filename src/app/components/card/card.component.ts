@@ -18,6 +18,7 @@ export class CardComponent implements OnInit {
   @Input() columnDateKey: string | undefined;
   @Input() columnDateLabel: string | undefined;
   @Input() isTodayColumn = false;
+  @Input() isCalendar = false;
 
   value: Date | undefined;
 

@@ -22,6 +22,7 @@ import { MessageModule } from 'primeng/message';
 import { ChartModule } from 'primeng/chart';
 import { SliderModule } from 'primeng/slider';
 import { InputNumberModule } from 'primeng/inputnumber';
+import { TranslatePipe, TranslateDirective } from '@ngx-translate/core';
 
 import { ProjectsService } from '../services/projects.service';
 import { ItemsService } from '../services/items.service';
@@ -116,6 +117,9 @@ import { WeekStore } from '../stores/week.store';
     ChartModule,
     SliderModule,
     InputNumberModule,
+
+    TranslatePipe,
+    TranslateDirective,
 
     // --- Pages Routing ---
     PagesRoutingModule,

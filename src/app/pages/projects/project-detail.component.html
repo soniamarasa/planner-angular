@@ -13,7 +13,7 @@
       (click)="backToList()"
     >
       <i class="pi pi-arrow-left"></i>
-      Projects
+      {{ 'projects.detailBack' | translate }}
     </button>
 
     <div class="project-detail__hero" *ngIf="!loading">
@@ -31,10 +31,10 @@
 
       <div class="project-detail__meta">
         <h2>{{ pageTitle }}</h2>
-        <p *ngIf="isUnassigned">Tasks not linked to any project.</p>
+        <p *ngIf="isUnassigned">{{ 'projects.unassignedDesc' | translate }}</p>
         <p *ngIf="!isUnassigned && project as meta">
-          {{ meta.open_tasks_count || 0 }} open
-          <span *ngIf="meta.focus_seconds_total"> · {{ formatFocus(meta.focus_seconds_total) }} of focus</span>
+          {{ 'common.open' | translate: { count: meta.open_tasks_count || 0 } }}
+          <span *ngIf="meta.focus_seconds_total"> · {{ 'projects.ofFocus' | translate: { time: formatFocus(meta.focus_seconds_total) } }}</span>
         </p>
       </div>
 
@@ -45,7 +45,7 @@
           type="button"
           icon="pi pi-plus"
           class="p-button-rounded p-button-text"
-          pTooltip="New task"
+          [pTooltip]="'projects.newTask' | translate"
           (click)="openAddTask()"
         ></button>
         <button
@@ -54,7 +54,7 @@
           type="button"
           icon="pi pi-pencil"
           class="p-button-rounded p-button-text"
-          pTooltip="Edit"
+          [pTooltip]="'projects.edit' | translate"
           (click)="openEditDialog()"
         ></button>
         <button
@@ -63,7 +63,7 @@
           type="button"
           icon="pi pi-inbox"
           class="p-button-rounded p-button-text"
-          pTooltip="Archive"
+          [pTooltip]="'projects.archive' | translate"
           (click)="archiveProject()"
         ></button>
       </div>
@@ -75,18 +75,18 @@
           type="button"
           icon="pi pi-plus"
           class="p-button-rounded p-button-text"
-          pTooltip="New task"
+          [pTooltip]="'projects.newTask' | translate"
           (click)="openAddTask()"
         ></button>
       </div>
     </div>
   </div>
 
-  <p *ngIf="loading" class="project-detail__status">Loading…</p>
+  <p *ngIf="loading" class="project-detail__status">{{ 'projects.loading' | translate }}</p>
 
   <div class="project-sections" *ngIf="!loading">
     <section class="project-section" *ngFor="let section of sections">
-      <h3>{{ section.title }} <span>({{ section.items.length }})</span></h3>
+      <h3>{{ section.title | translate }} <span>({{ section.items.length }})</span></h3>
       <ul>
         <li
           *ngFor="let item of section.items"
@@ -109,13 +109,13 @@
     </section>
 
     <div class="project-detail__empty" *ngIf="!sections.length">
-      <p>No tasks in this project yet.</p>
+      <p>{{ 'projects.noTasks' | translate }}</p>
       <button
         pButton
         pRipple
         type="button"
         icon="pi pi-plus"
-        label="Add task"
+        [label]="'projects.addTask' | translate"
         class="p-button-success"
         (click)="openAddTask()"
       ></button>

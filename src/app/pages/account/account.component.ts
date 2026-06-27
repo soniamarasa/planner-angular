@@ -8,6 +8,7 @@ import {
 import { finalize, tap } from 'rxjs';
 import { SubSink } from 'subsink';
 import { MessageService } from 'primeng/api';
+import { TranslateService } from '@ngx-translate/core';
 
 import { CustomvalidationService } from 'src/app/services/customvalidation.service';
 import { UserFacade } from 'src/app/facades/user.facades';
@@ -38,11 +39,12 @@ export class AccountComponent implements OnInit {
     public _formBuilder: UntypedFormBuilder,
     private _messageService: MessageService,
     private customValidator: CustomvalidationService,
-    private facade: UserFacade
+    private facade: UserFacade,
+    private translate: TranslateService
   ) {
     this.gender = [
-      { name: 'Female', code: 'female' },
-      { name: 'Male', code: 'male' },
+      { name: this.translate.instant('gender.female'), code: 'female' },
+      { name: this.translate.instant('gender.male'), code: 'male' },
     ];
   }
 
@@ -126,8 +128,8 @@ export class AccountComponent implements OnInit {
               this._messageService.add({
                 key: 'notification',
                 severity: 'success',
-                summary: 'Success!',
-                detail: 'Your account details have been updated.',
+                summary: this.translate.instant('common.successTitle'),
+                detail: this.translate.instant('account.detailsUpdated'),
                 icon: 'fa-solid fa-check',
               });
             },
@@ -135,7 +137,7 @@ export class AccountComponent implements OnInit {
               this._messageService.add({
                 key: 'notification',
                 severity: 'error',
-                summary: 'An error has occurred!',
+                summary: this.translate.instant('common.errorTitle'),
                 detail: error.error.error,
                 icon: 'fa-solid fa-check',
               }),
@@ -152,8 +154,8 @@ export class AccountComponent implements OnInit {
               this._messageService.add({
                 key: 'notification',
                 severity: 'success',
-                summary: 'Success!',
-                detail: 'Your password has been updated.',
+                summary: this.translate.instant('common.successTitle'),
+                detail: this.translate.instant('account.passwordUpdated'),
                 icon: 'fa-solid fa-check',
               });
             },
@@ -161,7 +163,7 @@ export class AccountComponent implements OnInit {
               this._messageService.add({
                 key: 'notification',
                 severity: 'error',
-                summary: 'An error has occurred!',
+                summary: this.translate.instant('common.errorTitle'),
                 detail: error.error.error,
                 icon: 'fa-solid fa-check',
               }),

@@ -5,7 +5,7 @@
     icon="pi pi-chevron-left"
     class="p-button-rounded p-button-text week-nav__arrow"
     (click)="previousWeek()"
-    aria-label="Previous week"
+    [attr.aria-label]="'weekNav.previous' | translate"
   ></button>
 
   <div class="week-nav__center">
@@ -14,7 +14,7 @@
       *ngIf="!(isCurrentWeek$ | async)"
       pButton
       type="button"
-      label="Today"
+      [label]="'weekNav.today' | translate"
       class="p-button-text p-button-sm week-nav__today"
       (click)="goToToday()"
     ></button>
@@ -26,6 +26,6 @@
     icon="pi pi-chevron-right"
     class="p-button-rounded p-button-text week-nav__arrow"
     (click)="nextWeek()"
-    aria-label="Next week"
+    [attr.aria-label]="'weekNav.next' | translate"
   ></button>
 </div>

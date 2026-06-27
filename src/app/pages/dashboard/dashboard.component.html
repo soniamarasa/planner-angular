@@ -1,12 +1,12 @@
 <section class="dashboard planner-shell">
   <header class="dashboard__head">
     <div class="dashboard__title">
-      <h2>Dashboard</h2>
-      <p class="dashboard__subtitle">Overview of your tasks, projects and focus.</p>
+      <h2>{{ 'dashboard.title' | translate }}</h2>
+      <p class="dashboard__subtitle">{{ 'dashboard.subtitle' | translate }}</p>
     </div>
   </header>
 
-  <p *ngIf="loading" class="dashboard__status">Loading metrics…</p>
+  <p *ngIf="loading" class="dashboard__status">{{ 'dashboard.loading' | translate }}</p>
 
   <div
     *ngIf="!loading && !hasData"
@@ -15,8 +15,8 @@
     <span class="dashboard__empty-icon" aria-hidden="true">
       <i class="pi pi-chart-bar"></i>
     </span>
-    <h3>No data yet</h3>
-    <p>Create tasks and projects to see your stats here.</p>
+    <h3>{{ 'dashboard.noData' | translate }}</h3>
+    <p>{{ 'dashboard.noDataHint' | translate }}</p>
   </div>
 
   <ng-container *ngIf="!loading && hasData">
@@ -37,8 +37,8 @@
       <article class="widget widget--focus">
         <header class="widget__head">
           <div>
-            <h3>Focus per day</h3>
-            <p class="widget__sub">Credited focus minutes</p>
+            <h3>{{ 'dashboard.focusPerDay' | translate }}</h3>
+            <p class="widget__sub">{{ 'dashboard.focusPerDaySub' | translate }}</p>
           </div>
           <p-select
             class="widget__filter"
@@ -58,8 +58,8 @@
       <article class="widget">
         <header class="widget__head">
           <div>
-            <h3>Task status</h3>
-            <p class="widget__sub">Current distribution</p>
+            <h3>{{ 'dashboard.taskStatus' | translate }}</h3>
+            <p class="widget__sub">{{ 'dashboard.taskStatusSub' | translate }}</p>
           </div>
         </header>
         <div class="widget__chart">
@@ -70,8 +70,8 @@
       <article class="widget">
         <header class="widget__head">
           <div>
-            <h3>By type</h3>
-            <p class="widget__sub">Tasks, events, notes…</p>
+            <h3>{{ 'dashboard.byType' | translate }}</h3>
+            <p class="widget__sub">{{ 'dashboard.byTypeSub' | translate }}</p>
           </div>
         </header>
         <div class="widget__chart">
@@ -82,8 +82,8 @@
       <article class="widget widget--wide">
         <header class="widget__head">
           <div>
-            <h3>Open tasks by project</h3>
-            <p class="widget__sub">Where the pending work is</p>
+            <h3>{{ 'dashboard.openByProject' | translate }}</h3>
+            <p class="widget__sub">{{ 'dashboard.openByProjectSub' | translate }}</p>
           </div>
         </header>
         <div class="widget__chart">
@@ -94,8 +94,8 @@
       <article class="widget">
         <header class="widget__head">
           <div>
-            <h3>Completion by project</h3>
-            <p class="widget__sub">Progress of each project</p>
+            <h3>{{ 'dashboard.completionByProject' | translate }}</h3>
+            <p class="widget__sub">{{ 'dashboard.completionByProjectSub' | translate }}</p>
           </div>
         </header>
 
@@ -115,42 +115,42 @@
                 [style.background]="project.color"
               ></span>
             </div>
-            <small class="completion__meta">{{ project.finished }} of {{ project.total }} completed</small>
+            <small class="completion__meta">{{ 'dashboard.completedOf' | translate: { finished: project.finished, total: project.total } }}</small>
           </div>
         </div>
 
         <ng-template #noCompletion>
-          <p class="widget__empty">No project with tasks yet.</p>
+          <p class="widget__empty">{{ 'dashboard.noProjectTasks' | translate }}</p>
         </ng-template>
       </article>
 
       <article class="widget widget--insights">
         <header class="widget__head">
           <div>
-            <h3>Insights</h3>
-            <p class="widget__sub">Quick signals</p>
+            <h3>{{ 'dashboard.insights' | translate }}</h3>
+            <p class="widget__sub">{{ 'dashboard.insightsSub' | translate }}</p>
           </div>
         </header>
 
         <ul class="insights">
           <li class="insights__row">
             <span class="insights__icon insights__icon--info"><i class="pi pi-replay"></i></span>
-            <span class="insights__text">Rescheduled tasks</span>
+            <span class="insights__text">{{ 'dashboard.rescheduledTasks' | translate }}</span>
             <strong class="insights__value">{{ rescheduledCount }}</strong>
           </li>
           <li class="insights__row">
             <span class="insights__icon insights__icon--danger"><i class="pi pi-flag"></i></span>
-            <span class="insights__text">Important open</span>
+            <span class="insights__text">{{ 'dashboard.importantOpen' | translate }}</span>
             <strong class="insights__value">{{ importantOpenCount }}</strong>
           </li>
           <li class="insights__row">
             <span class="insights__icon insights__icon--neutral"><i class="pi pi-inbox"></i></span>
-            <span class="insights__text">Tasks without project</span>
+            <span class="insights__text">{{ 'dashboard.tasksWithoutProject' | translate }}</span>
             <strong class="insights__value">{{ unassignedCount }}</strong>
           </li>
           <li class="insights__row">
             <span class="insights__icon insights__icon--accent"><i class="pi pi-clock"></i></span>
-            <span class="insights__text">Average focus per task</span>
+            <span class="insights__text">{{ 'dashboard.avgFocusPerTask' | translate }}</span>
             <strong class="insights__value">{{ avgFocusPerTaskLabel }}</strong>
           </li>
         </ul>

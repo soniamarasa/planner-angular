@@ -8,18 +8,18 @@
     [responsive]="true"
   ></p-chart>
 
-  <div class="total">Total tasks: {{ items.length }}</div>
+  <div class="total">{{ 'chart.totalTasks' | translate: { count: items.length } }}</div>
 
   <section class="project-stats" *ngIf="projects.length">
-    <h3>By project</h3>
+    <h3>{{ 'chart.byProject' | translate }}</h3>
     <ul class="project-stats__list">
       <li class="project-stats__row" *ngFor="let project of projects">
         <span class="project-stats__name" [style.color]="project.color">
           <i [class]="iconClass(project.icon)" aria-hidden="true"></i>
           {{ project.name }}
         </span>
-        <span class="project-stats__meta">{{ project.open_tasks_count ?? 0 }} open</span>
-        <span class="project-stats__meta">{{ formatFocusTime(project.focus_seconds_total) }} focus</span>
+        <span class="project-stats__meta">{{ 'common.open' | translate: { count: project.open_tasks_count ?? 0 } }}</span>
+        <span class="project-stats__meta">{{ 'chart.focus' | translate: { time: formatFocusTime(project.focus_seconds_total) } }}</span>
       </li>
     </ul>
   </section>

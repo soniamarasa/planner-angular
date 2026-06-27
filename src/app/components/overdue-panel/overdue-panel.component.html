@@ -2,7 +2,7 @@
   <div class="overdue-panel__head">
     <span class="overdue-panel__title">
       <i class="pi pi-exclamation-circle"></i>
-      Overdue
+      {{ 'overdue.title' | translate }}
     </span>
     <span class="overdue-panel__count">{{ overdueCount }}</span>
   </div>
@@ -15,14 +15,14 @@
     >
       <div class="overdue-item__content">
         <strong>{{ item.description }}</strong>
-        <small>from {{ formatOriginalDate(item) }}</small>
+        <small>{{ 'overdue.from' | translate: { date: formatOriginalDate(item) } }}</small>
       </div>
       <button
         pButton
         type="button"
         icon="pi pi-arrow-right"
         class="p-button-rounded p-button-text p-button-sm"
-        pTooltip="Move to today"
+        [pTooltip]="'overdue.moveToToday' | translate"
         tooltipPosition="left"
         (click)="moveToToday(item, $event)"
       ></button>

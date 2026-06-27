@@ -4,14 +4,14 @@
       type="text"
       pInputText
       formControlName="name"
-      placeholder="Project name"
+      [placeholder]="'projectForm.name' | translate"
       class="p-inputtext p-inputtext-md"
       maxlength="120"
     />
   </div>
 
   <div class="field">
-    <span class="field-label">Icon</span>
+    <span class="field-label">{{ 'projectForm.icon' | translate }}</span>
     <div class="icon-grid">
       <button
         type="button"
@@ -27,7 +27,7 @@
   </div>
 
   <div class="field">
-    <span class="field-label">Color</span>
+    <span class="field-label">{{ 'projectForm.color' | translate }}</span>
     <div class="color-grid">
       <button
         type="button"
@@ -42,12 +42,12 @@
   </div>
 
   <div class="project-form__actions">
-    <button pButton pRipple type="button" label="Cancel" class="p-button-text" (click)="cancel()"></button>
+    <button pButton pRipple type="button" [label]="'projectForm.cancel' | translate" class="p-button-text" (click)="cancel()"></button>
     <button
       pButton
       pRipple
       type="button"
-      [label]="isEdit ? 'Save' : 'Create'"
+      [label]="(isEdit ? 'projectForm.save' : 'projectForm.create') | translate"
       class="p-button-success"
       (click)="save()"
     ></button>

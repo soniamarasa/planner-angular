@@ -4,6 +4,7 @@ import { DynamicDialogConfig } from 'primeng/dynamicdialog';
 import { Dropdown } from 'src/app/models/dropdown';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MessageService } from 'primeng/api';
+import { TranslateService } from '@ngx-translate/core';
 import { SubSink } from 'subsink';
 import { ItemsFacade } from 'src/app/facades/items.facade';
 import { WeekService } from 'src/app/services/week.service';
@@ -22,7 +23,7 @@ import { getStoredUserId } from 'src/app/utils/stored-user.util';
 export class FormDialogComponent implements OnInit, OnDestroy {
   form!: FormGroup;
   type: Dropdown[];
-  projectOptions: Dropdown[] = [{ name: 'No project', code: '' }];
+  projectOptions: Dropdown[] = [{ name: '', code: '' }];
   private readonly subs = new SubSink();
 
   constructor(
@@ -33,15 +34,17 @@ export class FormDialogComponent implements OnInit, OnDestroy {
     private facade: ItemsFacade,
     private weekService: WeekService,
     private projectsService: ProjectsService,
+    private translate: TranslateService,
     private cdr: ChangeDetectorRef
   ) {
     this.type = [
-      { name: 'Task', code: 'task' },
-      { name: 'Event', code: 'event' },
-      { name: 'Appointment', code: 'appointment' },
-      { name: 'Note', code: 'note' },
-      { name: 'Entertainment', code: 'tv' },
+      { name: this.translate.instant('type.task'), code: 'task' },
+      { name: this.translate.instant('type.event'), code: 'event' },
+      { name: this.translate.instant('type.appointment'), code: 'appointment' },
+      { name: this.translate.instant('type.note'), code: 'note' },
+      { name: this.translate.instant('type.tv'), code: 'tv' },
     ];
+    this.projectOptions = [{ name: this.translate.instant('form.noProject'), code: '' }];
     this.createForm();
   }
 
@@ -105,7 +108,7 @@ export class FormDialogComponent implements OnInit, OnDestroy {
       this.projectsService.getProjects(userId).subscribe({
         next: (projects) => {
           this.projectOptions = [
-            { name: 'No project', code: '' },
+            { name: this.translate.instant('form.noProject'), code: '' },
             ...projects.map((project: Project) => ({ name: project.name, code: project.id! })),
           ];
           const preset = this._config.data?.projectId as string | undefined;
@@ -150,8 +153,8 @@ export class FormDialogComponent implements OnInit, OnDestroy {
     if (!value.type || !value.description?.trim()) {
       this._messageService.add({
         severity: 'warn',
-        summary: 'Empty fields!',
-        detail: 'Type and description are required.',
+        summary: this.translate.instant('form.emptyFields'),
+        detail: this.translate.instant('form.emptyFieldsDetail'),
       });
       return false;
     }
@@ -159,8 +162,8 @@ export class FormDialogComponent implements OnInit, OnDestroy {
     if (!value.scheduledDate && !value.notes && !value.todo) {
       this._messageService.add({
         severity: 'warn',
-        summary: 'Choose a destination',
-        detail: 'Select a date, Notes or To do.',
+        summary: this.translate.instant('form.chooseDestination'),
+        detail: this.translate.instant('form.chooseDestinationDetail'),
       });
       return false;
     }

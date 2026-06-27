@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { map } from 'rxjs/operators';
 import { SubSink } from 'subsink';
 
+import { TranslateService } from '@ngx-translate/core';
 import { ItemsFacade } from 'src/app/facades/items.facade';
 import { Item } from 'src/app/models/item';
 import { Project } from 'src/app/models/project';
@@ -32,8 +33,20 @@ export class ChartComponent implements OnInit, OnDestroy {
 
   constructor(
     private facade: ItemsFacade,
-    private projectsService: ProjectsService
-  ) {}
+    private projectsService: ProjectsService,
+    private translate: TranslateService
+  ) {
+    this.data = {
+      labels: [
+        this.translate.instant('dashboard.statusNotStarted'),
+        this.translate.instant('chart.started'),
+        this.translate.instant('dashboard.statusCompleted'),
+        this.translate.instant('dashboard.statusCanceled'),
+        this.translate.instant('chart.important'),
+      ],
+      datasets: this.data.datasets,
+    };
+  }
 
   ngOnInit(): void {
     this.subs.add(
@@ -74,9 +87,9 @@ export class ChartComponent implements OnInit, OnDestroy {
     const hours = Math.floor(total / 3600);
     const minutes = Math.floor((total % 3600) / 60);
     if (hours > 0) {
-      return `${hours}h ${minutes}min`;
+      return `${hours}${this.translate.instant('dashboard.hourShort')} ${minutes}${this.translate.instant('dashboard.minShortTight')}`;
     }
-    return `${minutes} min`;
+    return `${minutes} ${this.translate.instant('dashboard.minShort')}`;
   }
 
   public pieChartOptions = {

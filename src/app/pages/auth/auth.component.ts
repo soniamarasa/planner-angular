@@ -3,6 +3,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SubSink } from 'subsink';
 import { MessageService } from 'primeng/api';
+import { TranslateService } from '@ngx-translate/core';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { finalize } from 'rxjs';
 
@@ -30,7 +31,8 @@ export class AuthComponent implements OnInit {
     private _router: Router,
     private _messageService: MessageService,
     private facade: UserFacade,
-    private themeService: ThemeService
+    private themeService: ThemeService,
+    private translate: TranslateService
   ) {
     this.subs.add(
       this.facade.authState$.subscribe(
@@ -58,7 +60,7 @@ export class AuthComponent implements OnInit {
     const ref = this._dialogService.open(
       RecoverDialogComponent,
       plannerDialogConfig(this.themeService.theme, {
-        header: 'Forgot your password?',
+        header: this.translate.instant('auth.forgotHeader'),
         width: '560px',
         breakpoints: {
           '960px': '90vw',
@@ -82,7 +84,7 @@ export class AuthComponent implements OnInit {
           this._messageService.add({
             key: 'notification',
             severity: 'success',
-            summary: 'Success!',
+            summary: this.translate.instant('common.successTitle'),
             detail: res.message,
             icon: 'fa-solid fa-check',
           });
@@ -92,7 +94,7 @@ export class AuthComponent implements OnInit {
           this._messageService.add({
             key: 'notification',
             severity: 'error',
-            summary: 'An error has occurred!',
+            summary: this.translate.instant('common.errorTitle'),
             detail: error.error.error,
             icon: 'fa-solid fa-check',
           });
@@ -116,7 +118,7 @@ export class AuthComponent implements OnInit {
             this._messageService.add({
               key: 'notification',
               severity: 'error',
-              summary: 'An error has occurred!',
+              summary: this.translate.instant('common.errorTitle'),
               detail: error.error.error,
               icon: 'fa-solid fa-check',
             }),

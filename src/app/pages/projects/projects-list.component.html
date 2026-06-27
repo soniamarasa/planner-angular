@@ -1,8 +1,8 @@
-<nav class="projects-sidebar" aria-label="Projects">
+<nav class="projects-sidebar" [attr.aria-label]="'projects.title' | translate">
   <div class="projects-sidebar__header">
     <div>
-      <h2>Projects</h2>
-      <p class="projects-sidebar__subtitle">Organize tasks by context</p>
+      <h2>{{ 'projects.title' | translate }}</h2>
+      <p class="projects-sidebar__subtitle">{{ 'projects.subtitle' | translate }}</p>
     </div>
     <button
       pButton
@@ -10,13 +10,13 @@
       type="button"
       icon="pi pi-plus"
       class="p-button-rounded p-button-text"
-      pTooltip="New project"
+      [pTooltip]="'projects.newProject' | translate"
       tooltipPosition="bottom"
       (click)="openCreateDialog()"
     ></button>
   </div>
 
-  <p *ngIf="loading" class="projects-sidebar__status">Loading…</p>
+  <p *ngIf="loading" class="projects-sidebar__status">{{ 'projects.loading' | translate }}</p>
 
   <div class="projects-sidebar__nav" *ngIf="!loading">
     <a
@@ -29,8 +29,8 @@
         <i class="pi pi-inbox"></i>
       </span>
       <span class="projects-sidebar__body">
-        <strong>No project</strong>
-        <small>{{ unassignedCount }} open</small>
+        <strong>{{ 'projects.noProject' | translate }}</strong>
+        <small>{{ 'common.open' | translate: { count: unassignedCount } }}</small>
       </span>
     </a>
 
@@ -47,7 +47,7 @@
       <span class="projects-sidebar__body">
         <strong>{{ project.name }}</strong>
         <small>
-          {{ project.open_tasks_count || 0 }} open
+          {{ 'common.open' | translate: { count: project.open_tasks_count || 0 } }}
           <span *ngIf="project.focus_seconds_total"> · {{ formatFocus(project.focus_seconds_total) }}</span>
         </small>
       </span>
@@ -58,14 +58,14 @@
         <i class="pi pi-plus"></i>
       </span>
       <span class="projects-sidebar__body">
-        <strong>New project</strong>
-        <small>Custom icon and color</small>
+        <strong>{{ 'projects.newProject' | translate }}</strong>
+        <small>{{ 'projects.customIconColor' | translate }}</small>
       </span>
     </button>
   </div>
 
   <p *ngIf="!loading && projects.length === 0 && unassignedCount === 0" class="projects-sidebar__empty">
-    No projects yet.
+    {{ 'projects.noProjects' | translate }}
   </p>
 
   <div class="projects-sidebar__footer">
@@ -74,13 +74,13 @@
       pRipple
       type="button"
       class="p-button-text p-button-sm"
-      [label]="showArchived ? 'Hide archived' : 'Show archived'"
+      [label]="(showArchived ? 'projects.hideArchived' : 'projects.showArchived') | translate"
       (click)="toggleArchived()"
     ></button>
   </div>
 
   <section class="projects-sidebar__archived" *ngIf="showArchived && archivedProjects.length > 0">
-    <h3>Archived</h3>
+    <h3>{{ 'projects.archived' | translate }}</h3>
     <div class="projects-sidebar__archived-list">
       <div class="projects-sidebar__item projects-sidebar__item--archived" *ngFor="let project of archivedProjects">
         <span class="projects-sidebar__icon" [style.color]="project.color" aria-hidden="true">
@@ -88,7 +88,7 @@
         </span>
         <span class="projects-sidebar__body">
           <strong>{{ project.name }}</strong>
-          <small>{{ project.open_tasks_count || 0 }} open</small>
+          <small>{{ 'common.open' | translate: { count: project.open_tasks_count || 0 } }}</small>
         </span>
         <button
           pButton
@@ -96,7 +96,7 @@
           type="button"
           icon="pi pi-replay"
           class="p-button-rounded p-button-text"
-          pTooltip="Restore"
+          [pTooltip]="'projects.restore' | translate"
           (click)="restoreProject(project)"
         ></button>
       </div>

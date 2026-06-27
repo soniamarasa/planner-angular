@@ -3,7 +3,7 @@
     <div class="field col-12 sm:col-6 md:col-4 lg:col-4">
       <p-select
         [options]="type"
-        placeholder="Type"
+        [placeholder]="'form.type' | translate"
         optionLabel="name"
         optionValue="code"
         formControlName="type"
@@ -19,7 +19,7 @@
         required
         class="p-inputtext p-inputtext-md"
         formControlName="description"
-        placeholder="Description"
+        [placeholder]="'form.description' | translate"
       />
     </div>
   </div>
@@ -30,14 +30,14 @@
       formControlName="obs"
       pInputText
       class="p-inputtext p-inputtext-md"
-      placeholder="Observation"
+      [placeholder]="'form.observation' | translate"
     />
   </div>
 
   <div class="field">
     <p-select
       [options]="projectOptions"
-      placeholder="Project (optional)"
+      [placeholder]="'form.projectOptional' | translate"
       optionLabel="name"
       optionValue="code"
       formControlName="projectId"
@@ -46,7 +46,7 @@
   </div>
 
   <div class="field placement-field">
-    <label for="scheduledDate" class="placement-label">Date</label>
+    <label for="scheduledDate" class="placement-label">{{ 'form.date' | translate }}</label>
     <p-datepicker
       inputId="scheduledDate"
       formControlName="scheduledDate"
@@ -54,19 +54,19 @@
       [showIcon]="true"
       [showButtonBar]="true"
       appendTo="body"
-      placeholder="Pick a day for this item"
+      [placeholder]="'form.pickDay' | translate"
     ></p-datepicker>
-    <small class="placement-hint">Use a date to schedule in any week. Notes and To Do are general lists.</small>
+    <small class="placement-hint">{{ 'form.placementHint' | translate }}</small>
   </div>
 
   <div class="field where-check">
     <div class="p-field-checkbox">
       <p-checkbox formControlName="notes" [binary]="true" inputId="notes"></p-checkbox>
-      <label for="notes">Notes</label>
+      <label for="notes">{{ 'form.notes' | translate }}</label>
     </div>
     <div class="p-field-checkbox">
       <p-checkbox formControlName="todo" [binary]="true" inputId="todo"></p-checkbox>
-      <label for="todo">To Do</label>
+      <label for="todo">{{ 'form.todo' | translate }}</label>
     </div>
   </div>
 
@@ -76,7 +76,7 @@
       pRipple
       type="submit"
       (keydown.enter)="newItem()"
-      label="Save"
+      [label]="'form.save' | translate"
       class="p-button-raised p-button-success"
       (click)="newItem()"
     ></button>

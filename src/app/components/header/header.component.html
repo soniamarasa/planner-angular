@@ -1,7 +1,7 @@
 <header class="header">
   <div class="header-actions-bar">
     <div class="header-actions planner-shell">
-      <nav class="header-toolbar" aria-label="Planner navigation">
+      <nav class="header-toolbar" [attr.aria-label]="'nav.planner' | translate">
       <a
         pButton
         pRipple
@@ -9,9 +9,9 @@
         icon="pi pi-calendar"
         class="p-button-rounded p-button-text header-toolbar__btn"
         [class.header-toolbar__btn--active]="isPlannerHome"
-        pTooltip="Planner"
+        [pTooltip]="'nav.planner' | translate"
         tooltipPosition="bottom"
-        aria-label="Planner"
+        [attr.aria-label]="'nav.planner' | translate"
       ></a>
       <a
         pButton
@@ -20,9 +20,9 @@
         icon="pi pi-folder"
         class="p-button-rounded p-button-text header-toolbar__btn"
         [class.header-toolbar__btn--active]="isProjects"
-        pTooltip="Projects"
+        [pTooltip]="'nav.projects' | translate"
         tooltipPosition="bottom"
-        aria-label="Projects"
+        [attr.aria-label]="'nav.projects' | translate"
       ></a>
       <a
         pButton
@@ -30,9 +30,9 @@
         routerLink="/focus"
         icon="pi pi-clock"
         class="p-button-rounded p-button-text header-toolbar__btn"
-        pTooltip="Focus Mode"
+        [pTooltip]="'nav.focus' | translate"
         tooltipPosition="bottom"
-        aria-label="Focus Mode"
+        [attr.aria-label]="'nav.focus' | translate"
       ></a>
       <a
         pButton
@@ -41,9 +41,9 @@
         icon="pi pi-chart-bar"
         class="p-button-rounded p-button-text header-toolbar__btn"
         [class.header-toolbar__btn--active]="isDashboard"
-        pTooltip="Dashboard"
+        [pTooltip]="'nav.dashboard' | translate"
         tooltipPosition="bottom"
-        aria-label="Dashboard"
+        [attr.aria-label]="'nav.dashboard' | translate"
       ></a>
       <button
         *ngIf="isPlannerHome"
@@ -52,9 +52,9 @@
         type="button"
         icon="pi pi-refresh"
         class="p-button-rounded p-button-text header-toolbar__btn"
-        pTooltip="Limpar esta semana"
+        [pTooltip]="'nav.clearWeek' | translate"
         tooltipPosition="bottom"
-        aria-label="Limpar esta semana"
+        [attr.aria-label]="'nav.clearWeek' | translate"
         (click)="confirmClearWeek()"
       ></button>
     </nav>
@@ -64,7 +64,7 @@
         type="button"
         class="header-user__trigger"
         (click)="userMenu.toggle($event)"
-        aria-label="User menu"
+        [attr.aria-label]="'nav.userMenu' | translate"
       >
         <img [src]="gravatarUrl" alt="" class="header-user__avatar" width="36" height="36" />
         <span class="header-user__name">{{ userFirstName }}</span>
@@ -76,14 +76,14 @@
   </div>
 
   <div class="header-brand">
-    <h1>{{ isPlannerHome ? 'Weekly Planner' : pageTitle }}</h1>
+    <h1>{{ (isPlannerHome ? 'header.weeklyPlanner' : pageTitleKey) | translate }}</h1>
     <p class="header-date" *ngIf="isPlannerHome">{{ todayIs }}</p>
-    <p class="header-greeting" *ngIf="isPlannerHome && userFirstName">Hello, {{ userFirstName }}</p>
+    <p class="header-greeting" *ngIf="isPlannerHome && userFirstName">{{ 'header.greeting' | translate: { name: userFirstName } }}</p>
   </div>
 </header>
 
 <p-dialog
-  header="Theme"
+  [header]="'header.theme' | translate"
   [(visible)]="themeVisible"
   [modal]="true"
   [appendTo]="'body'"
@@ -93,7 +93,7 @@
   [styleClass]="dialogStyleClass"
   [maskStyleClass]="'planner-dialog-mask'"
 >
-  <p class="theme-picker__hint">Choose how the planner looks on this device.</p>
+  <p class="theme-picker__hint">{{ 'header.themeHint' | translate }}</p>
   <div class="theme-picker">
     <button
       type="button"
@@ -107,7 +107,21 @@
         [attr.data-theme]="themeOption.code"
         aria-hidden="true"
       ></span>
-      <span class="theme-picker__label">{{ themeOption.name }}</span>
+      <span class="theme-picker__label">{{ themeOption.labelKey | translate }}</span>
+    </button>
+  </div>
+
+  <h3 class="theme-picker__section">{{ 'header.language' | translate }}</h3>
+  <p class="theme-picker__hint">{{ 'header.languageHint' | translate }}</p>
+  <div class="theme-picker">
+    <button
+      type="button"
+      class="theme-picker__option theme-picker__option--lang"
+      *ngFor="let languageOption of languages"
+      [class.theme-picker__option--active]="currentLanguage === languageOption.code"
+      (click)="changeLanguage(languageOption.code)"
+    >
+      <span class="theme-picker__label">{{ languageOption.labelKey | translate }}</span>
     </button>
   </div>
 </p-dialog>

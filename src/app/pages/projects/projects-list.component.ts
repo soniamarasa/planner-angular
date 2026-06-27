@@ -8,6 +8,7 @@ import {
 } from '@angular/core';
 import { DialogService } from 'primeng/dynamicdialog';
 import { MessageService } from 'primeng/api';
+import { TranslateService } from '@ngx-translate/core';
 import { SubSink } from 'subsink';
 import { finalize } from 'rxjs/operators';
 
@@ -45,6 +46,7 @@ export class ProjectsListComponent implements OnInit, OnDestroy {
     private dialogService: DialogService,
     private themeService: ThemeService,
     private messageService: MessageService,
+    private translate: TranslateService,
     private cdr: ChangeDetectorRef
   ) {}
 
@@ -85,7 +87,7 @@ export class ProjectsListComponent implements OnInit, OnDestroy {
     const ref = this.dialogService.open(
       ProjectFormDialogComponent,
       plannerDialogConfig(this.themeService.theme, {
-        header: 'New project',
+        header: this.translate.instant('projects.newProject'),
         width: '420px',
       })
     );
@@ -102,7 +104,7 @@ export class ProjectsListComponent implements OnInit, OnDestroy {
               this.messageService.add({
                 key: 'notification',
                 severity: 'error',
-                detail: 'Could not create the project.',
+                detail: this.translate.instant('projects.createError'),
               }),
           })
         );
@@ -129,14 +131,14 @@ export class ProjectsListComponent implements OnInit, OnDestroy {
           this.messageService.add({
             key: 'notification',
             severity: 'success',
-            detail: 'Project restored.',
+            detail: this.translate.instant('projects.restored'),
           });
         },
         error: () =>
           this.messageService.add({
             key: 'notification',
             severity: 'error',
-            detail: 'Could not restore the project.',
+            detail: this.translate.instant('projects.restoreError'),
           }),
       })
     );
@@ -190,7 +192,7 @@ export class ProjectsListComponent implements OnInit, OnDestroy {
             this.messageService.add({
               key: 'notification',
               severity: 'error',
-              detail: 'Could not load projects.',
+              detail: this.translate.instant('projects.loadError'),
             });
           },
         })

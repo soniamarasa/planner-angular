@@ -9,6 +9,7 @@ import {
 } from 'rxjs/operators';
 
 import { MessageService } from 'primeng/api';
+import { TranslateService } from '@ngx-translate/core';
 import { ItemsService } from '../services/items.service';
 import { WeekService } from '../services/week.service';
 import { ItemsStore } from '../stores/items.store';
@@ -38,7 +39,8 @@ export class ItemsFacade {
     private weekService: WeekService,
     private service: ItemsService,
     private loading: LoadingFacade,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private translate: TranslateService
   ) {
     this.weekStore.setWeekStart(this.weekService.toDateKey(this.weekService.getWeekStart()));
     this.init();
@@ -59,7 +61,7 @@ export class ItemsFacade {
               this.messageService.add({
                 key: 'notification',
                 severity: 'error',
-                detail: 'Unable to load items for this week.',
+                detail: this.translate.instant('toast.loadWeekError'),
               });
               return of([] as Item[]);
             })
@@ -184,7 +186,7 @@ export class ItemsFacade {
       this.messageService.add({
         key: 'notification',
         severity: 'success',
-        detail: 'Successfully created item.',
+        detail: this.translate.instant('toast.itemCreated'),
       });
     });
     return successObservable;
@@ -204,7 +206,7 @@ export class ItemsFacade {
       this.messageService.add({
         key: 'notification',
         severity: 'success',
-        detail: 'Successfully updated item.',
+        detail: this.translate.instant('toast.itemUpdated'),
       });
       this.itemsStore.replacetItem(itemUpdate);
     });
@@ -248,7 +250,7 @@ export class ItemsFacade {
           this.messageService.add({
             key: 'notification',
             severity: 'success',
-            detail: 'Task moved to today.',
+            detail: this.translate.instant('toast.taskMovedToday'),
           });
         },
         error: () => this.loading.setLoading(false),
@@ -268,7 +270,7 @@ export class ItemsFacade {
         this.messageService.add({
           key: 'notification',
           severity: 'success',
-          detail: 'Successfully deleted item!',
+          detail: this.translate.instant('toast.itemDeleted'),
         });
       });
     return successDelete;
@@ -285,7 +287,7 @@ export class ItemsFacade {
         this.messageService.add({
           key: 'notification',
           severity: 'success',
-          detail: 'Selected week cleared.',
+          detail: this.translate.instant('toast.weekCleared'),
         });
       });
 

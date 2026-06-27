@@ -220,3 +220,16 @@
   color: var(--title-color);
   text-align: center;
 }
+
+.theme-picker__section {
+  margin: 1.4rem 0 0.35rem;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--title-color);
+}
+
+.theme-picker__option--lang {
+  align-items: center;
+  justify-content: center;
+  padding: 0.9rem 0.75rem;
+}

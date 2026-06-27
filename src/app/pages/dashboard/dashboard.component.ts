@@ -2,6 +2,7 @@ import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { forkJoin, of } from 'rxjs';
 import { catchError, finalize } from 'rxjs/operators';
 import { SubSink } from 'subsink';
+import { TranslateService } from '@ngx-translate/core';
 
 import { Dropdown } from 'src/app/models/dropdown';
 import { Item } from 'src/app/models/item';
@@ -31,12 +32,12 @@ interface ProjectCompletion {
   percent: number;
 }
 
-const TYPE_LABELS: Record<string, string> = {
-  task: 'Tasks',
-  event: 'Events',
-  appointment: 'Appointments',
-  note: 'Notes',
-  tv: 'Entertainment',
+const TYPE_LABEL_KEYS: Record<string, string> = {
+  task: 'typePlural.task',
+  event: 'typePlural.event',
+  appointment: 'typePlural.appointment',
+  note: 'typePlural.note',
+  tv: 'typePlural.tv',
 };
 
 @Component({
@@ -67,11 +68,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   avgFocusPerTaskLabel = '0 min';
 
   focusRange = 14;
-  focusRangeOptions: Dropdown[] = [
-    { name: 'Last 7 days', code: '7' },
-    { name: 'Last 14 days', code: '14' },
-    { name: 'Last 30 days', code: '30' },
-  ];
+  focusRangeOptions: Dropdown[];
 
   private items: Item[] = [];
   private projects: Project[] = [];
@@ -83,8 +80,15 @@ export class DashboardComponent implements OnInit, OnDestroy {
     private projectsService: ProjectsService,
     private focusService: FocusService,
     private themeService: ThemeService,
+    private translate: TranslateService,
     private cdr: ChangeDetectorRef
-  ) {}
+  ) {
+    this.focusRangeOptions = [
+      { name: this.translate.instant('dashboard.last7'), code: '7' },
+      { name: this.translate.instant('dashboard.last14'), code: '14' },
+      { name: this.translate.instant('dashboard.last30'), code: '30' },
+    ];
+  }
 
   ngOnInit(): void {
     const userId = getStoredUserId();
@@ -118,6 +122,20 @@ export class DashboardComponent implements OnInit, OnDestroy {
           this.hasData = this.items.length > 0 || this.projects.length > 0;
           this.buildAll();
         })
+    );
+
+    this.subs.add(
+      this.translate.onLangChange.subscribe(() => {
+        this.focusRangeOptions = [
+          { name: this.translate.instant('dashboard.last7'), code: '7' },
+          { name: this.translate.instant('dashboard.last14'), code: '14' },
+          { name: this.translate.instant('dashboard.last30'), code: '30' },
+        ];
+        if (this.hasData) {
+          this.buildAll();
+        }
+        this.cdr.markForCheck();
+      })
     );
   }
 
@@ -173,44 +191,49 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.kpis = [
       {
         icon: 'pi pi-chart-pie',
-        label: 'Completion rate',
+        label: this.translate.instant('dashboard.kpiCompletionRate'),
         value: `${completionRate}%`,
-        hint: `${finished} of ${total} tasks`,
+        hint: this.translate.instant('dashboard.kpiCompletionRateHint', { finished, total }),
         tone: 'success',
       },
       {
         icon: 'pi pi-check-circle',
-        label: 'Completed',
+        label: this.translate.instant('dashboard.kpiCompleted'),
         value: `${finished}`,
-        hint: `${total - finished} open`,
+        hint: this.translate.instant('dashboard.kpiCompletedHint', { count: total - finished }),
         tone: 'accent',
       },
       {
         icon: 'pi pi-exclamation-triangle',
-        label: 'Overdue',
+        label: this.translate.instant('dashboard.kpiOverdue'),
         value: `${overdue}`,
-        hint: overdue === 0 ? 'All caught up' : 'Need attention',
+        hint:
+          overdue === 0
+            ? this.translate.instant('dashboard.kpiOverdueHintOk')
+            : this.translate.instant('dashboard.kpiOverdueHintAttention'),
         tone: overdue === 0 ? 'neutral' : 'danger',
       },
       {
         icon: 'pi pi-clock',
-        label: 'Focus time',
+        label: this.translate.instant('dashboard.kpiFocusTime'),
         value: this.formatFocus(focusSeconds),
-        hint: 'Total accumulated',
+        hint: this.translate.instant('dashboard.kpiFocusTimeHint'),
         tone: 'info',
       },
       {
         icon: 'pi pi-stopwatch',
-        label: 'Pomodoros',
+        label: this.translate.instant('dashboard.kpiPomodoros'),
         value: `${Math.round(pomodoros * 10) / 10}`,
-        hint: 'Completed cycles',
+        hint: this.translate.instant('dashboard.kpiPomodorosHint'),
         tone: 'accent',
       },
       {
         icon: 'pi pi-folder',
-        label: 'Active projects',
+        label: this.translate.instant('dashboard.kpiActiveProjects'),
         value: `${this.projects.length}`,
-        hint: `${this.unassignedTasks().length} tasks without project`,
+        hint: this.translate.instant('dashboard.kpiActiveProjectsHint', {
+          count: this.unassignedTasks().length,
+        }),
         tone: 'info',
       },
     ];
@@ -226,7 +249,12 @@ export class DashboardComponent implements OnInit, OnDestroy {
     const notStarted = tasks.length - finished - canceled - started;
 
     return {
-      labels: ['Not started', 'In progress', 'Completed', 'Canceled'],
+      labels: [
+        this.translate.instant('dashboard.statusNotStarted'),
+        this.translate.instant('dashboard.statusInProgress'),
+        this.translate.instant('dashboard.statusCompleted'),
+        this.translate.instant('dashboard.statusCanceled'),
+      ],
       datasets: [
         {
           data: [Math.max(notStarted, 0), started, finished, canceled],
@@ -248,7 +276,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
     const labels: string[] = [];
     const data: number[] = [];
     counts.forEach((value, key) => {
-      labels.push(TYPE_LABELS[key] ?? key);
+      labels.push(
+        TYPE_LABEL_KEYS[key] ? this.translate.instant(TYPE_LABEL_KEYS[key]) : key
+      );
       data.push(value);
     });
 
@@ -274,7 +304,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       labels: ranked.map((project) => project.name),
       datasets: [
         {
-          label: 'Open tasks',
+          label: this.translate.instant('dashboard.openTasks'),
           data: ranked.map((project) => project.open_tasks_count ?? 0),
           backgroundColor: ranked.map(
             (project) => project.color || palette.accent
@@ -331,7 +361,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       labels,
       datasets: [
         {
-          label: 'Focus minutes',
+          label: this.translate.instant('dashboard.focusMinutes'),
           data,
           fill: true,
           tension: 0.4,
@@ -459,7 +489,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
         legend: { display: false },
         tooltip: {
           callbacks: {
-            label: (context: any) => `${context.parsed.y} min`,
+            label: (context: any) =>
+              `${context.parsed.y} ${this.translate.instant('dashboard.minShort')}`,
           },
         },
       },
@@ -482,9 +513,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
     const hours = Math.floor(total / 3600);
     const minutes = Math.floor((total % 3600) / 60);
     if (hours > 0) {
-      return `${hours}h ${minutes}min`;
+      return `${hours}${this.translate.instant('dashboard.hourShort')} ${minutes}${this.translate.instant('dashboard.minShortTight')}`;
     }
-    return `${minutes} min`;
+    return `${minutes} ${this.translate.instant('dashboard.minShort')}`;
   }
 
   private dateKey(date: Date): string {

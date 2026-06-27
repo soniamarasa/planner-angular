@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
+import { TranslateService } from '@ngx-translate/core';
 import { filter } from 'rxjs';
 import { SubSink } from 'subsink';
 
@@ -8,6 +9,7 @@ import { UserFacade } from 'src/app/facades/user.facades';
 import { ItemsFacade } from 'src/app/facades/items.facade';
 import { DateService } from 'src/app/services/date.service';
 import { ThemeService } from 'src/app/services/theme.service';
+import { LanguageService, AppLanguage } from 'src/app/services/language.service';
 import { plannerDialogStyleClass } from 'src/app/utils/planner-dialog.util';
 import { UserService } from '../../services/user.service';
 import { getGravatarUrl } from 'src/app/utils/gravatar.util';
@@ -30,9 +32,13 @@ export class HeaderComponent implements OnInit, OnDestroy {
   isFocus = false;
   isDashboard = false;
   themeVisible = false;
-  themes: Dropdown[] = [
-    { name: 'Light', code: 'theme-light' },
-    { name: 'Dark', code: 'theme-dark' },
+  themes: { labelKey: string; code: string }[] = [
+    { labelKey: 'theme.light', code: 'theme-light' },
+    { labelKey: 'theme.dark', code: 'theme-dark' },
+  ];
+  languages: { labelKey: string; code: AppLanguage }[] = [
+    { labelKey: 'lang.en', code: 'en' },
+    { labelKey: 'lang.pt', code: 'pt' },
   ];
   userMenuItems: MenuItem[] = [];
   private readonly subs = new SubSink();
@@ -48,6 +54,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
     private itemsFacade: ItemsFacade,
     private router: Router,
     public themeService: ThemeService,
+    public languageService: LanguageService,
+    private translate: TranslateService,
     private confirmationService: ConfirmationService,
     private messageService: MessageService
   ) {}
@@ -61,6 +69,13 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.buildUserMenu();
     this.updateRouteFlags();
 
+    this.subs.sink = this.translate
+      .get('header.account')
+      .subscribe(() => this.buildUserMenu());
+    this.subs.sink = this.translate.onLangChange.subscribe(() =>
+      this.buildUserMenu()
+    );
+
     this.subs.sink = this.router.events
       .pipe(filter((event) => event instanceof NavigationEnd))
       .subscribe(() => this.updateRouteFlags());
@@ -70,31 +85,35 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.subs.unsubscribe();
   }
 
-  get pageTitle(): string {
+  get pageTitleKey(): string {
     if (this.isAccount) {
-      return 'My account';
+      return 'header.account';
     }
     if (this.isProjects) {
-      return 'Projects';
+      return 'nav.projects';
     }
     if (this.isFocus) {
-      return 'Focus Mode';
+      return 'nav.focus';
     }
     if (this.isDashboard) {
-      return 'Dashboard';
+      return 'nav.dashboard';
     }
-    return 'Weekly Planner';
+    return 'header.weeklyPlanner';
+  }
+
+  get currentLanguage(): AppLanguage {
+    return this.languageService.getLanguage();
   }
 
   private buildUserMenu(): void {
     this.userMenuItems = [
       {
-        label: 'My account',
+        label: this.translate.instant('header.account'),
         icon: 'pi pi-user',
         command: () => this.router.navigate(['/account']),
       },
       {
-        label: 'Theme',
+        label: this.translate.instant('header.theme'),
         icon: 'pi pi-palette',
         command: () => {
           this.themeVisible = true;
@@ -102,7 +121,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
       },
       { separator: true },
       {
-        label: 'Sign out',
+        label: this.translate.instant('header.signOut'),
         icon: 'pi pi-sign-out',
         command: () => this.logout(),
       },
@@ -120,8 +139,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   confirmClearWeek(): void {
     this.confirmationService.confirm({
-      message: 'Clear all scheduled items for this week? Notes and To do remain.',
-      header: 'Clear this week?',
+      message: this.translate.instant('header.clearWeekMessage'),
+      header: this.translate.instant('header.clearWeekHeader'),
       icon: 'pi pi-exclamation-triangle',
       acceptButtonStyleClass: 'p-button-success',
       rejectButtonStyleClass: 'p-button-danger',
@@ -131,6 +150,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   changeTheme(theme: string): void {
     this.themeService.setTheme(theme);
+  }
+
+  changeLanguage(language: AppLanguage): void {
+    this.languageService.setLanguage(language);
   }
 
   logout(): void {
@@ -143,7 +166,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
         this.messageService.add({
           key: 'notification',
           severity: 'error',
-          detail: 'Could not sign out.',
+          detail: this.translate.instant('header.signOutError'),
         }),
     });
   }

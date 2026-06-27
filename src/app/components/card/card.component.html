@@ -1,4 +1,4 @@
-<p-card class="container-card" [ngClass]="{ 'calendar-card': titleBox === 'Calendar' }">
+<p-card class="container-card" [ngClass]="{ 'calendar-card': isCalendar }">
   <div>
     <img src="../../../assets/pin.png" *ngIf="isTodayColumn" alt="pin" />
     <h2 *ngIf="day">{{ day }}</h2>
@@ -6,7 +6,7 @@
     <h3 *ngIf="titleBox">{{ titleBox }}</h3>
   </div>
 
-  <ng-container *ngIf="day || titleBox != 'Calendar'">
+  <ng-container *ngIf="day || !isCalendar">
     <ul class="item" *ngIf="items.length > 0">
       <ng-container *ngFor="let item of items">
         <ng-container *ngIf="matchesItem(item)">
@@ -43,7 +43,7 @@
                 class="project-chip"
                 *ngIf="item.project_icon"
                 [style.color]="item.project_color || 'inherit'"
-                [attr.aria-label]="item.project_name || 'Project'"
+                [attr.aria-label]="item.project_name || ('planner.project' | translate)"
               >
                 <i [class]="projectIconClass(item.project_icon)"></i>
               </span>{{ item.description }}
@@ -55,7 +55,7 @@
             </p>
 
             <p class="carried-from" *ngIf="item.carried_from">
-              <i class="pi pi-replay"></i>From {{ formatCarriedFrom(item) }}
+              <i class="pi pi-replay"></i>{{ 'planner.from' | translate: { date: formatCarriedFrom(item) } }}
             </p>
 
             <app-actions-item
@@ -71,7 +71,7 @@
     <ng-template pTemplate="footer"> </ng-template>
   </ng-container>
 
-  <ng-container *ngIf="titleBox === 'Calendar'">
+  <ng-container *ngIf="isCalendar">
     <div class="calendar-shell">
       <p-datepicker
         [(ngModel)]="value"

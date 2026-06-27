@@ -2,6 +2,7 @@ import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
+import { TranslateService } from '@ngx-translate/core';
 import { SubSink } from 'subsink';
 import { finalize } from 'rxjs/operators';
 
@@ -35,7 +36,7 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
   sections: ProjectSection[] = [];
   loading = true;
   isUnassigned = false;
-  pageTitle = 'Project';
+  pageTitle = '';
   private userId = '';
   private projectId = '';
   private readonly subs = new SubSink();
@@ -50,10 +51,12 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
     private themeService: ThemeService,
     private confirmationService: ConfirmationService,
     private messageService: MessageService,
+    private translate: TranslateService,
     private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
+    this.pageTitle = this.translate.instant('projects.defaultName');
     this.userId = getStoredUserId();
     this.subs.add(
       this.route.paramMap.subscribe((params) => {
@@ -100,7 +103,7 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
     const ref = this.dialogService.open(
       EditFormComponent,
       plannerDialogConfig(this.themeService.theme, {
-        header: 'Edit item',
+        header: this.translate.instant('projects.editItem'),
         width: '640px',
         breakpoints: {
           '960px': '90vw',
@@ -116,7 +119,7 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
     const ref = this.dialogService.open(
       FormDialogComponent,
       plannerDialogConfig(this.themeService.theme, {
-        header: 'New task',
+        header: this.translate.instant('projects.newTask'),
         width: '640px',
         breakpoints: { '960px': '90vw' },
         data: {
@@ -136,7 +139,7 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
     const ref = this.dialogService.open(
       ProjectFormDialogComponent,
       plannerDialogConfig(this.themeService.theme, {
-        header: 'Edit project',
+        header: this.translate.instant('projects.editProject'),
         width: '420px',
         data: { project: this.project },
       })
@@ -157,7 +160,7 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
               this.messageService.add({
                 key: 'notification',
                 severity: 'error',
-                detail: 'Could not update the project.',
+                detail: this.translate.instant('projects.updateError'),
               }),
           })
         );
@@ -171,8 +174,8 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
     }
 
     this.confirmationService.confirm({
-      message: 'Archive this project? Tasks remain but lose the link.',
-      header: 'Archive project?',
+      message: this.translate.instant('projects.archiveMessage'),
+      header: this.translate.instant('projects.archiveHeader'),
       icon: 'pi pi-exclamation-triangle',
       acceptButtonStyleClass: 'p-button-success',
       rejectButtonStyleClass: 'p-button-danger',
@@ -186,7 +189,7 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
                 this.messageService.add({
                   key: 'notification',
                   severity: 'error',
-                  detail: 'Could not archive the project.',
+                  detail: this.translate.instant('projects.archiveError'),
                 }),
             })
         );
@@ -208,7 +211,7 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
 
     if (this.isUnassigned) {
       this.project = null;
-      this.pageTitle = 'No project';
+      this.pageTitle = this.translate.instant('projects.noProject');
       this.subs.add(
         this.projectsService
           .getUnassignedItems(this.userId)
@@ -244,7 +247,7 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
             const meta = projectItems.find((item) => item.project_name);
             this.project = {
               id: this.projectId,
-              name: meta?.project_name ?? 'Project',
+              name: meta?.project_name ?? this.translate.instant('projects.defaultName'),
               icon: meta?.project_icon ?? 'pi-briefcase',
               color: meta?.project_color ?? '#ff9a3d',
             };
@@ -275,7 +278,7 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
     this.messageService.add({
       key: 'notification',
       severity: 'error',
-      detail: 'Could not load the project.',
+      detail: this.translate.instant('projects.loadOneError'),
     });
   }
 
@@ -303,11 +306,11 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
     });
 
     const sections: ProjectSection[] = [
-      { key: 'overdue', title: 'Overdue', items: overdue },
-      { key: 'week', title: 'This week', items: thisWeek },
-      { key: 'later', title: 'Scheduled later', items: later },
-      { key: 'nodate', title: 'No date', items: noDate },
-      { key: 'done', title: 'Completed', items: finished },
+      { key: 'overdue', title: 'section.overdue', items: overdue },
+      { key: 'week', title: 'section.week', items: thisWeek },
+      { key: 'later', title: 'section.later', items: later },
+      { key: 'nodate', title: 'section.nodate', items: noDate },
+      { key: 'done', title: 'section.done', items: finished },
     ];
 
     return sections.filter((section) => section.items.length > 0);

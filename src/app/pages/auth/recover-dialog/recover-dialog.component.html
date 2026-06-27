@@ -2,7 +2,7 @@
 
 <div class="dialog-body">
   <p>
-    That's okay, it happens! Confirm your email and we'll send the Instructions
+    {{ 'recover.intro' | translate }}
   </p>
 
   <form [formGroup]="form">
@@ -13,20 +13,20 @@
         required
         class="p-inputtext p-inputtext-md"
         formControlName="email"
-        placeholder="Type your e-mail"
+        [placeholder]="'auth.typeEmail' | translate"
       />
       <small
         class="p-error"
         *ngIf="formControl.email.touched && formControl.email.errors?.required"
       >
-        E-mail is required
+        {{ 'auth.emailRequired' | translate }}
       </small>
 
       <small
         class="p-error"
         *ngIf="formControl.email.touched && formControl.email.errors?.email"
       >
-        Enter a valid email address
+        {{ 'auth.emailInvalid' | translate }}
       </small>
     </div>
   </form>
@@ -36,6 +36,6 @@
   <p-button
     [disabled]="form.invalid"
     (onClick)="submit()"
-    label="Submit"
+    [label]="'recover.submit' | translate"
   ></p-button>
 </div>

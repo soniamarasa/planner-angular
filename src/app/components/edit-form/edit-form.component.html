@@ -2,7 +2,7 @@
   <div class="row01">
     <p-select
       [options]="type"
-      placeholder="Type"
+      [placeholder]="'form.type' | translate"
       optionLabel="name"
       optionValue="code"
       formControlName="type"
@@ -16,7 +16,7 @@
     pInputText
     class="p-inputtext p-inputtext-md"
     formControlName="description"
-    placeholder="Description"
+    [placeholder]="'form.description' | translate"
   />
 
   <input
@@ -24,13 +24,13 @@
     formControlName="obs"
     pInputText
     class="p-inputtext p-inputtext-md"
-    placeholder="Observation"
+    [placeholder]="'form.observation' | translate"
   />
 
   <div class="field">
     <p-select
       [options]="projectOptions"
-      placeholder="Project (optional)"
+      [placeholder]="'form.projectOptional' | translate"
       optionLabel="name"
       optionValue="code"
       formControlName="projectId"
@@ -39,7 +39,7 @@
   </div>
 
   <div class="field placement-field">
-    <label for="editScheduledDate" class="placement-label">Date</label>
+    <label for="editScheduledDate" class="placement-label">{{ 'form.date' | translate }}</label>
     <p-datepicker
       inputId="editScheduledDate"
       formControlName="scheduledDate"
@@ -47,18 +47,18 @@
       [showIcon]="true"
       [showButtonBar]="true"
       appendTo="body"
-      placeholder="Pick a day for this item"
+      [placeholder]="'form.pickDay' | translate"
     ></p-datepicker>
   </div>
 
   <div class="where-check">
     <div class="p-field-checkbox">
       <p-checkbox formControlName="notes" [binary]="true" inputId="editNotes"></p-checkbox>
-      <label for="editNotes">Notes</label>
+      <label for="editNotes">{{ 'form.notes' | translate }}</label>
     </div>
     <div class="p-field-checkbox">
       <p-checkbox formControlName="todo" [binary]="true" inputId="editTodo"></p-checkbox>
-      <label for="editTodo">To Do</label>
+      <label for="editTodo">{{ 'form.todo' | translate }}</label>
     </div>
   </div>
 
@@ -68,7 +68,7 @@
       pRipple
       type="submit"
       (keydown.enter)="editItem()"
-      label="Save"
+      [label]="'form.save' | translate"
       (click)="editItem()"
       class="p-button-raised p-button-success"
     ></button>

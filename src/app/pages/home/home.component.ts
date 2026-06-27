@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { BehaviorSubject, combineLatest, filter, map, Observable, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { DialogService } from 'primeng/dynamicdialog';
+import { TranslateService } from '@ngx-translate/core';
 
 import { plannerDialogConfig } from 'src/app/utils/planner-dialog.util';
 import { ThemeService } from '../../services/theme.service';
@@ -27,7 +28,9 @@ export class HomeComponent implements OnInit, OnDestroy {
     isCurrentWeek: boolean;
   }>;
 
-  readonly defaultProjectFilter: Dropdown[] = [{ name: 'All projects', code: '' }];
+  get defaultProjectFilter(): Dropdown[] {
+    return [{ name: this.translate.instant('planner.allProjects'), code: '' }];
+  }
   projectFilterOptions$: Observable<Dropdown[]> = of(this.defaultProjectFilter);
   selectedProjectId = '';
   private readonly projectFilter$ = new BehaviorSubject<string>('');
@@ -51,7 +54,8 @@ export class HomeComponent implements OnInit, OnDestroy {
     public facade: ItemsFacade,
     public weekService: WeekService,
     public themeService: ThemeService,
-    private projectsService: ProjectsService
+    private projectsService: ProjectsService,
+    private translate: TranslateService
   ) {}
 
   ngOnInit(): void {
@@ -80,7 +84,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     this._dialogService.open(
       FormDialogComponent,
       plannerDialogConfig(this.themeService.theme, {
-        header: 'New item',
+        header: this.translate.instant('planner.newItem'),
         width: '640px',
         breakpoints: {
           '960px': '90vw',

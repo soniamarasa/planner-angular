@@ -1,7 +1,7 @@
 <p-toast key="notification" position="top-right" styleClass="default"></p-toast>
 
 <div class="container-register">
-  <h1>Register</h1>
+  <h1>{{ 'register.title' | translate }}</h1>
 
   <div class="grid">
     <p-card class="col-12">
@@ -12,14 +12,14 @@
 
         <form [formGroup]="form">
           <div class="field">
-            <label for="name" class="block">Name</label>
+            <label for="name" class="block">{{ 'register.name' | translate }}</label>
             <input
               type="text"
               pInputText
               required
               class="p-inputtext p-inputtext-md"
               formControlName="name"
-              placeholder="Type your full name"
+              [placeholder]="'register.typeFullName' | translate"
             />
 
             <small
@@ -28,17 +28,17 @@
                 formControl.name.touched && formControl.name.errors?.required
               "
             >
-              Name is required
+              {{ 'register.nameRequired' | translate }}
             </small>
           </div>
 
           <div class="grid p-fluid">
             <div class="col-12 md:col-6">
               <div class="field">
-                <label for="gender" class="block">Gender</label>
+                <label for="gender" class="block">{{ 'register.gender' | translate }}</label>
                 <p-select
                   [options]="gender"
-                  placeholder="Select your gender"
+                  [placeholder]="'register.selectGender' | translate"
                   optionLabel="name"
                   optionValue="code"
                   formControlName="gender"
@@ -50,20 +50,20 @@
                     formControl.gender.errors?.required
                   "
                 >
-                  Gender is required
+                  {{ 'register.genderRequired' | translate }}
                 </small>
               </div>
             </div>
 
             <div class="col-12 md:col-6">
               <div class="field">
-                <label for="birthdate" class="block">Birthdate</label>
+                <label for="birthdate" class="block">{{ 'register.birthdate' | translate }}</label>
                 <p-datepicker
                   formControlName="birthdate"
                   dateFormat="dd.mm.yy"
                   [showIcon]="true"
                   inputId="icon"
-                  placeholder="Select your birthdate"
+                  [placeholder]="'register.selectBirthdate' | translate"
                 ></p-datepicker>
                 <small
                   class="p-error"
@@ -72,7 +72,7 @@
                     formControl.birthdate.errors?.required
                   "
                 >
-                  Birthdate is required
+                  {{ 'register.birthdateRequired' | translate }}
                 </small>
               </div>
             </div>
@@ -81,14 +81,14 @@
           <div class="grid p-fluid">
             <div class="col-12 md:col-6">
               <div class="field">
-                <label for="email" class="block">E-mail</label>
+                <label for="email" class="block">{{ 'auth.email' | translate }}</label>
                 <input
                   type="email"
                   pInputText
                   required
                   class="p-inputtext p-inputtext-md"
                   formControlName="email"
-                  placeholder="Type your e-mail"
+                  [placeholder]="'auth.typeEmail' | translate"
                 />
                 <small
                   class="p-error"
@@ -97,7 +97,7 @@
                     formControl.email.errors?.required
                   "
                 >
-                  E-mail is required
+                  {{ 'auth.emailRequired' | translate }}
                 </small>
 
                 <small
@@ -106,21 +106,21 @@
                     formControl.email.touched && formControl.email.errors?.email
                   "
                 >
-                  Enter a valid email address
+                  {{ 'auth.emailInvalid' | translate }}
                 </small>
               </div>
             </div>
 
             <div class="col-12 md:col-6">
               <div class="field">
-                <label for="confirmEmail" class="block">Confirm E-mail</label>
+                <label for="confirmEmail" class="block">{{ 'register.confirmEmail' | translate }}</label>
                 <input
                   type="email"
                   pInputText
                   required
                   class="p-inputtext p-inputtext-md"
                   formControlName="confirmEmail"
-                  placeholder="Confirm your e-mail"
+                  [placeholder]="'register.confirmEmailPlaceholder' | translate"
                 />
                 <small
                   class="p-error"
@@ -129,7 +129,7 @@
                     formControl.confirmEmail.errors?.required
                   "
                 >
-                  E-mail is required
+                  {{ 'auth.emailRequired' | translate }}
                 </small>
 
                 <small
@@ -139,7 +139,7 @@
                     formControl.confirmEmail.errors?.emailMismatch
                   "
                 >
-                  Email doesn't match
+                  {{ 'register.emailMismatch' | translate }}
                 </small>
               </div>
             </div>
@@ -148,24 +148,24 @@
           <div class="grid p-fluid">
             <div class="col-12 md:col-6">
               <div class="field">
-                <label for="password" class="block">Password</label>
+                <label for="password" class="block">{{ 'auth.password' | translate }}</label>
                 <p-password
                   [toggleMask]="true"
                   formControlName="password"
-                  placeholder="Type your password"
+                  [placeholder]="'auth.typePassword' | translate"
                   styleClass="p-password p-component p-inputwrapper p-input-icon-right"
                 >
                   <ng-template pTemplate="header">
-                    <h6>Pick a password</h6>
+                    <h6>{{ 'register.pickPassword' | translate }}</h6>
                   </ng-template>
                   <ng-template pTemplate="footer">
                     <p-divider></p-divider>
-                    <p class="mt-2">Password must be:</p>
+                    <p class="mt-2">{{ 'register.passwordMustBe' | translate }}</p>
                     <ul class="pl-2 ml-2 mt-0" style="line-height: 1.5">
-                      <li>At least one lowercase</li>
-                      <li>At least one uppercase</li>
-                      <li>At least one numeric</li>
-                      <li>Minimum 8 characters</li>
+                      <li>{{ 'register.ruleLowercase' | translate }}</li>
+                      <li>{{ 'register.ruleUppercase' | translate }}</li>
+                      <li>{{ 'register.ruleNumeric' | translate }}</li>
+                      <li>{{ 'register.ruleMin' | translate }}</li>
                     </ul>
                   </ng-template>
                 </p-password>
@@ -177,7 +177,7 @@
                     formControl.password.errors?.required
                   "
                 >
-                  Password is required
+                  {{ 'auth.passwordRequired' | translate }}
                 </small>
               </div>
             </div>
@@ -185,13 +185,13 @@
             <div class="col-12 md:col-6">
               <div class="field">
                 <label for="confirmPassword" class="block"
-                  >Confirm Password</label
+                  >{{ 'register.confirmPassword' | translate }}</label
                 >
 
                 <p-password
                   required
                   formControlName="confirmPassword"
-                  placeholder="Confirm your password"
+                  [placeholder]="'register.confirmPasswordPlaceholder' | translate"
                   [feedback]="false"
                   [toggleMask]="true"
                   styleClass="p-password p-component p-inputwrapper p-input-icon-right"
@@ -204,7 +204,7 @@
                     formControl.confirmPassword.errors?.required
                   "
                 >
-                  Password is required
+                  {{ 'auth.passwordRequired' | translate }}
                 </small>
 
                 <small
@@ -214,7 +214,7 @@
                     formControl.confirmPassword.errors?.passwordMismatch
                   "
                 >
-                  Passwords don't match
+                  {{ 'register.passwordMismatch' | translate }}
                 </small>
               </div>
             </div>
@@ -226,7 +226,7 @@
               (onClick)="submit()"
               type="submit"
               (keydown.enter)="submit()"
-              label="Sign up"
+              [label]="'auth.signUp' | translate"
             ></p-button>
           </div>
         </form>
@@ -234,7 +234,7 @@
     </p-card>
 
     <div class="logo" [routerLink]="['/']">
-      <h3>Weekly Planner</h3>
+      <h3>{{ 'header.weeklyPlanner' | translate }}</h3>
     </div>
   </div>
 </div>
