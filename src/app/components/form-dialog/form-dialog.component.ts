@@ -22,7 +22,7 @@ import { getStoredUserId } from 'src/app/utils/stored-user.util';
 export class FormDialogComponent implements OnInit, OnDestroy {
   form!: FormGroup;
   type: Dropdown[];
-  projectOptions: Dropdown[] = [{ name: 'Sem projeto', code: '' }];
+  projectOptions: Dropdown[] = [{ name: 'No project', code: '' }];
   private readonly subs = new SubSink();
 
   constructor(
@@ -36,11 +36,11 @@ export class FormDialogComponent implements OnInit, OnDestroy {
     private cdr: ChangeDetectorRef
   ) {
     this.type = [
-      { name: 'Tarefa', code: 'task' },
-      { name: 'Evento', code: 'event' },
-      { name: 'Compromisso', code: 'appointment' },
-      { name: 'Nota', code: 'note' },
-      { name: 'Entretenimento', code: 'tv' },
+      { name: 'Task', code: 'task' },
+      { name: 'Event', code: 'event' },
+      { name: 'Appointment', code: 'appointment' },
+      { name: 'Note', code: 'note' },
+      { name: 'Entertainment', code: 'tv' },
     ];
     this.createForm();
   }
@@ -105,7 +105,7 @@ export class FormDialogComponent implements OnInit, OnDestroy {
       this.projectsService.getProjects(userId).subscribe({
         next: (projects) => {
           this.projectOptions = [
-            { name: 'Sem projeto', code: '' },
+            { name: 'No project', code: '' },
             ...projects.map((project: Project) => ({ name: project.name, code: project.id! })),
           ];
           const preset = this._config.data?.projectId as string | undefined;
@@ -150,8 +150,8 @@ export class FormDialogComponent implements OnInit, OnDestroy {
     if (!value.type || !value.description?.trim()) {
       this._messageService.add({
         severity: 'warn',
-        summary: 'Campos vazios!',
-        detail: 'Tipo e descrição são obrigatórios.',
+        summary: 'Empty fields!',
+        detail: 'Type and description are required.',
       });
       return false;
     }
@@ -159,8 +159,8 @@ export class FormDialogComponent implements OnInit, OnDestroy {
     if (!value.scheduledDate && !value.notes && !value.todo) {
       this._messageService.add({
         severity: 'warn',
-        summary: 'Escolha um destino',
-        detail: 'Selecione uma data, Notas ou A fazer.',
+        summary: 'Choose a destination',
+        detail: 'Select a date, Notes or To do.',
       });
       return false;
     }

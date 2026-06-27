@@ -1,8 +1,8 @@
-<nav class="projects-sidebar" aria-label="Projetos">
+<nav class="projects-sidebar" aria-label="Projects">
   <div class="projects-sidebar__header">
     <div>
-      <h2>Projetos</h2>
-      <p class="projects-sidebar__subtitle">Organize tarefas por contexto</p>
+      <h2>Projects</h2>
+      <p class="projects-sidebar__subtitle">Organize tasks by context</p>
     </div>
     <button
       pButton
@@ -10,13 +10,13 @@
       type="button"
       icon="pi pi-plus"
       class="p-button-rounded p-button-text"
-      pTooltip="Novo projeto"
+      pTooltip="New project"
       tooltipPosition="bottom"
       (click)="openCreateDialog()"
     ></button>
   </div>
 
-  <p *ngIf="loading" class="projects-sidebar__status">Carregando…</p>
+  <p *ngIf="loading" class="projects-sidebar__status">Loading…</p>
 
   <div class="projects-sidebar__nav" *ngIf="!loading">
     <a
@@ -29,8 +29,8 @@
         <i class="pi pi-inbox"></i>
       </span>
       <span class="projects-sidebar__body">
-        <strong>Sem projeto</strong>
-        <small>{{ unassignedCount }} aberta{{ unassignedCount === 1 ? '' : 's' }}</small>
+        <strong>No project</strong>
+        <small>{{ unassignedCount }} open</small>
       </span>
     </a>
 
@@ -47,7 +47,7 @@
       <span class="projects-sidebar__body">
         <strong>{{ project.name }}</strong>
         <small>
-          {{ project.open_tasks_count || 0 }} aberta{{ (project.open_tasks_count || 0) === 1 ? '' : 's' }}
+          {{ project.open_tasks_count || 0 }} open
           <span *ngIf="project.focus_seconds_total"> · {{ formatFocus(project.focus_seconds_total) }}</span>
         </small>
       </span>
@@ -58,14 +58,14 @@
         <i class="pi pi-plus"></i>
       </span>
       <span class="projects-sidebar__body">
-        <strong>Novo projeto</strong>
-        <small>Ícone e cor personalizados</small>
+        <strong>New project</strong>
+        <small>Custom icon and color</small>
       </span>
     </button>
   </div>
 
   <p *ngIf="!loading && projects.length === 0 && unassignedCount === 0" class="projects-sidebar__empty">
-    Nenhum projeto ainda.
+    No projects yet.
   </p>
 
   <div class="projects-sidebar__footer">
@@ -74,13 +74,13 @@
       pRipple
       type="button"
       class="p-button-text p-button-sm"
-      [label]="showArchived ? 'Ocultar arquivados' : 'Ver arquivados'"
+      [label]="showArchived ? 'Hide archived' : 'Show archived'"
       (click)="toggleArchived()"
     ></button>
   </div>
 
   <section class="projects-sidebar__archived" *ngIf="showArchived && archivedProjects.length > 0">
-    <h3>Arquivados</h3>
+    <h3>Archived</h3>
     <div class="projects-sidebar__archived-list">
       <div class="projects-sidebar__item projects-sidebar__item--archived" *ngFor="let project of archivedProjects">
         <span class="projects-sidebar__icon" [style.color]="project.color" aria-hidden="true">
@@ -88,7 +88,7 @@
         </span>
         <span class="projects-sidebar__body">
           <strong>{{ project.name }}</strong>
-          <small>{{ project.open_tasks_count || 0 }} aberta{{ (project.open_tasks_count || 0) === 1 ? '' : 's' }}</small>
+          <small>{{ project.open_tasks_count || 0 }} open</small>
         </span>
         <button
           pButton
@@ -96,7 +96,7 @@
           type="button"
           icon="pi pi-replay"
           class="p-button-rounded p-button-text"
-          pTooltip="Restaurar"
+          pTooltip="Restore"
           (click)="restoreProject(project)"
         ></button>
       </div>

@@ -85,7 +85,7 @@ export class ProjectsListComponent implements OnInit, OnDestroy {
     const ref = this.dialogService.open(
       ProjectFormDialogComponent,
       plannerDialogConfig(this.themeService.theme, {
-        header: 'Novo projeto',
+        header: 'New project',
         width: '420px',
       })
     );
@@ -102,7 +102,7 @@ export class ProjectsListComponent implements OnInit, OnDestroy {
               this.messageService.add({
                 key: 'notification',
                 severity: 'error',
-                detail: 'Não foi possível criar o projeto.',
+                detail: 'Could not create the project.',
               }),
           })
         );
@@ -129,14 +129,14 @@ export class ProjectsListComponent implements OnInit, OnDestroy {
           this.messageService.add({
             key: 'notification',
             severity: 'success',
-            detail: 'Projeto restaurado.',
+            detail: 'Project restored.',
           });
         },
         error: () =>
           this.messageService.add({
             key: 'notification',
             severity: 'error',
-            detail: 'Não foi possível restaurar o projeto.',
+            detail: 'Could not restore the project.',
           }),
       })
     );
@@ -190,7 +190,7 @@ export class ProjectsListComponent implements OnInit, OnDestroy {
             this.messageService.add({
               key: 'notification',
               severity: 'error',
-              detail: 'Não foi possível carregar os projetos.',
+              detail: 'Could not load projects.',
             });
           },
         })

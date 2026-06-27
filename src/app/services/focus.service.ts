@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
 import {
@@ -7,6 +7,7 @@ import {
   FocusSettingsUpdate,
   PomodoroSession,
   PomodoroSessionAbandon,
+  PomodoroSessionList,
   PomodoroSessionStart,
   PomodoroSessionSync,
 } from '../models/focus';
@@ -28,6 +29,14 @@ export class FocusService {
   getActiveSession(userId: string): Observable<PomodoroSession | null> {
     return this.http.get<PomodoroSession | null>(
       `${environment.url}/focus/sessions/${userId}/active`
+    );
+  }
+
+  getSessions(userId: string, limit = 100): Observable<PomodoroSessionList> {
+    const params = new HttpParams().set('limit', String(limit));
+    return this.http.get<PomodoroSessionList>(
+      `${environment.url}/focus/sessions/${userId}`,
+      { params }
     );
   }
 

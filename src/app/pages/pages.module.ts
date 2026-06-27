@@ -43,6 +43,7 @@ import { PasswordRecoverComponent } from './password-recover/password-recover.co
 import { HomeComponent } from './home/home.component';
 import { AccountComponent } from './account/account.component';
 import { FocusComponent } from './focus/focus.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
 import { ProjectsShellComponent } from './projects/projects-shell.component';
 import { ProjectsListComponent } from './projects/projects-list.component';
 import { ProjectDetailComponent } from './projects/project-detail.component';
@@ -73,6 +74,7 @@ import { WeekStore } from '../stores/week.store';
     AccountComponent,
     HomeComponent,
     FocusComponent,
+    DashboardComponent,
     NotFoundComponent,
 
     HeaderComponent,

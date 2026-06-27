@@ -13,7 +13,7 @@
       (click)="backToList()"
     >
       <i class="pi pi-arrow-left"></i>
-      Projetos
+      Projects
     </button>
 
     <div class="project-detail__hero" *ngIf="!loading">
@@ -31,10 +31,10 @@
 
       <div class="project-detail__meta">
         <h2>{{ pageTitle }}</h2>
-        <p *ngIf="isUnassigned">Tarefas sem vínculo com projeto.</p>
+        <p *ngIf="isUnassigned">Tasks not linked to any project.</p>
         <p *ngIf="!isUnassigned && project as meta">
-          {{ meta.open_tasks_count || 0 }} aberta{{ (meta.open_tasks_count || 0) === 1 ? '' : 's' }}
-          <span *ngIf="meta.focus_seconds_total"> · {{ formatFocus(meta.focus_seconds_total) }} de foco</span>
+          {{ meta.open_tasks_count || 0 }} open
+          <span *ngIf="meta.focus_seconds_total"> · {{ formatFocus(meta.focus_seconds_total) }} of focus</span>
         </p>
       </div>
 
@@ -45,7 +45,7 @@
           type="button"
           icon="pi pi-plus"
           class="p-button-rounded p-button-text"
-          pTooltip="Nova tarefa"
+          pTooltip="New task"
           (click)="openAddTask()"
         ></button>
         <button
@@ -54,7 +54,7 @@
           type="button"
           icon="pi pi-pencil"
           class="p-button-rounded p-button-text"
-          pTooltip="Editar"
+          pTooltip="Edit"
           (click)="openEditDialog()"
         ></button>
         <button
@@ -63,7 +63,7 @@
           type="button"
           icon="pi pi-inbox"
           class="p-button-rounded p-button-text"
-          pTooltip="Arquivar"
+          pTooltip="Archive"
           (click)="archiveProject()"
         ></button>
       </div>
@@ -75,14 +75,14 @@
           type="button"
           icon="pi pi-plus"
           class="p-button-rounded p-button-text"
-          pTooltip="Nova tarefa"
+          pTooltip="New task"
           (click)="openAddTask()"
         ></button>
       </div>
     </div>
   </div>
 
-  <p *ngIf="loading" class="project-detail__status">Carregando…</p>
+  <p *ngIf="loading" class="project-detail__status">Loading…</p>
 
   <div class="project-sections" *ngIf="!loading">
     <section class="project-section" *ngFor="let section of sections">
@@ -109,13 +109,13 @@
     </section>
 
     <div class="project-detail__empty" *ngIf="!sections.length">
-      <p>Nenhuma tarefa neste projeto ainda.</p>
+      <p>No tasks in this project yet.</p>
       <button
         pButton
         pRipple
         type="button"
         icon="pi pi-plus"
-        label="Adicionar tarefa"
+        label="Add task"
         class="p-button-success"
         (click)="openAddTask()"
       ></button>

@@ -8,7 +8,7 @@
     optionValue="code"
     [(ngModel)]="selectedProjectId"
     (ngModelChange)="onProjectFilterChange($event)"
-    placeholder="Filtrar por projeto"
+    placeholder="Filter by project"
     appendTo="body"
   ></p-select>
 
@@ -16,7 +16,7 @@
     <button
       pButton
       pRipple
-      pTooltip="Novo item"
+      pTooltip="New item"
       type="button"
       (click)="newItem()"
       icon="pi pi-plus"
@@ -62,7 +62,7 @@
           ></app-card>
         </div>
         <div class="col-12 sm:col-6 md:col-6 lg:col-3">
-          <app-card [items]="(items$ | async) || []" box="notes" titleBox="Notas"></app-card>
+          <app-card [items]="(items$ | async) || []" box="notes" titleBox="Notes"></app-card>
         </div>
       </div>
     </div>
@@ -70,11 +70,11 @@
     <div class="col-12 sm:col-12 md:col-4 lg:col-3">
       <div class="grid col-calend">
         <div class="col-12 md:col-12">
-          <app-card titleBox="Calendário"></app-card>
+          <app-card titleBox="Calendar"></app-card>
         </div>
         <div class="col-12 md:col-12">
           <app-overdue-panel *ngIf="weekView.isCurrentWeek"></app-overdue-panel>
-          <app-card [items]="(items$ | async) || []" box="todo" titleBox="A fazer"></app-card>
+          <app-card [items]="(items$ | async) || []" box="todo" titleBox="To do"></app-card>
         </div>
       </div>
     </div>

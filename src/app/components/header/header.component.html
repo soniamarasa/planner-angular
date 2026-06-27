@@ -20,9 +20,9 @@
         icon="pi pi-folder"
         class="p-button-rounded p-button-text header-toolbar__btn"
         [class.header-toolbar__btn--active]="isProjects"
-        pTooltip="Projetos"
+        pTooltip="Projects"
         tooltipPosition="bottom"
-        aria-label="Projetos"
+        aria-label="Projects"
       ></a>
       <a
         pButton
@@ -30,21 +30,21 @@
         routerLink="/focus"
         icon="pi pi-clock"
         class="p-button-rounded p-button-text header-toolbar__btn"
-        pTooltip="Modo Foco"
+        pTooltip="Focus Mode"
         tooltipPosition="bottom"
-        aria-label="Modo Foco"
+        aria-label="Focus Mode"
       ></a>
-      <button
+      <a
         pButton
         pRipple
-        type="button"
+        routerLink="/dashboard"
         icon="pi pi-chart-bar"
         class="p-button-rounded p-button-text header-toolbar__btn"
-        pTooltip="Estatísticas"
+        [class.header-toolbar__btn--active]="isDashboard"
+        pTooltip="Dashboard"
         tooltipPosition="bottom"
-        aria-label="Estatísticas"
-        (click)="openStats()"
-      ></button>
+        aria-label="Dashboard"
+      ></a>
       <button
         *ngIf="isPlannerHome"
         pButton
@@ -76,14 +76,14 @@
   </div>
 
   <div class="header-brand">
-    <h1>{{ isPlannerHome ? 'Planner Semanal' : pageTitle }}</h1>
+    <h1>{{ isPlannerHome ? 'Weekly Planner' : pageTitle }}</h1>
     <p class="header-date" *ngIf="isPlannerHome">{{ todayIs }}</p>
-    <p class="header-greeting" *ngIf="isPlannerHome && userFirstName">Olá, {{ userFirstName }}</p>
+    <p class="header-greeting" *ngIf="isPlannerHome && userFirstName">Hello, {{ userFirstName }}</p>
   </div>
 </header>
 
 <p-dialog
-  header="Tema"
+  header="Theme"
   [(visible)]="themeVisible"
   [modal]="true"
   [appendTo]="'body'"
@@ -93,7 +93,7 @@
   [styleClass]="dialogStyleClass"
   [maskStyleClass]="'planner-dialog-mask'"
 >
-  <p class="theme-picker__hint">Escolha como o planner aparece neste dispositivo.</p>
+  <p class="theme-picker__hint">Choose how the planner looks on this device.</p>
   <div class="theme-picker">
     <button
       type="button"

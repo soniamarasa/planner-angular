@@ -34,6 +34,10 @@ export interface PomodoroSession {
   item_pomodoros_completed: number;
 }
 
+export interface PomodoroSessionList {
+  sessions: PomodoroSession[];
+}
+
 export interface PomodoroSessionStart {
   item_id: string;
 }

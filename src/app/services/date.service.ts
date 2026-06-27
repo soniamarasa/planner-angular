@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { format } from 'date-fns';
-import { ptBR } from 'date-fns/locale';
 
 @Injectable({
   providedIn: 'root',

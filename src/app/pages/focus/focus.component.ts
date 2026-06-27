@@ -29,16 +29,16 @@ export class FocusComponent implements OnInit, OnDestroy {
   taskForm!: FormGroup;
   settingsForm!: FormGroup;
   settingsVisible = false;
-  readonly defaultProjectFilter: Dropdown[] = [{ name: 'Todos os projetos', code: '' }];
+  readonly defaultProjectFilter: Dropdown[] = [{ name: 'All projects', code: '' }];
   projectFilterOptions$: Observable<Dropdown[]> = of(this.defaultProjectFilter);
   selectedProjectId = '';
   readonly backgrounds: FocusBackground[] = FOCUS_BACKGROUNDS;
 
   soundOptions: Dropdown[] = [
-    { name: 'Chuva', code: 'rain' },
-    { name: 'Ruído branco', code: 'white' },
-    { name: 'Café', code: 'cafe' },
-    { name: 'Silêncio', code: 'none' },
+    { name: 'Rain', code: 'rain' },
+    { name: 'White noise', code: 'white' },
+    { name: 'Cafe', code: 'cafe' },
+    { name: 'Silence', code: 'none' },
   ];
 
   private subs = new SubSink();
@@ -142,15 +142,15 @@ export class FocusComponent implements OnInit, OnDestroy {
 
   get sessionStatusLabel(): string {
     if (!this.state?.session) {
-      return 'Pronto para focar';
+      return 'Ready to focus';
     }
     if (this.state.isRunning) {
-      return 'Em foco';
+      return 'Focusing';
     }
     if (this.state.session.status === 'paused') {
-      return 'Pausado';
+      return 'Paused';
     }
-    return 'Pronto para focar';
+    return 'Ready to focus';
   }
 
   onProjectFilterChange(projectId: string): void {

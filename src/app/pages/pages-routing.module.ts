@@ -4,6 +4,7 @@ import { AuthGuard } from '../guards/auth.guard';
 import { AccountComponent } from './account/account.component';
 import { AuthComponent } from './auth/auth.component';
 import { FocusComponent } from './focus/focus.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
 import { HomeComponent } from './home/home.component';
 import { ProjectsShellComponent } from './projects/projects-shell.component';
 import { ProjectsListComponent } from './projects/projects-list.component';
@@ -35,6 +36,11 @@ const routes: Routes = [
         path: 'account',
         title: 'Weekly Planner | My account',
         component: AccountComponent,
+      },
+      {
+        path: 'dashboard',
+        title: 'Weekly Planner | Dashboard',
+        component: DashboardComponent,
       },
       {
         path: 'projects',

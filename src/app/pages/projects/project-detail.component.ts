@@ -100,7 +100,7 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
     const ref = this.dialogService.open(
       EditFormComponent,
       plannerDialogConfig(this.themeService.theme, {
-        header: 'Editar item',
+        header: 'Edit item',
         width: '640px',
         breakpoints: {
           '960px': '90vw',
@@ -116,7 +116,7 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
     const ref = this.dialogService.open(
       FormDialogComponent,
       plannerDialogConfig(this.themeService.theme, {
-        header: 'Nova tarefa',
+        header: 'New task',
         width: '640px',
         breakpoints: { '960px': '90vw' },
         data: {
@@ -136,7 +136,7 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
     const ref = this.dialogService.open(
       ProjectFormDialogComponent,
       plannerDialogConfig(this.themeService.theme, {
-        header: 'Editar projeto',
+        header: 'Edit project',
         width: '420px',
         data: { project: this.project },
       })
@@ -157,7 +157,7 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
               this.messageService.add({
                 key: 'notification',
                 severity: 'error',
-                detail: 'Não foi possível atualizar o projeto.',
+                detail: 'Could not update the project.',
               }),
           })
         );
@@ -171,8 +171,8 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
     }
 
     this.confirmationService.confirm({
-      message: 'Arquivar este projeto? As tarefas permanecem, mas perdem o vínculo.',
-      header: 'Arquivar projeto?',
+      message: 'Archive this project? Tasks remain but lose the link.',
+      header: 'Archive project?',
       icon: 'pi pi-exclamation-triangle',
       acceptButtonStyleClass: 'p-button-success',
       rejectButtonStyleClass: 'p-button-danger',
@@ -186,7 +186,7 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
                 this.messageService.add({
                   key: 'notification',
                   severity: 'error',
-                  detail: 'Não foi possível arquivar o projeto.',
+                  detail: 'Could not archive the project.',
                 }),
             })
         );
@@ -208,7 +208,7 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
 
     if (this.isUnassigned) {
       this.project = null;
-      this.pageTitle = 'Sem projeto';
+      this.pageTitle = 'No project';
       this.subs.add(
         this.projectsService
           .getUnassignedItems(this.userId)
@@ -275,7 +275,7 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
     this.messageService.add({
       key: 'notification',
       severity: 'error',
-      detail: 'Não foi possível carregar o projeto.',
+      detail: 'Could not load the project.',
     });
   }
 
@@ -303,11 +303,11 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
     });
 
     const sections: ProjectSection[] = [
-      { key: 'overdue', title: 'Atrasadas', items: overdue },
-      { key: 'week', title: 'Esta semana', items: thisWeek },
-      { key: 'later', title: 'Agendadas depois', items: later },
-      { key: 'nodate', title: 'Sem data', items: noDate },
-      { key: 'done', title: 'Concluídas', items: finished },
+      { key: 'overdue', title: 'Overdue', items: overdue },
+      { key: 'week', title: 'This week', items: thisWeek },
+      { key: 'later', title: 'Scheduled later', items: later },
+      { key: 'nodate', title: 'No date', items: noDate },
+      { key: 'done', title: 'Completed', items: finished },
     ];
 
     return sections.filter((section) => section.items.length > 0);

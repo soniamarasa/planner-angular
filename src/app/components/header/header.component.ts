@@ -1,7 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
-import { DialogService } from 'primeng/dynamicdialog';
 import { filter } from 'rxjs';
 import { SubSink } from 'subsink';
 
@@ -9,10 +8,9 @@ import { UserFacade } from 'src/app/facades/user.facades';
 import { ItemsFacade } from 'src/app/facades/items.facade';
 import { DateService } from 'src/app/services/date.service';
 import { ThemeService } from 'src/app/services/theme.service';
-import { plannerDialogConfig, plannerDialogStyleClass } from 'src/app/utils/planner-dialog.util';
+import { plannerDialogStyleClass } from 'src/app/utils/planner-dialog.util';
 import { UserService } from '../../services/user.service';
 import { getGravatarUrl } from 'src/app/utils/gravatar.util';
-import { ChartComponent } from '../chart/chart.component';
 import { Dropdown } from 'src/app/models/dropdown';
 
 @Component({
@@ -30,10 +28,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
   isAccount = false;
   isProjects = false;
   isFocus = false;
+  isDashboard = false;
   themeVisible = false;
   themes: Dropdown[] = [
-    { name: 'Claro', code: 'theme-light' },
-    { name: 'Escuro', code: 'theme-dark' },
+    { name: 'Light', code: 'theme-light' },
+    { name: 'Dark', code: 'theme-dark' },
   ];
   userMenuItems: MenuItem[] = [];
   private readonly subs = new SubSink();
@@ -49,7 +48,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
     private itemsFacade: ItemsFacade,
     private router: Router,
     public themeService: ThemeService,
-    private dialogService: DialogService,
     private confirmationService: ConfirmationService,
     private messageService: MessageService
   ) {}
@@ -74,26 +72,29 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   get pageTitle(): string {
     if (this.isAccount) {
-      return 'Minha conta';
+      return 'My account';
     }
     if (this.isProjects) {
-      return 'Projetos';
+      return 'Projects';
     }
     if (this.isFocus) {
-      return 'Modo Foco';
+      return 'Focus Mode';
     }
-    return 'Planner Semanal';
+    if (this.isDashboard) {
+      return 'Dashboard';
+    }
+    return 'Weekly Planner';
   }
 
   private buildUserMenu(): void {
     this.userMenuItems = [
       {
-        label: 'Minha conta',
+        label: 'My account',
         icon: 'pi pi-user',
         command: () => this.router.navigate(['/account']),
       },
       {
-        label: 'Tema',
+        label: 'Theme',
         icon: 'pi pi-palette',
         command: () => {
           this.themeVisible = true;
@@ -101,7 +102,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
       },
       { separator: true },
       {
-        label: 'Sair',
+        label: 'Sign out',
         icon: 'pi pi-sign-out',
         command: () => this.logout(),
       },
@@ -114,25 +115,13 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.isAccount = url.startsWith('/account');
     this.isProjects = url.startsWith('/projects');
     this.isFocus = url.startsWith('/focus');
-  }
-
-  openStats(): void {
-    this.dialogService.open(
-      ChartComponent,
-      plannerDialogConfig(this.themeService.theme, {
-        header: 'Estatísticas — Tarefas',
-        width: '640px',
-        breakpoints: {
-          '960px': '90vw',
-        },
-      })
-    );
+    this.isDashboard = url.startsWith('/dashboard');
   }
 
   confirmClearWeek(): void {
     this.confirmationService.confirm({
-      message: 'Limpar todos os itens agendados desta semana? Notas e A fazer permanecem.',
-      header: 'Limpar esta semana?',
+      message: 'Clear all scheduled items for this week? Notes and To do remain.',
+      header: 'Clear this week?',
       icon: 'pi pi-exclamation-triangle',
       acceptButtonStyleClass: 'p-button-success',
       rejectButtonStyleClass: 'p-button-danger',
@@ -154,7 +143,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
         this.messageService.add({
           key: 'notification',
           severity: 'error',
-          detail: 'Não foi possível sair da conta.',
+          detail: 'Could not sign out.',
         }),
     });
   }

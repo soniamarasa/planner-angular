@@ -7,7 +7,7 @@
     <button pButton type="button" icon="pi pi-arrow-left" label="Planner" class="p-button-text back-btn" (click)="goHome()"></button>
     <div class="focus-header__center">
       <span class="focus-badge">{{ sessionStatusLabel }}</span>
-      <h1>Modo Foco</h1>
+      <h1>Focus Mode</h1>
     </div>
     <button pButton type="button" icon="pi pi-cog" class="p-button-rounded p-button-text settings-btn" (click)="openSettings()"></button>
   </header>
@@ -15,8 +15,8 @@
   <main class="focus-layout">
     <aside class="task-panel">
       <div class="panel-head">
-        <h2>Tarefas</h2>
-        <span>{{ state.tasks.length }} disponíveis</span>
+        <h2>Tasks</h2>
+        <span>{{ state.tasks.length }} available</span>
       </div>
 
       <p-select
@@ -26,7 +26,7 @@
         optionValue="code"
         [(ngModel)]="selectedProjectId"
         (ngModelChange)="onProjectFilterChange($event)"
-        placeholder="Filtrar por projeto"
+        placeholder="Filter by project"
         appendTo="body"
       ></p-select>
 
@@ -55,8 +55,8 @@
 
       <ng-template #emptyTasks>
         <div class="empty-state">
-          <p>Nenhuma tarefa pendente.</p>
-          <button pButton type="button" label="Voltar ao planner" class="p-button-outlined" (click)="goHome()"></button>
+          <p>No pending tasks.</p>
+          <button pButton type="button" label="Back to planner" class="p-button-outlined" (click)="goHome()"></button>
         </div>
       </ng-template>
     </aside>
@@ -67,13 +67,13 @@
         [style.--progress-deg]="progressDegrees + 'deg'"
       >
         <div class="timer-ring__inner">
-          <span class="timer-label">Restante</span>
+          <span class="timer-label">Remaining</span>
           <strong class="timer-value">{{ timerDisplay }}</strong>
           <small *ngIf="state.session">
             {{ focusFacade.formatTime(state.elapsedSeconds) }} / {{ focusFacade.formatTime(state.session.target_seconds) }}
           </small>
           <small *ngIf="!state.session && state.settings">
-            Duração: {{ state.settings.work_minutes }} min
+            Duration: {{ state.settings.work_minutes }} min
           </small>
         </div>
       </div>
@@ -84,7 +84,7 @@
           pButton
           type="button"
           icon="pi pi-play"
-          label="Iniciar foco"
+          label="Start focus"
           class="p-button-rounded p-button-lg"
           [disabled]="!state.selectedTask || state.loading"
           (click)="startSession()"
@@ -96,7 +96,7 @@
             pButton
             type="button"
             icon="pi pi-pause"
-            label="Pausar"
+            label="Pause"
             class="p-button-rounded p-button-warning p-button-lg"
             [disabled]="state.loading"
             (click)="pauseSession()"
@@ -107,7 +107,7 @@
             pButton
             type="button"
             icon="pi pi-play"
-            label="Retomar"
+            label="Resume"
             class="p-button-rounded p-button-lg"
             [disabled]="state.loading"
             (click)="resumeSession()"
@@ -117,7 +117,7 @@
             pButton
             type="button"
             icon="pi pi-check"
-            label="Concluir"
+            label="Complete"
             class="p-button-rounded p-button-success"
             [disabled]="state.loading"
             (click)="completeSession()"
@@ -127,7 +127,7 @@
             pButton
             type="button"
             icon="pi pi-times"
-            label="Abandonar"
+            label="Abandon"
             class="p-button-rounded p-button-text abandon-btn"
             [disabled]="state.loading"
             (click)="abandonSession()"
@@ -138,21 +138,21 @@
 
     <aside class="edit-panel" *ngIf="state.selectedTask as selectedTask">
       <div class="panel-head">
-        <h2>Editar tarefa</h2>
+        <h2>Edit task</h2>
         <span>{{ selectedTask.where | uppercase }}</span>
       </div>
 
       <form [formGroup]="taskForm" (ngSubmit)="saveTask()">
-        <label>Descrição</label>
+        <label>Description</label>
         <input type="text" pInputText formControlName="description" />
 
-        <label>Observação</label>
+        <label>Note</label>
         <input type="text" pInputText formControlName="obs" />
 
-        <label>Pomodoros estimados</label>
+        <label>Estimated pomodoros</label>
         <p-inputNumber formControlName="estimated_pomodoros" [minFractionDigits]="1" [maxFractionDigits]="1" [min]="0.1" [max]="100"></p-inputNumber>
 
-        <button pButton type="submit" label="Salvar tarefa" icon="pi pi-save" class="p-button-success" [disabled]="taskForm.invalid || state.loading"></button>
+        <button pButton type="submit" label="Save task" icon="pi pi-save" class="p-button-success" [disabled]="taskForm.invalid || state.loading"></button>
       </form>
     </aside>
   </main>
@@ -162,7 +162,7 @@
   </footer>
 
   <p-dialog
-    header="Configurações de foco"
+    header="Focus settings"
     [(visible)]="settingsVisible"
     [modal]="true"
     [appendTo]="'body'"
@@ -176,24 +176,24 @@
     <form [formGroup]="settingsForm" class="settings-form">
       <div class="settings-grid">
         <div>
-          <label>Foco (min)</label>
+          <label>Focus (min)</label>
           <p-inputNumber formControlName="work_minutes" [min]="1" [max]="180"></p-inputNumber>
         </div>
         <div>
-          <label>Pausa curta (min)</label>
+          <label>Short break (min)</label>
           <p-inputNumber formControlName="short_break_minutes" [min]="1" [max]="60"></p-inputNumber>
         </div>
         <div>
-          <label>Pausa longa (min)</label>
+          <label>Long break (min)</label>
           <p-inputNumber formControlName="long_break_minutes" [min]="1" [max]="60"></p-inputNumber>
         </div>
         <div>
-          <label>Pausa longa a cada</label>
+          <label>Long break every</label>
           <p-inputNumber formControlName="long_break_interval" [min]="1" [max]="20"></p-inputNumber>
         </div>
       </div>
 
-      <label>Fundo</label>
+      <label>Background</label>
       <div class="background-picker">
         <button
           type="button"
@@ -207,7 +207,7 @@
         </button>
       </div>
 
-      <label>Som ambiente</label>
+      <label>Ambient sound</label>
       <p-select
         [options]="soundOptions"
         optionLabel="name"
@@ -221,12 +221,12 @@
       <p-slider formControlName="sound_volume" [min]="0" [max]="1" [step]="0.05" (onSlideEnd)="onVolumeChange()"></p-slider>
 
       <div class="settings-checks">
-        <div><p-checkbox formControlName="auto_start_breaks" [binary]="true" inputId="autoBreak"></p-checkbox><label for="autoBreak">Iniciar pausas automaticamente</label></div>
-        <div><p-checkbox formControlName="auto_start_focus" [binary]="true" inputId="autoFocus"></p-checkbox><label for="autoFocus">Iniciar foco automaticamente</label></div>
-        <div><p-checkbox formControlName="notify_on_complete" [binary]="true" inputId="notifyComplete"></p-checkbox><label for="notifyComplete">Notificar ao concluir</label></div>
+        <div><p-checkbox formControlName="auto_start_breaks" [binary]="true" inputId="autoBreak"></p-checkbox><label for="autoBreak">Auto-start breaks</label></div>
+        <div><p-checkbox formControlName="auto_start_focus" [binary]="true" inputId="autoFocus"></p-checkbox><label for="autoFocus">Auto-start focus</label></div>
+        <div><p-checkbox formControlName="notify_on_complete" [binary]="true" inputId="notifyComplete"></p-checkbox><label for="notifyComplete">Notify on complete</label></div>
       </div>
 
-      <button pButton type="button" label="Salvar configurações" icon="pi pi-check" class="p-button-success" (click)="saveSettings()"></button>
+      <button pButton type="button" label="Save settings" icon="pi pi-check" class="p-button-success" (click)="saveSettings()"></button>
     </form>
   </p-dialog>
 </div>

@@ -27,7 +27,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     isCurrentWeek: boolean;
   }>;
 
-  readonly defaultProjectFilter: Dropdown[] = [{ name: 'Todos os projetos', code: '' }];
+  readonly defaultProjectFilter: Dropdown[] = [{ name: 'All projects', code: '' }];
   projectFilterOptions$: Observable<Dropdown[]> = of(this.defaultProjectFilter);
   selectedProjectId = '';
   private readonly projectFilter$ = new BehaviorSubject<string>('');
@@ -80,7 +80,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     this._dialogService.open(
       FormDialogComponent,
       plannerDialogConfig(this.themeService.theme, {
-        header: 'Novo item',
+        header: 'New item',
         width: '640px',
         breakpoints: {
           '960px': '90vw',

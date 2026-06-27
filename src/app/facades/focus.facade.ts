@@ -120,7 +120,7 @@ export class FocusFacade implements OnDestroy {
             this.messageService.add({
               key: 'notification',
               severity: 'error',
-              detail: 'Não foi possível carregar o modo foco.',
+              detail: 'Could not load focus mode.',
             });
           }
         },
@@ -157,7 +157,7 @@ export class FocusFacade implements OnDestroy {
       this.messageService.add({
         key: 'notification',
         severity: 'warn',
-        detail: 'Encerre ou abandone a sessão atual antes de iniciar outra.',
+        detail: 'Finish or abandon the current session before starting a new one.',
       });
       return;
     }
@@ -171,7 +171,7 @@ export class FocusFacade implements OnDestroy {
         this.messageService.add({
           key: 'notification',
           severity: 'success',
-          detail: 'Sessão de foco iniciada.',
+          detail: 'Focus session started.',
         });
       },
       error: () => this.patchState({ loading: false }),
@@ -236,7 +236,7 @@ export class FocusFacade implements OnDestroy {
         this.messageService.add({
             key: 'notification',
             severity: 'success',
-            detail: 'Pomodoro concluído!',
+            detail: 'Pomodoro completed!',
           });
         },
         error: () => this.patchState({ loading: false }),
@@ -301,7 +301,7 @@ export class FocusFacade implements OnDestroy {
           this.messageService.add({
             key: 'notification',
             severity: 'success',
-            detail: 'Configurações de foco atualizadas.',
+            detail: 'Focus settings updated.',
           });
         }
       },
@@ -309,7 +309,7 @@ export class FocusFacade implements OnDestroy {
         this.messageService.add({
           key: 'notification',
           severity: 'error',
-          detail: 'Não foi possível atualizar as configurações de foco.',
+          detail: 'Could not update focus settings.',
         });
       },
     });
@@ -513,8 +513,8 @@ export class FocusFacade implements OnDestroy {
     }
 
     if (Notification.permission === 'granted') {
-      new Notification('Pomodoro concluído!', {
-        body: 'Bom trabalho. Hora de uma pausa.',
+      new Notification('Pomodoro completed!', {
+        body: 'Great work. Time for a break.',
       });
       return;
     }
@@ -522,8 +522,8 @@ export class FocusFacade implements OnDestroy {
     if (Notification.permission !== 'denied') {
       Notification.requestPermission().then((permission) => {
         if (permission === 'granted') {
-          new Notification('Pomodoro concluído!', {
-            body: 'Bom trabalho. Hora de uma pausa.',
+          new Notification('Pomodoro completed!', {
+            body: 'Great work. Time for a break.',
           });
         }
       });
