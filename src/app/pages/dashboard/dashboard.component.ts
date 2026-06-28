@@ -67,7 +67,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   unassignedCount = 0;
   avgFocusPerTaskLabel = '0 min';
 
-  focusRange = 14;
+  focusRange = '14';
   focusRangeOptions: Dropdown[];
 
   private items: Item[] = [];
@@ -148,7 +148,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   onFocusRangeChange(value: string | number): void {
-    this.focusRange = Number(value) || 14;
+    this.focusRange = value ? String(value) : '14';
     this.focusByDayData = this.buildFocusByDay();
     this.cdr.markForCheck();
   }
@@ -319,7 +319,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   private buildFocusByDay(): any {
     const palette = this.palette();
-    const days = this.focusRange;
+    const days = Number(this.focusRange);
     const buckets = new Map<string, number>();
     const labels: string[] = [];
     const keys: string[] = [];
