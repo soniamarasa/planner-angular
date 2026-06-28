@@ -29,6 +29,7 @@
     "@types/plotly.js": "^1.54.16",
     "chart.js": "^3.6.0",
     "date-fns": "^2.25.0",
+    "iconify-icon": "^3.0.2",
     "plotly.js": "^2.6.3",
     "plotly.js-dist": "^2.6.3",
     "primeflex": "^4.0.0",

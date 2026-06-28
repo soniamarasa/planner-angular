@@ -30,6 +30,7 @@
         routerLink="/focus"
         icon="pi pi-clock"
         class="p-button-rounded p-button-text header-toolbar__btn"
+        [class.header-toolbar__btn--active]="isFocus"
         [pTooltip]="'nav.focus' | translate"
         tooltipPosition="bottom"
         [attr.aria-label]="'nav.focus' | translate"
