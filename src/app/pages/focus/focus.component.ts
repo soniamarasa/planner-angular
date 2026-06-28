@@ -6,7 +6,7 @@ import { Observable, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { SubSink } from 'subsink';
 import { Dropdown } from 'src/app/models/dropdown';
-import { FocusSettingsUpdate } from 'src/app/models/focus';
+import { FocusSettingsUpdate, SoundLayer } from 'src/app/models/focus';
 import { Item } from 'src/app/models/item';
 import { FocusFacade, FocusState } from 'src/app/facades/focus.facade';
 import { ThemeService } from 'src/app/services/theme.service';
@@ -18,6 +18,12 @@ import {
   FocusBackground,
   getFocusBackgroundById,
 } from 'src/app/config/focus-backgrounds';
+import {
+  FOCUS_SOUNDS,
+  FocusSound,
+  MAX_SOUND_LAYERS,
+  getFocusSoundById,
+} from 'src/app/config/focus-sounds';
 
 @Component({
   selector: 'app-focus',
@@ -30,12 +36,21 @@ export class FocusComponent implements OnInit, OnDestroy {
   taskForm!: FormGroup;
   settingsForm!: FormGroup;
   settingsVisible = false;
+  soundsVisible = false;
   readonly defaultProjectFilter: Dropdown[];
   projectFilterOptions$: Observable<Dropdown[]>;
   selectedProjectId = '';
   readonly backgrounds: FocusBackground[] = FOCUS_BACKGROUNDS;
 
-  soundOptions: Dropdown[];
+  readonly sounds: FocusSound[] = FOCUS_SOUNDS;
+  readonly maxLayers = MAX_SOUND_LAYERS;
+  mix: SoundLayer[] = [];
+  masterVolume = 0.5;
+
+  tasksCollapsed = false;
+  editCollapsed = false;
+  private static readonly TASKS_COLLAPSED_KEY = 'focus.tasksCollapsed';
+  private static readonly EDIT_COLLAPSED_KEY = 'focus.editCollapsed';
 
   private subs = new SubSink();
 
@@ -53,12 +68,6 @@ export class FocusComponent implements OnInit, OnDestroy {
       { name: this.translate.instant('planner.allProjects'), code: '' },
     ];
     this.projectFilterOptions$ = of(this.defaultProjectFilter);
-    this.soundOptions = [
-      { name: this.translate.instant('sound.rain'), code: 'rain' },
-      { name: this.translate.instant('sound.white'), code: 'white' },
-      { name: this.translate.instant('sound.cafe'), code: 'cafe' },
-      { name: this.translate.instant('sound.silence'), code: 'none' },
-    ];
 
     this.taskForm = this.formBuilder.group({
       description: ['', Validators.required],
@@ -72,8 +81,6 @@ export class FocusComponent implements OnInit, OnDestroy {
       short_break_minutes: [5, [Validators.required, Validators.min(1)]],
       long_break_minutes: [15, [Validators.required, Validators.min(1)]],
       long_break_interval: [4, [Validators.required, Validators.min(1)]],
-      ambient_sound: ['rain', Validators.required],
-      sound_volume: [0.5, [Validators.required, Validators.min(0), Validators.max(1)]],
       background_id: ['forest', Validators.required],
       auto_start_breaks: [false],
       auto_start_focus: [false],
@@ -85,15 +92,25 @@ export class FocusComponent implements OnInit, OnDestroy {
     return plannerDialogStyleClass(this.themeService.theme);
   }
 
+  /** Only the very first load blocks the screen; later actions keep the UI mounted. */
+  get isInitialLoading(): boolean {
+    return !this.state || (this.state.loading && !this.state.settings);
+  }
+
   ngOnInit(): void {
+    this.tasksCollapsed = localStorage.getItem(FocusComponent.TASKS_COLLAPSED_KEY) === 'true';
+    this.editCollapsed = localStorage.getItem(FocusComponent.EDIT_COLLAPSED_KEY) === 'true';
+
     this.subs.add(
       this.focusFacade.state$.subscribe((state) => {
         this.state = state;
         if (state.selectedTask) {
           this.patchTaskForm(state.selectedTask);
         }
-        if (state.settings && !this.settingsVisible) {
+        if (state.settings && !this.settingsVisible && !this.soundsVisible) {
           this.settingsForm.patchValue(state.settings, { emitEvent: false });
+          this.mix = (state.settings.ambient_mix ?? []).map((layer) => ({ ...layer }));
+          this.masterVolume = state.settings.sound_volume ?? 0.5;
         }
         this.cdr.markForCheck();
       })
@@ -216,6 +233,19 @@ export class FocusComponent implements OnInit, OnDestroy {
     this.settingsVisible = true;
   }
 
+  openSounds(): void {
+    if (this.state?.settings) {
+      this.mix = (this.state.settings.ambient_mix ?? []).map((layer) => ({ ...layer }));
+      this.masterVolume = this.state.settings.sound_volume ?? 0.5;
+    }
+    this.soundsVisible = true;
+    this.focusFacade.setPreview(true);
+  }
+
+  onSoundsHide(): void {
+    this.focusFacade.setPreview(false);
+  }
+
   saveSettings(): void {
     if (this.settingsForm.invalid) {
       return;
@@ -225,20 +255,68 @@ export class FocusComponent implements OnInit, OnDestroy {
     this.settingsVisible = false;
   }
 
-  onVolumeChange(): void {
-    if (!this.settingsVisible) {
-      return;
-    }
-    const volume = this.settingsForm.get('sound_volume')?.value ?? 0.5;
-    this.focusFacade.saveSettings({ sound_volume: volume }, { silent: true });
+  isSoundActive(id: string): boolean {
+    return this.mix.some((layer) => layer.id === id);
   }
 
-  onSoundChange(): void {
-    if (!this.settingsVisible) {
-      return;
+  layerVolume(id: string): number {
+    return this.mix.find((layer) => layer.id === id)?.volume ?? 0.6;
+  }
+
+  get canAddSound(): boolean {
+    return this.mix.length < this.maxLayers;
+  }
+
+  toggleSound(id: string): void {
+    if (this.isSoundActive(id)) {
+      this.mix = this.mix.filter((layer) => layer.id !== id);
+    } else {
+      if (!this.canAddSound) {
+        return;
+      }
+      const layer: SoundLayer = { id, volume: 0.6 };
+      if (getFocusSoundById(id)?.mode === 'oneshot') {
+        layer.density = 0.5;
+      }
+      this.mix = [...this.mix, layer];
     }
-    const ambient_sound = this.settingsForm.get('ambient_sound')?.value ?? 'rain';
-    this.focusFacade.saveSettings({ ambient_sound }, { silent: true });
+    this.focusFacade.updateMix(this.mix);
+  }
+
+  layerDensity(id: string): number {
+    return this.mix.find((layer) => layer.id === id)?.density ?? 0.5;
+  }
+
+  onLayerDensityInput(id: string, density: number): void {
+    this.mix = this.mix.map((layer) =>
+      layer.id === id ? { ...layer, density } : layer
+    );
+    this.focusFacade.applyMixLive(this.mix);
+  }
+
+  onLayerDensityCommit(id: string): void {
+    this.focusFacade.updateMix(this.mix);
+    this.focusFacade.previewLayer(id);
+  }
+
+  onLayerVolumeInput(id: string, volume: number): void {
+    this.mix = this.mix.map((layer) =>
+      layer.id === id ? { ...layer, volume } : layer
+    );
+    this.focusFacade.applyMixLive(this.mix);
+  }
+
+  onLayerVolumeCommit(): void {
+    this.focusFacade.updateMix(this.mix);
+  }
+
+  onMasterVolumeInput(volume: number): void {
+    this.masterVolume = volume;
+    this.focusFacade.applyMasterVolumeLive(volume);
+  }
+
+  onMasterVolumeCommit(): void {
+    this.focusFacade.updateMasterVolume(this.masterVolume);
   }
 
   taskProgressLabel(task: Item): string {
@@ -252,6 +330,16 @@ export class FocusComponent implements OnInit, OnDestroy {
 
   taskProgressPercent(task: Item): number {
     return Math.round((task.task_focus_progress ?? 0) * 100);
+  }
+
+  toggleTasks(): void {
+    this.tasksCollapsed = !this.tasksCollapsed;
+    localStorage.setItem(FocusComponent.TASKS_COLLAPSED_KEY, String(this.tasksCollapsed));
+  }
+
+  toggleEditPanel(): void {
+    this.editCollapsed = !this.editCollapsed;
+    localStorage.setItem(FocusComponent.EDIT_COLLAPSED_KEY, String(this.editCollapsed));
   }
 
   goHome(): void {

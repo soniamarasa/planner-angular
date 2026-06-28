@@ -1,5 +1,8 @@
-import { NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+
+// Registers the <iconify-icon> custom element + offline icon data for the mixer.
+import '../config/focus-icons';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { ButtonModule } from 'primeng/button';
@@ -141,5 +144,6 @@ import { WeekStore } from '../stores/week.store';
     UserFacade,
     LoadingFacade,
   ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class PagesModule {}

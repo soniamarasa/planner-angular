@@ -1,3 +1,10 @@
+export interface SoundLayer {
+  id: string;
+  volume: number;
+  /** For intermittent (oneshot) sounds: 0 = rare, 1 = frequent. */
+  density?: number;
+}
+
 export interface FocusSettings {
   id?: string;
   user_id?: string;
@@ -5,8 +12,9 @@ export interface FocusSettings {
   short_break_minutes: number;
   long_break_minutes: number;
   long_break_interval: number;
-  ambient_sound: string;
-  sound_volume: number;
+  ambient_sound?: string;
+  sound_volume?: number;
+  ambient_mix: SoundLayer[];
   background_id: string;
   auto_start_breaks: boolean;
   auto_start_focus: boolean;

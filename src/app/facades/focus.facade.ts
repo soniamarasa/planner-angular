@@ -8,7 +8,7 @@ import { FocusService } from '../services/focus.service';
 import { AmbientSoundService } from '../services/ambient-sound.service';
 import { ItemsService } from '../services/items.service';
 import { ItemsStore } from '../stores/items.store';
-import { FocusSettings, FocusSettingsUpdate, PomodoroSession } from '../models/focus';
+import { FocusSettings, FocusSettingsUpdate, PomodoroSession, SoundLayer } from '../models/focus';
 import { Item } from '../models/item';
 import { getStoredUserId } from '../utils/stored-user.util';
 
@@ -23,6 +23,7 @@ export interface FocusState {
   remainingSeconds: number;
   cycleProgress: number;
   isRunning: boolean;
+  soundEnabled: boolean;
   loading: boolean;
 }
 
@@ -37,6 +38,7 @@ const initialState: FocusState = {
   remainingSeconds: 0,
   cycleProgress: 0,
   isRunning: false,
+  soundEnabled: false,
   loading: false,
 };
 
@@ -51,6 +53,7 @@ export class FocusFacade implements OnDestroy {
   private userId = '';
   private tickStartedAt = 0;
   private tickBaseElapsed = 0;
+  private previewing = false;
   private syncIntervalId: ReturnType<typeof setInterval> | null = null;
 
   constructor(
@@ -110,13 +113,12 @@ export class FocusFacade implements OnDestroy {
             this.itemsStore.setItems(safeItems);
             this.patchState({ allTasks, tasks, selectedTask, settings });
 
-            if (settings) {
-              this.applyAmbientSound(settings);
-            }
-
             if (session) {
               this.applySession(session, selectedTask, session.status === 'running');
+              this.patchState({ soundEnabled: true });
             }
+
+            this.applyAmbientSound();
           } catch (error) {
             console.error('Failed to initialize focus mode', error);
             this.messageService.add({
@@ -168,21 +170,26 @@ export class FocusFacade implements OnDestroy {
     this.focusService.startSession(this.userId, { item_id: selectedTask.id }).subscribe({
       next: (newSession) => {
         this.applySession(newSession, selectedTask, true);
-        this.patchState({ loading: false });
-        this.applyAmbientSound(this.stateSubject.value.settings);
+        this.patchState({ loading: false, soundEnabled: true });
+        this.applyAmbientSound();
         this.messageService.add({
           key: 'notification',
           severity: 'success',
           detail: this.translate.instant('focus.sessionStarted'),
         });
       },
-      error: () => this.patchState({ loading: false }),
+      error: (error) => this.handleSessionActionError(error),
     });
   }
 
   pauseSession(): void {
-    const { session } = this.stateSubject.value;
-    if (!session || session.status !== 'running') {
+    const { session, isRunning } = this.stateSubject.value;
+    if (!session || !isRunning) {
+      return;
+    }
+    if (session.status !== 'running') {
+      // The UI shows a running session but our state is stale; reconcile it.
+      this.refreshActiveSession();
       return;
     }
 
@@ -195,13 +202,18 @@ export class FocusFacade implements OnDestroy {
         this.applySession(updatedSession, this.stateSubject.value.selectedTask, false);
         this.patchState({ loading: false });
       },
-      error: () => this.patchState({ loading: false }),
+      error: (error) => this.handleSessionActionError(error),
     });
   }
 
   resumeSession(): void {
     const { session } = this.stateSubject.value;
-    if (!session || session.status !== 'paused') {
+    if (!session) {
+      return;
+    }
+    if (session.status !== 'paused') {
+      // State is out of sync with the server; reconcile instead of failing silently.
+      this.refreshActiveSession();
       return;
     }
 
@@ -209,10 +221,10 @@ export class FocusFacade implements OnDestroy {
     this.focusService.resumeSession(this.userId, session.id).subscribe({
       next: (updatedSession) => {
         this.applySession(updatedSession, this.stateSubject.value.selectedTask, true);
-        this.patchState({ loading: false });
-        this.applyAmbientSound(this.stateSubject.value.settings);
+        this.patchState({ loading: false, soundEnabled: true });
+        this.applyAmbientSound();
       },
-      error: () => this.patchState({ loading: false }),
+      error: (error) => this.handleSessionActionError(error),
     });
   }
 
@@ -241,7 +253,7 @@ export class FocusFacade implements OnDestroy {
             detail: this.translate.instant('focus.pomodoroCompleted'),
           });
         },
-        error: () => this.patchState({ loading: false }),
+        error: (error) => this.handleSessionActionError(error),
       });
   }
 
@@ -267,7 +279,7 @@ export class FocusFacade implements OnDestroy {
         next: (updatedSession) => {
           this.handleSessionFinished(updatedSession);
         },
-        error: () => this.patchState({ loading: false }),
+        error: (error) => this.handleSessionActionError(error),
       });
   }
 
@@ -294,11 +306,54 @@ export class FocusFacade implements OnDestroy {
     );
   }
 
+  setPreview(on: boolean): void {
+    this.previewing = on;
+    this.applyAmbientSound();
+  }
+
+  toggleAmbient(): void {
+    this.patchState({ soundEnabled: !this.stateSubject.value.soundEnabled });
+    this.applyAmbientSound();
+  }
+
+  applyMixLive(mix: SoundLayer[]): void {
+    const settings = this.stateSubject.value.settings;
+    if (settings) {
+      this.patchState({ settings: { ...settings, ambient_mix: mix } });
+    }
+    this.applyAmbientSound();
+  }
+
+  updateMix(mix: SoundLayer[]): void {
+    this.applyMixLive(mix);
+    this.saveSettings({ ambient_mix: mix }, { silent: true });
+  }
+
+  /** Plays a single shot of a sound as immediate feedback (e.g. on slider release). */
+  previewLayer(id: string): void {
+    if (this.previewing || this.stateSubject.value.soundEnabled) {
+      this.ambientSound.previewLayer(id);
+    }
+  }
+
+  applyMasterVolumeLive(volume: number): void {
+    const settings = this.stateSubject.value.settings;
+    if (settings) {
+      this.patchState({ settings: { ...settings, sound_volume: volume } });
+    }
+    this.ambientSound.setMasterVolume(volume);
+  }
+
+  updateMasterVolume(volume: number): void {
+    this.applyMasterVolumeLive(volume);
+    this.saveSettings({ sound_volume: volume }, { silent: true });
+  }
+
   saveSettings(payload: FocusSettingsUpdate, options?: { silent?: boolean }): void {
     this.focusService.updateSettings(this.userId, payload).subscribe({
       next: (settings) => {
         this.patchState({ settings });
-        this.applyAmbientSound(settings);
+        this.applyAmbientSound();
         if (!options?.silent) {
           this.messageService.add({
             key: 'notification',
@@ -374,6 +429,57 @@ export class FocusFacade implements OnDestroy {
     }
   }
 
+  /**
+   * Re-fetches the authoritative session from the server and applies it.
+   * Used to self-heal when the local state drifts from the backend.
+   */
+  private refreshActiveSession(): void {
+    if (!this.userId) {
+      return;
+    }
+
+    this.focusService
+      .getActiveSession(this.userId)
+      .pipe(take(1), catchError(() => of(null)))
+      .subscribe((session) => {
+        if (session && (session.status === 'running' || session.status === 'paused')) {
+          this.applySession(session, this.stateSubject.value.selectedTask, session.status === 'running');
+          this.patchState({ loading: false, soundEnabled: session.status === 'running' });
+        } else {
+          this.clearSessionState();
+        }
+        this.applyAmbientSound();
+      });
+  }
+
+  /** Resets the timer to the "no active session" state using the configured focus length. */
+  private clearSessionState(): void {
+    this.stopLocalTimer();
+    const settings = this.stateSubject.value.settings;
+    const target = (settings?.work_minutes ?? 25) * 60;
+    this.patchState({
+      session: null,
+      elapsedSeconds: 0,
+      remainingSeconds: target,
+      cycleProgress: 0,
+      isRunning: false,
+      soundEnabled: false,
+      loading: false,
+    });
+  }
+
+  private handleSessionActionError(error: unknown): void {
+    console.error('Focus session action failed', error);
+    this.stopLocalTimer();
+    this.patchState({ loading: false });
+    this.messageService.add({
+      key: 'notification',
+      severity: 'error',
+      detail: this.translate.instant('focus.actionError'),
+    });
+    this.refreshActiveSession();
+  }
+
   private handleSessionFinished(session: PomodoroSession): void {
     this.stopLocalTimer();
     this.updateItemFromSession(session);
@@ -383,8 +489,10 @@ export class FocusFacade implements OnDestroy {
       remainingSeconds: session.target_seconds,
       cycleProgress: 0,
       isRunning: false,
+      soundEnabled: false,
       loading: false,
     });
+    this.applyAmbientSound();
   }
 
   private updateItemFromSession(session: PomodoroSession): void {
@@ -455,6 +563,7 @@ export class FocusFacade implements OnDestroy {
         })
         .subscribe({
           next: (updatedSession) => this.updateItemFromSession(updatedSession),
+          error: (error) => console.warn('Focus session sync failed', error),
         });
     }, 15000);
   }
@@ -476,19 +585,19 @@ export class FocusFacade implements OnDestroy {
     return this.tickBaseElapsed + delta;
   }
 
-  private applyAmbientSound(settings: FocusSettings | null): void {
+  private applyAmbientSound(): void {
     try {
-      if (!settings || settings.ambient_sound === 'none') {
+      const settings = this.stateSubject.value.settings;
+      const mix = settings?.ambient_mix ?? [];
+      const audible = this.previewing || this.stateSubject.value.soundEnabled;
+
+      if (!audible || !mix.length) {
         this.ambientSound.stop();
         return;
       }
 
-      if (
-        this.stateSubject.value.isRunning ||
-        this.stateSubject.value.session?.status === 'paused'
-      ) {
-        this.ambientSound.start(settings.ambient_sound, settings.sound_volume);
-      }
+      this.ambientSound.setMasterVolume(settings?.sound_volume ?? 0.5);
+      void this.ambientSound.setMix(mix);
     } catch (error) {
       console.warn('Unable to start ambient sound', error);
     }

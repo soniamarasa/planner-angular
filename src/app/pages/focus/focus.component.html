@@ -1,36 +1,54 @@
-<div class="focus-page" [ngClass]="themeService.theme" *ngIf="state && !state.loading">
+<div class="focus-page" [ngClass]="themeService.theme" *ngIf="state && !isInitialLoading">
   <p-toast key="notification" position="top-right"></p-toast>
   <div class="focus-bg" [ngStyle]="backgroundStyle"></div>
   <div class="focus-overlay"></div>
 
-  <header class="focus-header">
-    <button pButton type="button" icon="pi pi-arrow-left" [label]="'focus.planner' | translate" class="p-button-text back-btn" (click)="goHome()"></button>
-    <div class="focus-header__center">
-      <span class="focus-badge">{{ sessionStatusLabel | translate }}</span>
-      <h1>{{ 'focus.title' | translate }}</h1>
-    </div>
-    <button pButton type="button" icon="pi pi-cog" class="p-button-rounded p-button-text settings-btn" (click)="openSettings()"></button>
-  </header>
+  <app-header></app-header>
 
-  <main class="focus-layout">
-    <aside class="task-panel">
-      <div class="panel-head">
-        <h2>{{ 'focus.tasks' | translate }}</h2>
-        <span>{{ 'focus.available' | translate: { count: state.tasks.length } }}</span>
-      </div>
+  <main
+    class="focus-layout"
+    [class.tasks-collapsed]="tasksCollapsed"
+    [class.edit-collapsed]="editCollapsed"
+  >
+    <aside class="task-panel" [class.panel--collapsed]="tasksCollapsed">
+      <button
+        type="button"
+        class="panel-expand"
+        (click)="toggleTasks()"
+        [attr.aria-label]="'focus.expand' | translate"
+      >
+        <i class="pi pi-angle-right" aria-hidden="true"></i>
+        <span class="panel-expand__label">{{ 'focus.tasks' | translate }}</span>
+      </button>
 
-      <p-select
-        class="task-panel__filter"
-        [options]="(projectFilterOptions$ | async) ?? defaultProjectFilter"
-        optionLabel="name"
-        optionValue="code"
-        [(ngModel)]="selectedProjectId"
-        (ngModelChange)="onProjectFilterChange($event)"
-        [placeholder]="'planner.filterByProject' | translate"
-        appendTo="body"
-      ></p-select>
+      <div class="panel-body">
+        <div class="panel-head">
+          <h2>{{ 'focus.tasks' | translate }}</h2>
+          <div class="panel-head__right">
+            <span>{{ 'focus.available' | translate: { count: state.tasks.length } }}</span>
+            <button
+              type="button"
+              class="panel-collapse-btn"
+              (click)="toggleTasks()"
+              [attr.aria-label]="'focus.collapse' | translate"
+            >
+              <i class="pi pi-angle-left" aria-hidden="true"></i>
+            </button>
+          </div>
+        </div>
 
-      <div class="task-list" *ngIf="state.tasks.length; else emptyTasks">
+        <p-select
+          class="task-panel__filter"
+          [options]="(projectFilterOptions$ | async) ?? defaultProjectFilter"
+          optionLabel="name"
+          optionValue="code"
+          [(ngModel)]="selectedProjectId"
+          (ngModelChange)="onProjectFilterChange($event)"
+          [placeholder]="'planner.filterByProject' | translate"
+          appendTo="body"
+        ></p-select>
+
+        <div class="task-list" *ngIf="state.tasks.length; else emptyTasks">
         <button
           type="button"
           class="task-card"
@@ -53,15 +71,41 @@
         </button>
       </div>
 
-      <ng-template #emptyTasks>
-        <div class="empty-state">
-          <p>{{ 'focus.noPendingTasks' | translate }}</p>
-          <button pButton type="button" [label]="'focus.backToPlanner' | translate" class="p-button-outlined" (click)="goHome()"></button>
-        </div>
-      </ng-template>
+        <ng-template #emptyTasks>
+          <div class="empty-state">
+            <p>{{ 'focus.noPendingTasks' | translate }}</p>
+            <button pButton type="button" [label]="'focus.backToPlanner' | translate" class="p-button-outlined" (click)="goHome()"></button>
+          </div>
+        </ng-template>
+      </div>
     </aside>
 
     <section class="timer-panel">
+      <div class="timer-panel__head">
+        <span class="focus-badge">
+          <i *ngIf="state.loading" class="pi pi-spin pi-spinner" aria-hidden="true"></i>
+          {{ sessionStatusLabel | translate }}
+        </span>
+        <span class="timer-panel__head-actions">
+          <button
+            pButton
+            type="button"
+            icon="pi pi-volume-up"
+            class="p-button-rounded p-button-text settings-btn"
+            [attr.aria-label]="'focus.sounds' | translate"
+            (click)="openSounds()"
+          ></button>
+          <button
+            pButton
+            type="button"
+            icon="pi pi-cog"
+            class="p-button-rounded p-button-text settings-btn"
+            [attr.aria-label]="'focus.settings' | translate"
+            (click)="openSettings()"
+          ></button>
+        </span>
+      </div>
+
       <div
         class="timer-ring"
         [style.--progress-deg]="progressDegrees + 'deg'"
@@ -134,26 +178,85 @@
           ></button>
         </ng-container>
       </div>
+
+      <div class="ambient-player">
+        <button
+          pButton
+          type="button"
+          [icon]="state.soundEnabled ? 'pi pi-pause' : 'pi pi-play'"
+          class="p-button-rounded p-button-text"
+          [disabled]="!state.settings?.ambient_mix?.length"
+          [attr.aria-label]="(state.soundEnabled ? 'focus.soundPause' : 'focus.soundPlay') | translate"
+          (click)="focusFacade.toggleAmbient()"
+        ></button>
+        <span class="ambient-player__label">
+          {{ 'focus.ambientLabel' | translate: { count: state.settings?.ambient_mix?.length || 0 } }}
+        </span>
+        <p-slider
+          class="ambient-player__volume"
+          [ngModel]="masterVolume"
+          [ngModelOptions]="{ standalone: true }"
+          [min]="0"
+          [max]="1"
+          [step]="0.05"
+          (ngModelChange)="onMasterVolumeInput($event)"
+          (onSlideEnd)="onMasterVolumeCommit()"
+        ></p-slider>
+        <button
+          pButton
+          type="button"
+          icon="pi pi-sliders-h"
+          class="p-button-rounded p-button-text"
+          [attr.aria-label]="'focus.sounds' | translate"
+          (click)="openSounds()"
+        ></button>
+      </div>
     </section>
 
-    <aside class="edit-panel" *ngIf="state.selectedTask as selectedTask">
-      <div class="panel-head">
-        <h2>{{ 'focus.editTask' | translate }}</h2>
-        <span>{{ selectedTask.where | uppercase }}</span>
+    <aside
+      class="edit-panel"
+      *ngIf="state.selectedTask as selectedTask"
+      [class.panel--collapsed]="editCollapsed"
+    >
+      <button
+        type="button"
+        class="panel-expand"
+        (click)="toggleEditPanel()"
+        [attr.aria-label]="'focus.expand' | translate"
+      >
+        <i class="pi pi-angle-left" aria-hidden="true"></i>
+        <span class="panel-expand__label">{{ 'focus.editTask' | translate }}</span>
+      </button>
+
+      <div class="panel-body">
+        <div class="panel-head">
+          <h2>{{ 'focus.editTask' | translate }}</h2>
+          <div class="panel-head__right">
+            <span>{{ selectedTask.where | uppercase }}</span>
+            <button
+              type="button"
+              class="panel-collapse-btn"
+              (click)="toggleEditPanel()"
+              [attr.aria-label]="'focus.collapse' | translate"
+            >
+              <i class="pi pi-angle-right" aria-hidden="true"></i>
+            </button>
+          </div>
+        </div>
+
+        <form [formGroup]="taskForm" (ngSubmit)="saveTask()">
+          <label>{{ 'focus.descriptionLabel' | translate }}</label>
+          <input type="text" pInputText formControlName="description" />
+
+          <label>{{ 'focus.noteLabel' | translate }}</label>
+          <input type="text" pInputText formControlName="obs" />
+
+          <label>{{ 'focus.estimatedPomodoros' | translate }}</label>
+          <p-inputNumber formControlName="estimated_pomodoros" [minFractionDigits]="1" [maxFractionDigits]="1" [min]="0.1" [max]="100"></p-inputNumber>
+
+          <button pButton type="submit" [label]="'focus.saveTask' | translate" icon="pi pi-save" class="p-button-success" [disabled]="taskForm.invalid || state.loading"></button>
+        </form>
       </div>
-
-      <form [formGroup]="taskForm" (ngSubmit)="saveTask()">
-        <label>{{ 'focus.descriptionLabel' | translate }}</label>
-        <input type="text" pInputText formControlName="description" />
-
-        <label>{{ 'focus.noteLabel' | translate }}</label>
-        <input type="text" pInputText formControlName="obs" />
-
-        <label>{{ 'focus.estimatedPomodoros' | translate }}</label>
-        <p-inputNumber formControlName="estimated_pomodoros" [minFractionDigits]="1" [maxFractionDigits]="1" [min]="0.1" [max]="100"></p-inputNumber>
-
-        <button pButton type="submit" [label]="'focus.saveTask' | translate" icon="pi pi-save" class="p-button-success" [disabled]="taskForm.invalid || state.loading"></button>
-      </form>
     </aside>
   </main>
 
@@ -207,19 +310,6 @@
         </button>
       </div>
 
-      <label>{{ 'focus.ambientSound' | translate }}</label>
-      <p-select
-        [options]="soundOptions"
-        optionLabel="name"
-        optionValue="code"
-        formControlName="ambient_sound"
-        appendTo="body"
-        (onChange)="onSoundChange()"
-      ></p-select>
-
-      <label>{{ 'focus.volume' | translate }}</label>
-      <p-slider formControlName="sound_volume" [min]="0" [max]="1" [step]="0.05" (onSlideEnd)="onVolumeChange()"></p-slider>
-
       <div class="settings-checks">
         <div><p-checkbox formControlName="auto_start_breaks" [binary]="true" inputId="autoBreak"></p-checkbox><label for="autoBreak">{{ 'focus.autoStartBreaks' | translate }}</label></div>
         <div><p-checkbox formControlName="auto_start_focus" [binary]="true" inputId="autoFocus"></p-checkbox><label for="autoFocus">{{ 'focus.autoStartFocus' | translate }}</label></div>
@@ -229,8 +319,85 @@
       <button pButton type="button" [label]="'focus.saveSettings' | translate" icon="pi pi-check" class="p-button-success" (click)="saveSettings()"></button>
     </form>
   </p-dialog>
+
+  <p-dialog
+    [header]="'focus.sounds' | translate"
+    [(visible)]="soundsVisible"
+    (onHide)="onSoundsHide()"
+    [modal]="true"
+    [appendTo]="'body'"
+    [draggable]="false"
+    [dismissableMask]="true"
+    [style]="{ width: 'min(520px, calc(100vw - 2rem))' }"
+    [breakpoints]="{ '960px': '92vw' }"
+    [styleClass]="settingsDialogStyleClass"
+    [maskStyleClass]="'planner-dialog-mask'"
+  >
+    <div class="settings-form">
+      <label>{{ 'focus.masterVolume' | translate }}</label>
+      <p-slider
+        [ngModel]="masterVolume"
+        [ngModelOptions]="{ standalone: true }"
+        [min]="0"
+        [max]="1"
+        [step]="0.05"
+        (ngModelChange)="onMasterVolumeInput($event)"
+        (onSlideEnd)="onMasterVolumeCommit()"
+      ></p-slider>
+
+      <label>{{ 'focus.soundMix' | translate }}</label>
+      <p class="settings-hint">{{ 'focus.soundMixHint' | translate: { count: mix.length, max: maxLayers } }}</p>
+      <div class="sound-mixer">
+        <div
+          class="sound-tile"
+          *ngFor="let sound of sounds"
+          [class.sound-tile--active]="isSoundActive(sound.id)"
+        >
+          <button
+            type="button"
+            class="sound-tile__toggle"
+            [disabled]="!isSoundActive(sound.id) && !canAddSound"
+            (click)="toggleSound(sound.id)"
+          >
+            <iconify-icon [attr.icon]="sound.icon" class="sound-tile__icon" aria-hidden="true"></iconify-icon>
+            <span>{{ sound.labelKey | translate }}</span>
+          </button>
+          <div class="sound-tile__controls" *ngIf="isSoundActive(sound.id)">
+            <span class="sound-tile__ctrl" [title]="'focus.volume' | translate">
+              <i class="pi pi-volume-up" aria-hidden="true"></i>
+              <p-slider
+                [ngModel]="layerVolume(sound.id)"
+                [ngModelOptions]="{ standalone: true }"
+                [min]="0"
+                [max]="1"
+                [step]="0.05"
+                (ngModelChange)="onLayerVolumeInput(sound.id, $event)"
+                (onSlideEnd)="onLayerVolumeCommit()"
+              ></p-slider>
+            </span>
+            <span
+              class="sound-tile__ctrl"
+              *ngIf="sound.mode === 'oneshot'"
+              [title]="'focus.frequency' | translate"
+            >
+              <i class="pi pi-clock" aria-hidden="true"></i>
+              <p-slider
+                [ngModel]="layerDensity(sound.id)"
+                [ngModelOptions]="{ standalone: true }"
+                [min]="0"
+                [max]="1"
+                [step]="0.05"
+                (ngModelChange)="onLayerDensityInput(sound.id, $event)"
+                (onSlideEnd)="onLayerDensityCommit(sound.id)"
+              ></p-slider>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </p-dialog>
 </div>
 
-<div class="focus-loading" [ngClass]="themeService.theme" *ngIf="!state || state.loading">
+<div class="focus-loading" [ngClass]="themeService.theme" *ngIf="isInitialLoading">
   <i class="pi pi-spin pi-spinner"></i>
 </div>
